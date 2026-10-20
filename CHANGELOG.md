@@ -28,6 +28,9 @@ the 0.x certificate schema and Python API remain experimental.
   installed-package output.
 - Six finite arithmetic Lean checkpoints and six symbolic falling-factorial
   identities, with explicit limits on their formal coverage.
+- A separate pinned Lean/mathlib project for general standard-deviation
+  continuity and variance enclosures, with explicit finite-moment assumptions
+  and limits on its connection to the full theorem.
 - An optional synthetic instrument with eight scenarios per class, complete
   simulated motion records, a saved-output inspector and separate numerical
   dependencies. It does not claim physical validation or classifier performance.

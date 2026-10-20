@@ -96,9 +96,11 @@ demo data match the newly computed default certificate. It does not publish anyt
 See [contribution instructions](.github/CONTRIBUTING.md).
 
 Optional [Lean checkpoints](docs/proofs/formal/README.md) verify six finite
-arithmetic statements and six general falling-factorial identities. Their
-mapping is bound to the position-uncertainty certificate. They do not formalize
-the complete analytic theorem, and Lean is not required to run the package.
+arithmetic statements, six general falling-factorial identities and general
+standard-deviation/variance stability lemmas. The finite arithmetic mapping
+is bound to the position-uncertainty certificate; the analytic lemmas have
+explicit probability and finite-moment assumptions. They do not formalize
+the complete theorem, and Lean is not required to run the package.
 
 ## What remains open
 

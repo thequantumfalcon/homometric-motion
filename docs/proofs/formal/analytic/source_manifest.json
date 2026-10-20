@@ -1,0 +1,41 @@
+{
+  "files": [
+    {
+      "bytes": 41,
+      "path": ".gitignore",
+      "sha256": "38b1c59269dffef34920752fd8bd6e71322816e3b200b67c6dc48d3abaccf250"
+    },
+    {
+      "bytes": 3534,
+      "path": "README.md",
+      "sha256": "8a9a91a3427b6fbd8294eb5c65c3ad53d9c2dbe3b94b959e97bb422eb4e33d9c"
+    },
+    {
+      "bytes": 2558,
+      "path": "SCOPE.md",
+      "sha256": "9529ecce9547794bb0f6fa459f14f8e48f50ae90ab65c0fc77e449435139eedf"
+    },
+    {
+      "bytes": 6647,
+      "path": "StandardDeviationContinuity.lean",
+      "sha256": "51fd5df2ab01983c76ed5d47f63c0745c78f13484a205845116541c8de2f0b1b"
+    },
+    {
+      "bytes": 3572,
+      "path": "lake-manifest.json",
+      "sha256": "c151500d77377548f07eb8dfc2a194b02b42db03939b3fb03ff924313c3485b2"
+    },
+    {
+      "bytes": 340,
+      "path": "lakefile.toml",
+      "sha256": "4fcf75203c59fc5a4c8e9606e826a1bef37932d66f9594e2a51eb03d7c5d4dd2"
+    },
+    {
+      "bytes": 25,
+      "path": "lean-toolchain",
+      "sha256": "ca5f1f601d34c49079e38d7e7041eb0f2a9c227fbc1df0f404820069a052330c"
+    }
+  ],
+  "revision_kind": "analytic_robustness_public_v1",
+  "schema_version": 1
+}

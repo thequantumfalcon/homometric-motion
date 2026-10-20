@@ -6,7 +6,7 @@ recursive-include .githooks *
 recursive-include src *.py *.json
 recursive-include tests *.py
 recursive-include tools *.py
-recursive-include docs *.md *.lean *.py *.json lean-toolchain
+recursive-include docs *.md *.lean *.py *.json *.toml lean-toolchain .gitignore
 recursive-include demo *.html *.css *.js *.json *.md
 recursive-include prototype *.py *.json *.md *.txt .gitignore
 global-exclude __pycache__ *.py[cod]

@@ -15,8 +15,8 @@ Read the proofs in this order:
    strength floor, unresolved directions, finite-error limitations and close
    prior work.
 5. [Formal checkpoints](formal/README.md) distinguishes six mapped finite
-   arithmetic statements and six universal polynomial identities from the
-   unformalized analytic and probabilistic theorem.
+   arithmetic statements, six universal polynomial identities and general
+   analytic variance-stability lemmas from the full probabilistic theorem.
 
 The package recomputes two explicitly named parameter chains from its own mathematical
 resources. Its exact rational outputs and integer interval checks support the
