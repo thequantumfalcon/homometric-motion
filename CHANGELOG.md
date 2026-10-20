@@ -15,6 +15,12 @@ the 0.x certificate schema and Python API remain experimental.
 
 ### Added
 
+- An optional generic Gaussian first-intensity-moment proof with explicit
+  full PSD covariance and proved integrability. Its thirteen declarations
+  include three Gaussian phase prerequisites; the four-file analytic project
+  now has thirty-one declarations. Concrete graph covariance, higher moments,
+  temporal dynamics and the complete scientific theorem remain separate.
+  Package APIs, runtime manifests and numerical outputs are unchanged.
 - A separate phase-permutation proof and standalone exact checker for a
   complete-graph indistinguishability example. The source-archive checker
   is replayed by the normal verification task. Existing package APIs,
@@ -26,8 +32,9 @@ the 0.x certificate schema and Python API remain experimental.
   uncertain fixed strengths. All evaluated unresolved bands remain visible.
   This construction has no detector channel or finite-count guarantee.
 - Five optional Lean polynomial statements with a portable fresh mapping of
-  every coefficient in the nine-point noncoincidence argument. The Gaussian
-  moment interpretation and full scientific theorem remain outside Lean.
+  every coefficient in the nine-point noncoincidence argument. Identifying
+  the complete nine-point moment polynomials with the modeled intensity and
+  proving the full scientific theorem remain outside Lean.
 
 - A research roadmap distinguishing existing imaging methods, open mathematical
   questions, statistical targets and the calibration required before hardware

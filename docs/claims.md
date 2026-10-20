@@ -23,7 +23,8 @@ test or repository score does not establish a broader claim. See the
 | The selected long profiles permit exposure caps 0.001 and 0.01 in their respective scenarios. | [Signed kernel proof](proofs/signed-kernel-exposure.md): same-generator signed derivatives, absolute remainders, rank-two majorization, finite-motion parity, all 512 cells and independent class-wise nuisance-propagated shape unions. | A two-eigenvalue time-averaged law, exponential monotonicity across different generators, an independent global moment-rectangle shape argument or arbitrary temporal models. |
 | Four deterministic sensitivity statements have optional Lean proofs. | [Analytic-project scope](proofs/formal/analytic/SCOPE.md#cumulant-sensitivity-statements): two exact identities, an absolute interval coefficient bound and an abstract counterexample to dropping its upper-variance branch. | Formalization of the full error-budget inequalities, the Poisson interpretation, the numerical allocation, concentration or the classifier. |
 | The installed package reproduces its numerical assertions. | `python tools/project.py release`: exact checks, installed-wheel tests, source manifest and deterministic CLI replay. | Correctness of every untested code path or formal verification of the analytic proof. |
-| Selected arithmetic and factorial identities have Lean proofs. | [Formal checkpoints](proofs/formal/README.md), statement mapping and pinned toolchain. | Formalization of the Gaussian, integration, covariance or Markov arguments, or physical validation. |
+| Selected arithmetic and factorial identities have Lean proofs. | [Formal checkpoints](proofs/formal/README.md), statement mapping and pinned toolchain. | Those algebraic checkpoints alone do not establish Gaussian, integration, covariance or Markov arguments, or physical validation. |
+| A finite complex phase sum has a formalized first intensity moment under a centered joint Gaussian law. | [Gaussian first-moment scope](proofs/formal/analytic/SCOPE.md#gaussian-first-intensity-moment): explicit full PSD covariance, arbitrary fixed complex weights, real phase scale, proved integrability and finite ordered-pair expansion. Singular covariance and an empty index type are included. | Concrete graph covariance/COM identification, physical Gaussian adequacy, higher intensity moments, temporal/observation laws or the classifier theorem. |
 | Standard deviation changes by at most the L2 size of a coupled perturbation. | [Analytic Lean proof](proofs/formal/analytic/README.md), with explicit finite moments on a common probability space; also derives L3-based variance enclosures. | Construction of the coupling, numerical perturbation bounds, third-cumulant separation or the full classifier theorem. |
 | The demo displays the original `verify` certificate and clean geometry. | Deterministic generation from that recomputed installed certificate; explicit separation of exact fractions and floating-point rendering. | Measurement data, a browser proof checker, or display of the wider exposure certificate. |
 | The optional prototype generates and inspects declared synthetic processes. | [Model and limits](../prototype/MODEL_AND_LIMITS.md), source/reference bindings, repeated runs and recomputed covariance diagnostics. | A validated apparatus, calibrated diagnostic false-alarm rates, a test of the finite-window classifier or a guarantee for stress cases outside the theorem. |
@@ -41,8 +42,10 @@ test or repository score does not establish a broader claim. See the
 - The repository contains a mathematical model and computations, not experimental
   measurements. No apparatus has been validated by these files.
 - The complete theorem is not formally verified in a proof assistant.
-  The formal checkpoints identify their exact statements; checking those
-  statements does not formalize the Gaussian, integration or Markov arguments.
+  The formal checkpoints identify their exact statements. The generic
+  Gaussian characteristic and first-intensity integral are included;
+  graph-specific covariance, higher moments, Markov dynamics and their
+  application to the full classifier remain separate.
 - Separate implementations and alternative arithmetic checks are useful error
   controls. They are not independent human peer review.
 - No novelty, priority, patentability or discovery-of-a-new-physical-law claim is made.

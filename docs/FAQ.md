@@ -88,10 +88,13 @@ coincide or that other analyses cannot distinguish them.
 The optional sources check six finite integer statements mapped to the
 original `verify` position certificate, six universal factorial-product
 identities, nine analytic variance declarations, four deterministic
-cumulant-sensitivity statements and five explicit nine-point polynomial
-statements. The latter three sets share one pinned
-Lean/mathlib project. They do not formalize the complete Gaussian,
-integration, temporal-concentration or classifier argument. See
+cumulant-sensitivity statements, five explicit nine-point polynomial
+statements and thirteen Gaussian phase, integrability and first-intensity
+declarations. The latter four sets share one pinned Lean/mathlib project.
+The Gaussian identity uses arbitrary fixed complex weights and an explicitly
+PSD full covariance, including singular covariances. Concrete graph covariance,
+higher moments, temporal concentration and the classifier remain outside
+these formal statements. See
 [formal scope](proofs/formal/README.md).
 
 ## Does a saved summary verify a certificate?

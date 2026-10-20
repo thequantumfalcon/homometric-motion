@@ -1,8 +1,9 @@
 # Bounded formal checkpoints
 
-These files cover five bounded parts of the argument. They do not formalize
-the Gaussian model, covariance bounds, exposure estimates, concentration
-inequalities, physical assumptions or the complete conditional theorem.
+These files cover six bounded parts of the argument, including a generic
+Gaussian first-intensity-moment identity. They do not formalize the concrete
+graph covariance, exposure estimates, concentration inequalities, physical
+assumptions or the complete conditional theorem.
 They are not experimental validation or independent human peer review.
 
 | File | Statement scope | Proof dependencies |
@@ -11,9 +12,10 @@ They are not experimental validation or independent human peer review.
 | `FactorialIdentities.lean` | Six polynomial identities for falling-factorial products, for every integer | `Std`, `grind`; standard logical axioms may appear in `#print axioms` |
 | [Standard-deviation continuity](analytic/README.md) | Nine declarations proving standard-deviation continuity, centering contraction, the L3-to-L2 comparison and variance enclosures under explicit probability and finite-moment hypotheses | Lean 4.35.0 and pinned mathlib; `--trust=0` and explicit axiom inspection |
 | [Cumulant sensitivity](analytic/SCOPE.md#cumulant-sensitivity-statements) | Four real-variable declarations: a full cubic perturbation identity, a coefficient identity, a two-endpoint coefficient bound and a counterexample to dropping one branch | The same pinned analytic project and standard logical foundations; no probability interpretation is formalized |
-| [Nine-point polynomial witnesses](analytic/SCOPE.md#nine-point-polynomial-statements) | Five real-polynomial statements: a complete Bezout identity, no common zero, mean factorization, positive cofactor and noncoincidence on `0<t<1` | The same pinned project; complete coefficients mapped from a fresh installed certificate, with the Gaussian-moment interpretation outside Lean |
+| [Nine-point polynomial witnesses](analytic/SCOPE.md#nine-point-polynomial-statements) | Five real-polynomial statements: a complete Bezout identity, no common zero, mean factorization, positive cofactor and noncoincidence on `0<t<1` | The same pinned project; complete coefficients mapped from a fresh installed certificate, with their identification as the complete modeled moment polynomials outside Lean |
+| [Gaussian first intensity moment](analytic/SCOPE.md#gaussian-first-intensity-moment) | Thirteen declarations: three Gaussian phase prerequisites and ten finite expansion, integrability and first-moment results under explicit full PSD covariance | The same pinned project; arbitrary finite fixed complex weights and real phase scale, with the graph/physical application outside this source |
 
-There are eighteen declarations across the three analytic-project source files.
+There are thirty-one declarations across the four analytic-project source files.
 The nine original standard-deviation declarations are unchanged.
 The six factorial identities alone do not establish a covariance formula.
 Taking expectations and using the mixed-Poisson model are separate
@@ -55,7 +57,7 @@ lean /path/to/checkout/docs/proofs/formal/FactorialIdentities.lean
 ```
 
 The separate [analytic project](analytic/README.md#replay) supplies commands
-for its three files and a portable fresh nine-point coefficient mapping.
+for its four files and a portable fresh nine-point coefficient mapping.
 The local `lean-toolchain` pins the intended Lean version
 for installations using a toolchain manager. No Lean executable, library
 bundle or installer is included. The ordinary Python certificate does not

@@ -1,8 +1,9 @@
-# Analytic robustness, cumulant sensitivity and polynomial witnesses
+# Analytic robustness, Gaussian intensity and polynomial witnesses
 
 This separate Lean project proves nine general standard-deviation and variance
-declarations, four deterministic cumulant-sensitivity statements and five
-explicit polynomial statements for the nine-point construction. It
+declarations, four deterministic cumulant-sensitivity statements, five
+explicit polynomial statements for the nine-point construction, and thirteen
+Gaussian phase, integrability and first-intensity declarations. It
 **does not formalize the complete discrimination theorem or validate its
 physical model**.
 
@@ -25,7 +26,7 @@ counterexample to dropping the upper-variance branch. These are algebraic
 and order statements over real numbers. They do not introduce a probability
 model or prove the final sample-size bound.
 
-[SCOPE.md](SCOPE.md) maps all three files to the larger argument and lists the
+[SCOPE.md](SCOPE.md) maps all four files to the larger argument and lists the
 obligations left open.
 
 `NinePointBezout.lean` proves a complete integer-coefficient Bezout identity,
@@ -36,6 +37,25 @@ requires the separate [nine-point proof](../../nine-point-moments.md).
 No equality-of-law, strength-band, root-count or detector theorem is formalized
 by these five statements.
 
+`GaussianIntensity.lean` proves the first intensity moment of a finite complex
+amplitude under a centered joint Gaussian with explicit full PSD covariance.
+For fixed complex weights, real `a`, and `Y ~ N(0,D)`, it gives
+
+```text
+E |sum_i z_i exp(i*a*Y_i)|^2
+  = sum_i sum_j Re(z_i*conj(z_j))
+      * exp(-a^2*(D_ii+D_jj-D_ij-D_ji)/2).
+```
+
+The file contains three Gaussian phase prerequisites and ten finite-intensity
+declarations. It proves genuine intensity integrability, including under
+any finite measure, before exchanging finite sums and integrals. Singular
+covariance, diagonal pairs, an empty index type and arbitrary fixed complex
+weights are included; independent coordinates and a clean-amplitude null
+are not required. This is a known generic identity, not a novelty claim.
+It does not identify the particular graph covariance, prove the Gaussian
+physical model, or establish higher intensity moments.
+
 ## Replay
 
 Use **Lean 4.35.0** and its matching Lake. The included `lean-toolchain`,
@@ -43,18 +63,19 @@ Use **Lean 4.35.0** and its matching Lake. The included `lean-toolchain`,
 and all eight transitive dependency commits. From this directory:
 
 ```text
-lake exe cache get Mathlib.Probability.Moments.Variance Mathlib.MeasureTheory.Function.L2Space Mathlib.Basic.Real.Basic Mathlib.Tactic.Linarith Mathlib.Tactic.Ring Mathlib.Tactic.NormNum Mathlib.Tactic.Positivity
+lake exe cache get Mathlib.Probability.Moments.Variance Mathlib.MeasureTheory.Function.L2Space Mathlib.Basic.Real.Basic Mathlib.Probability.Distributions.Gaussian.Multivariate Mathlib.Tactic.Linarith Mathlib.Tactic.Ring Mathlib.Tactic.NormNum Mathlib.Tactic.Positivity
 lake env lean --trust=0 StandardDeviationContinuity.lean
 lake env lean --trust=0 CumulantSensitivity.lean
 lake env lean --trust=0 NinePointBezout.lean
+lake env lean --trust=0 GaussianIntensity.lean
 ```
 
 The first command obtains the pinned source dependencies and the relevant
 official mathlib cache. It requires network access on an uncached machine.
-The next commands check the three source files; `--trust=0` requests type
+The next commands check the four source files; `--trust=0` requests type
 checking of imported modules as well. A successful run exits zero and prints
-nine axiom lists for the first file, four for the second and five for the
-third, each exactly:
+nine axiom lists for the first file, four for the second, five for the
+third and thirteen for the fourth, each exactly:
 
 ```text
 [propext, Classical.choice, Quot.sound]
@@ -65,8 +86,8 @@ desired result. Do not treat a nonzero exit, an unresolved goal, or an
 unexpected axiom as an accepted proof. The source declarations identify the
 explicit hypotheses.
 
-All three modules are listed as default targets in `lakefile.toml`, so
-`lake build` includes all three. That build command does not replace the explicit
+All four modules are listed as default targets in `lakefile.toml`, so
+`lake build` includes all four. That build command does not replace the explicit
 `--trust=0` replay and axiom inspection above.
 
 The source manifest binds this small project. Dependencies and generated
@@ -103,8 +124,9 @@ and inspect its exit code and five axiom reports.
 
 The original nine declarations were accepted by Lean 4.35.0 with
 `--trust=0`; a separately altered, intentionally overstrong zero-bound
-statement was rejected. The four sensitivity statements and five nine-point
-polynomial statements have separate replay commands above.
+statement was rejected. The four sensitivity statements, five nine-point
+polynomial statements and thirteen Gaussian declarations have separate
+replay commands above.
 All are checked by **Lean's own kernel**, using
 mathlib at commit `56a005855ea17e0b0958f73ec801ae140b0a1679`.
 This is not a successful replay by an independently implemented proof checker.

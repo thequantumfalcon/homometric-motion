@@ -1,8 +1,10 @@
 # Statements, proof routes and application limits
 
-The project contains eighteen declarations in three files. The nine
+The project contains thirty-one declarations in four files. The nine
 standard-deviation declarations and four sensitivity statements are unchanged.
-Five further statements concern explicit nine-point polynomials.
+Five statements concern explicit nine-point polynomials. Thirteen further
+declarations concern Gaussian phases, finite-intensity integrability and
+the first raw intensity moment.
 
 ## Standard-deviation continuity
 
@@ -91,23 +93,95 @@ The generator and `mapping.json` connect the definitions to the installed
 package's fresh first- and second-moment differences. Exact re-expansion
 and full field comparison are executable checks outside Lean.
 
-The Gaussian characteristic-function formula, finite phase sum and graph
-covariance construction are not formalized here. The implication from
-different moments to different bounded intensity laws is also outside
-these five statements. The local independently uncertain-strength projection,
+The generic Gaussian characteristic-function and first finite-intensity
+formula are formalized separately below. Identifying the complete
+nine-point moment polynomials with that modeled intensity, constructing
+the graph covariance, and inferring different bounded intensity laws from
+different moments remain outside these five statements.
+The local independently uncertain-strength projection,
 Sturm count, Bernstein sign statements, skewness crossings and Taylor
 remainder certificate remain separately justified mathematics.
 This checkpoint does not formalize the complete nine-point or 63-point theorem.
+
+## Gaussian first intensity moment
+
+`GaussianIntensity.lean` contains thirteen declarations. The first three
+give the centered Gaussian characteristic identity, quadratic-form scaling,
+and the corresponding linear-phase identity. The remaining ten are:
+
+| Declaration | Exact mathematical role |
+| --- | --- |
+| `continuous_phase_integrable` | A continuous real phase has a unit-modulus complex exponential, integrable under any finite measure. |
+| `phase_mul_conj` | Multiplying two phase factors with the second conjugated gives the phase of their difference. |
+| `finite_intensity_expansion` | The squared amplitude norm, embedded in the complex numbers, equals its finite ordered-pair expansion. |
+| `pair_intensity_integrable` | Each pair term, including its fixed complex coefficient, is integrable. |
+| `finite_intensity_complex_integrable` | The complex embedding of the finite intensity is integrable. |
+| `finite_intensity_integrable` | The actual real squared-norm intensity is integrable. |
+| `coordinate_difference_quadratic` | The charge `e_i-e_j` gives `D_ii+D_jj-D_ij-D_ji`, including when `i=j`. |
+| `gaussian_coordinate_difference_phase` | Computes the expected pair phase under a centered Gaussian with explicit PSD covariance. |
+| `finite_gaussian_intensity_complex_mean` | Exchanges the finite sums and integrals using proved summand integrability. |
+| `finite_gaussian_intensity_mean` | Takes real parts to obtain the real first intensity moment. |
+
+Let the index type be finite, `z_i` be arbitrary fixed complex weights,
+`a` be real and `D` be a real positive-semidefinite matrix. For
+`Y ~ N(0,D)` and `A(y)=sum_i z_i exp(i*a*y_i)`, the final identity is
+
+\[
+E|A(Y)|^2
+=\sum_{i,j}\operatorname{Re}(z_i\overline{z_j})
+ \exp[-a^2(D_{ii}+D_{jj}-D_{ij}-D_{ji})/2].
+\]
+
+The formal statement uses `EuclideanSpace Real index`,
+`multivariateGaussian 0 D` and an explicit `D.PosSemidef` premise.
+That predicate includes symmetry for real matrices. No positive-definite
+density, matrix inverse, nonempty index, equal-modulus weights, zero
+clean amplitude or independent-coordinate assumption is used.
+
+The proof expands `A*conj(A)`, uses the real coordinate charge `e_i-e_j`,
+and evaluates its characteristic function. Every pair phase is continuous
+and bounded in modulus by one. Thus its fixed weighted term is integrable
+under a finite measure, and finite summation gives genuine integrability
+of the intensity. The proof does not rely on a totalized integral of a
+nonintegrable observable. The final complex-to-real projection is valid
+because the expected pair phase is real. Individual real pair coefficients
+may be negative even though the full expectation is nonnegative.
+
+For `i=j`, the difference variance is exactly zero and the term is `|z_i|^2`.
+An empty index gives zero on both sides; zero scale or zero covariance gives
+`|sum_i z_i|^2`. Singular covariances and negative real scales are included.
+The integrability declarations are more general than the Gaussian result:
+they apply to any finite measure on this Euclidean space.
+
+Keeping off-diagonal covariance is essential. With
+`D=[[1,1],[1,1]]`, weights `(1,-1)` and `a=1`, the coordinates agree almost
+surely and the intensity is zero. An independence replacement on distinct
+pairs would instead give `2-2 exp(-1)>0`. If that replacement also changes
+diagonal pairs, a singleton with unit variance and weight already fails:
+its intensity is one, not `exp(-1)`.
+
+The result is centered. A nonzero mean requires additional deterministic
+pair phases, or their absorption into the weights. The PSD premise is also
+material: the pinned library constructor uses a Dirac fallback for a matrix
+that fails its PSD predicate, rather than assigning that invalid covariance.
+
+These statements establish a known generic first-moment identity. They do
+not identify the concrete graph pseudoinverse with `D`, prove its PSD or
+COM support, justify joint Gaussianity physically, or make the substitution
+`a=omega*sqrt(beta)`. Higher raw moments, charge enumeration and complete
+nine-point polynomial grouping remain separate.
 
 ## What remains unformalized
 
 The following parts of the complete discovery argument are not
 formalized by this project:
 
-- The exact finite-motion observable, its measurability, and a same-space
-  coupling of the modeled variables.
-- The Gaussian covariance and stationary OU process assumptions, including
+- Identification of the modeled graph observable with the generic finite
+  intensity, and the required same-space couplings.
+- The concrete graph covariance, COM support, motion-strength substitution,
+  joint Gaussian model justification and stationary OU process, including
   finite exposure, signed kernel derivatives and their integral remainders.
+- Higher raw intensity moments and their complete polynomial grouping.
 - The amplitude, Taylor, increment, geometry and majorization estimates.
 - A formal connection from graph/input certificates and outward numerical
   intervals to the abstract real or random variables.
@@ -120,5 +194,7 @@ formalized by this project:
 The four algebraic statements isolate useful pieces of the estimator
 argument; they do not formalize its probabilistic conclusion. The nine
 variance statements prove a general analytic step, not its numerical
-model-specific inputs. Physical calibration, model adequacy, novelty and
-human peer review remain outside the scope of all three files.
+model-specific inputs. The thirteen Gaussian declarations add a generic
+first-intensity identity with explicit full covariance and integrability,
+not its graph-specific application. Physical calibration, model adequacy,
+novelty and human peer review remain outside the scope of all four files.

@@ -28,8 +28,9 @@ Read the proofs in this order:
    prior work.
 9. [Formal checkpoints](formal/README.md) distinguishes six mapped finite
    arithmetic statements, six universal factorial identities, nine analytic
-   variance declarations, four deterministic sensitivity statements and five
-   explicit nine-point polynomial statements from
+   variance declarations, four deterministic sensitivity statements, five
+   explicit nine-point polynomial statements and thirteen generic Gaussian
+   phase, integrability and first-intensity declarations from
    the full probabilistic theorem.
 
 The separate [nine-point moment construction](nine-point-moments.md) uses
