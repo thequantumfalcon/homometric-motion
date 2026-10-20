@@ -34,3 +34,7 @@ No second-person approval is claimed. Account-level two-factor authentication
 and vigilant mode require separate account verification; repository settings
 cannot establish them. Public results describe observed checks and any
 unavailable platform features rather than claiming perfect security.
+
+Community and workflow files remain in source archives. Excluding `.github`
+would hide the security policy and dependency-update configuration from
+archive-based review tools and leave documentation links broken for readers.

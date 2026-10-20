@@ -8,7 +8,8 @@ pair under specified stochastic motion and observation models.
 
 - Distinguish proved inequalities, computed checks, model assumptions and
   unexecuted experiments. Do not claim empirical validation, established
-  novelty, optimal sample complexity or proof-assistant verification.
+  novelty, optimal sample complexity or full-theorem proof-assistant verification.
+  Formal checkpoints must name their exact statements and proof dependencies.
 - Keep negative results and unresolved parameter cases visible.
 - Use exact rational or outward interval arithmetic for assertions.
   Floating-point values are display summaries only.

@@ -31,6 +31,32 @@ def rational_text(value):
     return numerator + "/" + decimal_integer(value.denominator)
 
 
+def rational_from_text(text):
+    """Read bounded exact fraction text without changing global digit limits."""
+    if not isinstance(text, str) or not 0 < len(text) <= 100_000:
+        raise ValueError("bounded rational text required")
+    parts = text.split("/")
+    if len(parts) not in (1, 2):
+        raise ValueError("one rational denominator at most")
+
+    def decimal_integer(part):
+        negative = part.startswith("-")
+        digits = part[1:] if negative else part
+        if not digits or not digits.isascii() or not digits.isdigit():
+            raise ValueError("decimal integer required")
+        value = 0
+        for start in range(0, len(digits), 9):
+            chunk = digits[start : start + 9]
+            value = value * 10 ** len(chunk) + int(chunk)
+        return -value if negative else value
+
+    numerator = decimal_integer(parts[0])
+    denominator = decimal_integer(parts[1]) if len(parts) == 2 else 1
+    if denominator <= 0:
+        raise ValueError("positive rational denominator required")
+    return F(numerator, denominator)
+
+
 def ceiling_fraction(x):
     return -(-x.numerator // x.denominator)
 

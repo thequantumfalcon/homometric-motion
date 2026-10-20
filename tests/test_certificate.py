@@ -8,6 +8,7 @@ from math import comb, factorial
 
 from homometric_motion import build_certificate
 from homometric_motion.counts import classify
+from homometric_motion.position import position_certificate
 
 
 def fraction(text):
@@ -34,18 +35,18 @@ def fraction(text):
     raise ValueError("expected an exact rational")
 
 
-@lru_cache(maxsize=1)
-def certificate():
+@lru_cache(maxsize=2)
+def certificate(scenario="exact_geometry"):
     guard_before = sys.get_int_max_str_digits()
-    result = build_certificate()
+    result = build_certificate(scenario=scenario)
     if sys.get_int_max_str_digits() != guard_before:
         raise AssertionError("building a certificate changed the interpreter digit guard")
     return result
 
 
-def independent_sqrt_lower(value):
+def independent_sqrt_lower(value, places=60):
     """Binary integer comparisons, independent of the runtime square-root helper."""
-    scale = 10**60
+    scale = 10**places
     target = value.numerator * scale**2
     low, high = 0, 1
     while high**2 * value.denominator <= target:
@@ -65,10 +66,38 @@ class CertificateTests(unittest.TestCase):
         cls.result = certificate()
 
     def test_exact_count_budget_from_detuned_moments(self):
-        stages = self.result["stages"]
+        self.assert_count_budget(self.result, "frequency", 60, 975281623024726766278)
+
+    def test_position_count_budget_from_its_own_moments(self):
+        result = certificate("position_uncertainty")
+        self.assert_count_budget(result, "position", 80, 975028627229038193209)
+        counts = result["stages"]["counts"]
+        self.assertEqual(counts["root_decimal_places"], 80)
+        for record in counts["root_certificates"]:
+            value = fraction(record["radicand"])
+            lower = independent_sqrt_lower(value, places=80)
+            upper = lower if lower**2 == value else lower + F(1, 10**80)
+            self.assertEqual(fraction(record["lower"]), lower)
+            self.assertEqual(fraction(record["upper"]), upper)
+        eta = fraction(counts["eta_exact"])
+        plus_lower = independent_sqrt_lower(1 + eta, places=80)
+        plus_upper = plus_lower + F(1, 10**80)
+        minus_lower = independent_sqrt_lower(1 - eta, places=80)
+        for side in ("A", "B"):
+            shape = result["stages"]["position"]["classes"][side]["skewness"]
+            expected = [
+                (fraction(shape["lower"]) - eta) / ((1 + eta) * plus_upper),
+                (fraction(shape["upper"]) + eta) / ((1 - eta) * minus_lower),
+            ]
+            self.assertEqual(
+                list(map(fraction, counts["expanded_shape_intervals_exact"][side])), expected
+            )
+
+    def assert_count_budget(self, result, observation_stage, places, expected_windows):
+        stages = result["stages"]
         counts, frequency, nominal = (
             stages["counts"],
-            stages["frequency"],
+            stages[observation_stage],
             stages["nominal"],
         )
         classes = frequency["classes"]
@@ -121,7 +150,9 @@ class CertificateTests(unittest.TestCase):
         eta = fraction(counts["eta_exact"])
         l2 = 2 + 2 * bounds[1]
         l3 = 6 + 9 * bounds[1] + 3 * bounds[2] + 6 * bounds[1] ** 2
-        tolerance = min(F(1), eta * amin / l2, eta * amin * independent_sqrt_lower(amin) / l3)
+        tolerance = min(
+            F(1), eta * amin / l2, eta * amin * independent_sqrt_lower(amin, places) / l3
+        )
         self.assertEqual(fraction(counts["L2_exact"]), l2)
         self.assertEqual(fraction(counts["L3_exact"]), l3)
         self.assertEqual(fraction(counts["raw_moment_tolerance_exact"]), tolerance)
@@ -137,7 +168,7 @@ class CertificateTests(unittest.TestCase):
         self.assertEqual(fraction(counts["spectral_gap_lower_exact"]), gap)
         self.assertEqual(fraction(counts["window_variance_inflation_upper_exact"]), inflation)
         numerator = inflation * sum(seconds.values()) / tolerance**2
-        target = fraction(self.result["parameters"]["target_individual_class_error"])
+        target = fraction(result["parameters"]["target_individual_class_error"])
         real_budget = numerator / target
         windows = -(-real_budget.numerator // real_budget.denominator)
         self.assertEqual(counts["sufficient_observation_windows"], windows)
@@ -149,11 +180,19 @@ class CertificateTests(unittest.TestCase):
         )
         self.assertLessEqual(numerator / windows, F(1, 20))
         # Regression target for this explicitly fixed theorem, not an optimal cost.
-        self.assertEqual(windows, 975281623024726766278)
+        self.assertEqual(windows, expected_windows)
 
     def test_expanded_shape_enclosures_and_class_ordering(self):
-        counts = self.result["stages"]["counts"]
-        classes = self.result["stages"]["frequency"]["classes"]
+        for scenario, stage in (
+            ("exact_geometry", "frequency"),
+            ("position_uncertainty", "position"),
+        ):
+            with self.subTest(scenario=scenario):
+                self.assert_expanded_shape(certificate(scenario), stage)
+
+    def assert_expanded_shape(self, result, observation_stage):
+        counts = result["stages"]["counts"]
+        classes = result["stages"][observation_stage]["classes"]
         eta = fraction(counts["eta_exact"])
         expanded = {}
         for side in ("A", "B"):
@@ -182,6 +221,59 @@ class CertificateTests(unittest.TestCase):
         self.assertEqual(self.result["revision_kind"], "release_adaptation")
         self.assertEqual(self.result["checks"]["count"], len(self.result["checks"]["passed"]))
         self.assertTrue(self.result["limitations"])
+        self.assertEqual(self.result["scenario"], "exact_geometry")
+        self.assertEqual(fraction(parameters["position_error_cap_exact"]), 0)
+
+    def test_position_zero_limit_topology_and_changed_mean_bound(self):
+        result = certificate("position_uncertainty")
+        stages = result["stages"]
+        parameters = result["parameters"]
+        rho = fraction(parameters["position_error_cap_exact"])
+        self.assertEqual(rho, F(1, 10**14))
+        self.assertEqual(fraction(parameters["frequency_error_cap_exact"]), F(1, 10**16))
+        self.assertEqual(
+            parameters["beta_band_exact"], self.result["parameters"]["beta_band_exact"]
+        )
+        row = stages["position"]
+        self.assertEqual(fraction(row["mean_contact_threshold_exact"]), F(5, 2))
+        margin = fraction(row["mean_contact_remaining_margin_strict_lower_exact"])
+        self.assertEqual(margin, F(1, 4) - 2 * rho)
+        self.assertGreater(margin, 0)
+        self.assertIn("need not remain clean-homometric", row["scope"])
+        messages = []
+
+        def check(condition, label):
+            self.assertTrue(condition, label)
+            messages.append(label)
+
+        zero = position_certificate(
+            stages["exposure"], stages["nominal"], stages["frequency"], F(0), check
+        )
+        self.assertTrue(messages)
+        for side in ("A", "B"):
+            for name in (
+                "normalized_variance",
+                "normalized_third_cumulant",
+                "skewness",
+                "normalized_raw_moment_upper_bounds",
+            ):
+                self.assertEqual(
+                    zero["classes"][side][name], stages["frequency"]["classes"][side][name]
+                )
+            saved = row["classes"][side]
+            qpos = fraction(row["position_amplitude_error_coefficient_upper_exact"]) * rho
+            qtotal = fraction(saved["frequency_amplitude_L6_error_upper_exact"]) + qpos
+            p = fraction(saved["nominal_amplitude_L6_upper_exact"])
+            delta = 2 * p * qtotal + qtotal**2
+            self.assertEqual(fraction(saved["position_amplitude_error_upper_exact"]), qpos)
+            self.assertEqual(fraction(saved["total_intensity_L3_error_upper_exact"]), delta)
+            self.assertEqual(fraction(saved["centered_L3_error_upper_exact"]), 2 * delta)
+            # Changed means require the L3 centering factor two.
+            m = fraction(saved["baseline_centered_L3_upper_exact"])
+            error = 3 * m**2 * (2 * delta) + 3 * m * (2 * delta) ** 2 + (2 * delta) ** 3
+            self.assertEqual(fraction(saved["third_cumulant_change_upper_exact"]), error)
+        with self.assertRaises(ValueError):
+            build_certificate(scenario="all")
 
     def test_exact_classifier_threshold_and_fallbacks(self):
         threshold = fraction(self.result["stages"]["counts"]["threshold_exact"])

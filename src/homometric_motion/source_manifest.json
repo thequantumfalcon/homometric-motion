@@ -10,19 +10,19 @@
     },
     {
       "path": "arithmetic.py",
-      "sha256": "c2ee938f5adbe2eeb896d5cb86da0b3ad7a3b0580b3853e65f3a4eee5ae58594"
+      "sha256": "f160825365bf20a8d2b8a2f76a050365f161626ff6f032049aeb4add236d1675"
     },
     {
       "path": "certificate.py",
-      "sha256": "4652709a8c165350a544e60782dac01b35826407b6392ffdefb090e9ade07238"
+      "sha256": "3c4880d31b89c1af51045bda85dcc268dd3edb088aafcb2b49f04ceffecb506e"
     },
     {
       "path": "cli.py",
-      "sha256": "e2086bbcda9a5eab6c783422296dc401c835ffe8191ffdc044664f3cd1db3f09"
+      "sha256": "f2090b7daab97c3cffe2263864c8f17933d38c576c4ad072daa3b33698491906"
     },
     {
       "path": "counts.py",
-      "sha256": "971e143906afc9b90fa44de7134bcf0192eefc691e9814dcc4f0fb4a31e3eaa7"
+      "sha256": "6e9e21baf4da7076149bb8ec0ca2a663c7623dbbcc3217f6db2ce189d0a54ede"
     },
     {
       "path": "geometry.py",
@@ -37,8 +37,12 @@
       "sha256": "88fbf4ca3529848911009a9c749ea9fafd0b3afad22b046155823762932712bd"
     },
     {
+      "path": "position.py",
+      "sha256": "5725a4979f82965acca730802add9a7a91cd1fd5d57524a48e3ba992e93e5343"
+    },
+    {
       "path": "protocol.json",
-      "sha256": "539510221b60075916f9540788a6219889ea36c6e9c77311568e85a2f4df07a6"
+      "sha256": "3859a64c92d10a4544917d3a432796ddbc184885f2d379a84a1cd1681d17bb1f"
     },
     {
       "path": "robustness.py",

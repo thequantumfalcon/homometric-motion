@@ -21,7 +21,7 @@ COMMANDS = {
     "manifest": "explicitly record the current package source revision",
     "build": "check the manifest and build an sdist and wheel",
     "test": "build, install and test a wheel with a coverage gate",
-    "verify": "build and execute the wheel twice in a clean environment",
+    "verify": "build and replay both scenarios twice, then check the demo data",
     "release": "run lint, installed tests and artifact verification; publish nothing",
     "hooks": "run the pinned pre-commit checks on all tracked files",
 }
@@ -149,28 +149,59 @@ def test(wheel: Path) -> None:
 
 def verify(wheel: Path) -> None:
     directory, executable, _ = installed(wheel)
-    outputs = [directory / "first.json", directory / "second.json"]
-    for output in outputs:
-        run(
-            executable, "-I", "-m", "homometric_motion", "verify", "--output", output, cwd=directory
+    scenarios = []
+    for scenario, expected_count in (
+        ("exact_geometry", 975281623024726766278),
+        ("position_uncertainty", 975028627229038193209),
+    ):
+        outputs = [directory / f"{scenario}-{name}.json" for name in ("first", "second")]
+        for output in outputs:
+            run(
+                executable,
+                "-I",
+                "-m",
+                "homometric_motion",
+                "verify",
+                "--scenario",
+                scenario,
+                "--output",
+                output,
+                cwd=directory,
+            )
+        if outputs[0].read_bytes() != outputs[1].read_bytes():
+            raise RuntimeError(f"{scenario}: installed CLI certificates differ")
+        certificate = json.loads(outputs[0].read_text("utf-8"))
+        if certificate["status"] != "PASS" or certificate["scenario"] != scenario:
+            raise RuntimeError(f"{scenario}: certificate did not pass with the expected scenario")
+        count = certificate["stages"]["counts"]["sufficient_observation_windows"]
+        if count != expected_count:
+            raise RuntimeError(f"{scenario}: published count changed; review scientific revision")
+        run(executable, "-I", "-m", "homometric_motion", "summary", outputs[0], cwd=directory)
+        if scenario == "exact_geometry":
+            run(
+                executable,
+                "-I",
+                ROOT / "tools/build_demo.py",
+                "--certificate",
+                outputs[0],
+                "--check",
+                cwd=directory,
+            )
+        scenarios.append(
+            {
+                "scenario": scenario,
+                "certificate_sha256": hashlib.sha256(outputs[0].read_bytes()).hexdigest(),
+                "deterministic_cli_runs": 2,
+                "checks": certificate["checks"]["count"],
+                "sufficient_observation_windows": count,
+            }
         )
-    if outputs[0].read_bytes() != outputs[1].read_bytes():
-        raise RuntimeError("installed CLI executions produced different certificates")
-    certificate = json.loads(outputs[0].read_text("utf-8"))
-    if certificate["status"] != "PASS":
-        raise RuntimeError("certificate did not pass")
-    count = certificate["stages"]["counts"]["sufficient_observation_windows"]
-    if count != 975281623024726766278:
-        raise RuntimeError("published fixed-chain count changed; review scientific revision")
-    run(executable, "-I", "-m", "homometric_motion", "summary", outputs[0], cwd=directory)
     receipt = {
         "status": "PASS",
         "wheel": wheel.name,
         "wheel_sha256": hashlib.sha256(wheel.read_bytes()).hexdigest(),
-        "certificate_sha256": hashlib.sha256(outputs[0].read_bytes()).hexdigest(),
-        "deterministic_cli_runs": 2,
-        "checks": certificate["checks"]["count"],
-        "sufficient_observation_windows": count,
+        "scenarios": scenarios,
+        "demo_data_matches_exact_geometry": True,
     }
     (directory / "verification.json").write_text(
         json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n"

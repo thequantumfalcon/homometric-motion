@@ -9,7 +9,8 @@ from importlib.resources import files
 from pathlib import Path
 
 from . import __version__
-from .certificate import build_certificate
+from .arithmetic import rational_from_text
+from .certificate import SCENARIOS, build_certificate
 
 MANIFEST_FILES = {
     "__init__.py",
@@ -20,6 +21,7 @@ MANIFEST_FILES = {
     "counts.py",
     "geometry.py",
     "motion.py",
+    "position.py",
     "robustness.py",
     "inputs.json",
     "protocol.json",
@@ -60,20 +62,35 @@ def summary(certificate: dict, *, verified: bool = False) -> str:
     ``verified=True`` is reserved for the freshly recomputed CLI result. These
     consistency checks do not authenticate an arbitrary supplied JSON record.
     """
+    if not isinstance(certificate, dict):
+        raise ValueError("certificate must be a JSON object")
     if certificate.get("schema_version") != 1 or certificate.get("status") != "PASS":
         raise ValueError("unsupported or unsuccessful certificate")
+    scenario = certificate["scenario"]
+    if scenario not in SCENARIOS:
+        raise ValueError("unsupported saved certificate scenario")
     frequency = certificate["stages"]["frequency"]
+    position = scenario == "position_uncertainty"
+    selected = certificate["stages"]["position"] if position else frequency
     counts = certificate["stages"]["counts"]
     parameters = certificate["parameters"]
     windows = counts["sufficient_observation_windows"]
-    gap = Fraction(frequency["signed_gap_exact"])
-    if type(windows) is not int or windows != 975281623024726766278 or gap <= 0:
+    gap = rational_from_text(selected["signed_gap_exact"])
+    if type(windows) is not int or windows <= 0 or gap <= 0:
         raise ValueError("invalid certificate summary fields")
+    budget = rational_from_text(counts["unrounded_window_budget_exact"])
+    risk = rational_from_text(counts["individual_class_error_upper_exact"])
+    if not windows - 1 < budget <= windows:
+        raise ValueError("saved observation count is not its recorded exact ceiling")
+    if risk != budget / (20 * windows) or not 0 < risk <= Fraction(1, 20):
+        raise ValueError("saved count risk is inconsistent with its recorded budget")
+    frequency_cap = Fraction(1, 10 ** (16 if position else 14))
+    position_cap = Fraction(1, 10**14) if position else Fraction(0)
     fixed = {
         "epsilon_exact": "1/100000",
         "edge_weight_radius_exact": "1/100001",
         "exposure_cap_exact": "1/100000000000000000000",
-        "frequency_error_cap_exact": "1/100000000000000",
+        "frequency_error_cap_exact": str(frequency_cap),
         "lag_lower_exact": "1000",
         "eta_exact": "1/100000",
         "target_individual_class_error": "1/20",
@@ -84,6 +101,20 @@ def summary(certificate: dict, *, verified: bool = False) -> str:
         if name != "target_individual_class_error":
             if Fraction(counts[name]) != Fraction(expected):
                 raise ValueError(f"saved count parameters are inconsistent: {name}")
+    if Fraction(parameters["position_error_cap_exact"]) != position_cap:
+        raise ValueError("saved position cap differs from the scenario contract")
+    if Fraction(frequency["frequency_error_cap_exact"]) != frequency_cap:
+        raise ValueError("saved frequency stage differs from the scenario contract")
+    if position:
+        for record in (selected, counts):
+            if Fraction(record["position_error_cap_exact"]) != position_cap:
+                raise ValueError("saved position stages differ from the scenario contract")
+        if Fraction(selected["mean_contact_remaining_margin_strict_lower_exact"]) != (
+            Fraction(1, 4) - 2 * position_cap
+        ):
+            raise ValueError("saved position contact margin is inconsistent")
+    elif "position" in certificate["stages"]:
+        raise ValueError("exact-geometry scenario has an unexpected position stage")
     for name, expected in (
         ("h_interval_exact", [Fraction(9, 10), Fraction(11, 10)]),
         ("b_interval_exact", [Fraction(0), Fraction(1)]),
@@ -96,7 +127,7 @@ def summary(certificate: dict, *, verified: bool = False) -> str:
     cap = Fraction(inputs["beta_cap_exact"])
     if Fraction(parameters["beta_cap_exact"]) != cap:
         raise ValueError("saved strength cap differs from the fixed contract")
-    for record in (parameters, frequency, counts):
+    for record in (parameters, frequency, selected, counts):
         band = record["beta_band_exact"]
         if Fraction(band["lower"]) != cap / 2 or Fraction(band["upper"]) != cap:
             raise ValueError("saved strength band differs from the fixed contract")
@@ -109,14 +140,20 @@ def summary(certificate: dict, *, verified: bool = False) -> str:
     return "\n".join(
         [
             heading,
+            f"{qualifier}scenario: {scenario}",
             f"{qualifier}mathematical checks: {certificate['checks']['count']}",
-            f"{qualifier}frequency-robust gap lower bound: {float(gap):.16g} (display only)",
+            f"{qualifier}selected shape gap lower bound: {float(gap):.16g} (display only)",
             f"{qualifier}sufficient observation windows: {windows:,}",
             f"{qualifier}risk bound: at most 5% in either class under the declared model.",
-            f"{qualifier}domain: beta in [B/2,B], fixed frequency error <= 1e-14,",
+            f"{qualifier}domain: beta in [B/2,B], fixed frequency error <= {float(frequency_cap):.0e},",
             "spring weights within 1 +/- 1/100001, exposure <= 1e-20, start lag >= 1000,",
             "fixed integrated normalized gain in [0.9,1.1], Poisson background in [0,1].",
-            "Exact geometry and stationary weighted Gaussian OU motion are assumed.",
+            (
+                "Fixed position errors <= 1e-14; homometry applies to nominal templates only."
+                if position
+                else "Exact mean geometry is assumed."
+            ),
+            "Stationary weighted Gaussian OU motion is assumed.",
             "No physical validation, optimality or practical feasibility is claimed.",
         ]
     )
@@ -127,6 +164,7 @@ def main(argv=None) -> int:
     parser.add_argument("--version", action="version", version=__version__)
     commands = parser.add_subparsers(dest="command", required=True)
     verify = commands.add_parser("verify", help="recompute the full fixed certificate")
+    verify.add_argument("--scenario", choices=SCENARIOS, default="exact_geometry")
     verify.add_argument(
         "--output",
         required=True,
@@ -144,7 +182,7 @@ def main(argv=None) -> int:
         if args.output.exists():
             raise FileExistsError("output exists; choose a new path")
         provenance = verify_source_manifest()
-        certificate = build_certificate()
+        certificate = build_certificate(scenario=args.scenario)
         certificate["source_revision"] = provenance
         encoded = json.dumps(certificate, indent=2, sort_keys=True, allow_nan=False) + "\n"
         with args.output.open("x", encoding="utf-8", newline="\n") as stream:

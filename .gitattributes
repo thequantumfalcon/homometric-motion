@@ -4,4 +4,3 @@
 *.whl -text
 docs/** linguist-documentation
 /requirements-dev.lock linguist-generated
-/.github export-ignore

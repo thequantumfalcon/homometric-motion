@@ -3,29 +3,36 @@
 The release presents an explicit conditional mathematical construction and
 an executable certificate. It is not an empirical discovery about an
 identified material or apparatus. No independent human peer review,
-proof-assistant verification, optimality or literature-priority claim is
-made. Repeating a computation and checking its source bindings are different
+optimality or literature-priority claim is made. The complete theorem is
+not formalized. The [Lean checkpoints](formal/README.md) cover only specified
+finite arithmetic statements and universal polynomial identities.
+Repeating a computation and checking its source bindings are different
 from measuring whether a physical model holds.
 
 ## Parameter domain and unresolved directions
 
-The full released count certificate requires fixed exact mean geometry,
+The default `exact_geometry` count certificate requires fixed exact mean geometry,
 permanent positive spring links in the declared interval, centered Gaussian
 stationary weighted OU motion, a positive nominal motion-strength band,
 bounded fixed frequency error, rectangular exposure, and the specified
 conditionally Poisson channel. Each class may have different fixed
 admissible nuisance settings. Unknown drifting settings or mixtures over
-settings are not covered by that statement.
+settings are not covered by that statement. The separate `position_uncertainty`
+scenario adds fixed mean errors of magnitude at most $10^{-14}$ while reducing
+the frequency cap from $10^{-14}$ to $10^{-16}$. Its
+[proof](position-uncertainty.md) preserves contact topology and recomputes every
+count bound. Clean homometry is guaranteed for the nominal templates, not every
+imperfect specimen.
 
-Frequency uncertainty requires \(B/2\le\beta_G\le B\). The underlying
-exact-null moment theorem covers \(0<\beta_G\le B\), but that larger
+Frequency uncertainty requires $B/2\le\beta_G\le B$. The underlying
+exact-null moment theorem covers $0<\beta_G\le B$, but that larger
 domain must not be silently attached to the detuned result. The public
-implementation computes one selected chain. It does not reproduce every
+implementation computes these two selected chains. It does not reproduce every
 previously examined grid or demonstrate a sharp tolerance. Larger covariance
 or exposure bounds that overlapped in earlier calculations were unresolved,
 not proofs of equality or impossibility.
 
-Position errors, changing contacts, nonlinear or quantum dynamics,
+Position errors outside the stated fixed bounds, changing contacts, nonlinear or quantum dynamics,
 non-Gaussian forcing, nonstationary preparation, drifting source intensity,
 readout noise and non-Poisson detectors require additional arguments or
 measurements. The release does not certify them. Its numerical exposure and
@@ -35,43 +42,43 @@ do not establish practical feasibility.
 
 ## Why a strength floor matters away from the null
 
-Fix a nonzero frequency \(t\), with phases \(z_j=e^{itx_j}\), clean
-amplitude \(A_0=\sum_jz_j\ne0\), and centered Gaussian \(Y\).
-Put \(Z=\sum_jz_jY_j\), \(Z_2=\sum_jz_jY_j^2\). If
-\[
+Fix a nonzero frequency $t$, with phases $z_j=e^{itx_j}$, clean
+amplitude $A_0=\sum_jz_j\ne0$, and centered Gaussian $Y$.
+Put $Z=\sum_jz_jY_j$, $Z_2=\sum_jz_jY_j^2$. If
+```math
  L=2\operatorname{Re}(\overline{A_0}\,itZ),\qquad
  \sigma_L^2=\operatorname{Var}L>0,
-\]
+```
 then
-\[
+```math
  I_\beta=|A_0|^2+\sqrt\beta L+\beta Q+R_\beta,\quad
  Q=t^2(|Z|^2-\operatorname{Re}(\overline{A_0}Z_2)),
  \quad\|R_\beta\|_p=O(\beta^{3/2})
-\]
-for every finite \(p\). This is a global Gaussian norm bound: apply
-\(|e^{ix}-1-ix+x^2/2|\le|x|^3/6\) to the pair expansion of intensity.
+```
+for every finite $p$. This is a global Gaussian norm bound: apply
+$|e^{ix}-1-ix+x^2/2|\le|x|^3/6$ to the pair expansion of intensity.
 The finite sum of Gaussian third-power norms bounds the remainder.
 
-The linear term is odd and the quadratic term is even under \(Y\mapsto-Y\).
+The linear term is odd and the quadratic term is even under $Y\mapsto-Y$.
 Centering and Hölder consequently give
-\[
+```math
  \operatorname{Var}I_\beta=\beta\sigma_L^2+O(\beta^2),\qquad
  \kappa_3(I_\beta)=3\beta^2E[L^2(Q-EQ)]+O(\beta^{5/2}).
-\]
+```
 Its skewness therefore tends to zero. The coefficient may vanish without
 altering that conclusion.
 
-For this construction, the zero of \(F_U\) at \(\omega\) is isolated:
-\(F_U\) is an entire nonzero exponential sum and \(F_U(0)=21\).
-The translation factors are nonzero at \(\omega\). The projected covariance
-of \((\operatorname{Re}Z,\operatorname{Im}Z)\) has determinant
-\((q^2-|p|^2)/4>0\) there, as the exact certificate verifies.
+For this construction, the zero of $F_U$ at $\omega$ is isolated:
+$F_U$ is an entire nonzero exponential sum and $F_U(0)=21$.
+The translation factors are nonzero at $\omega$. The projected covariance
+of $(\operatorname{Re}Z,\operatorname{Im}Z)$ has determinant
+$(q^2-|p|^2)/4>0$ there, as the exact certificate verifies.
 Continuity preserves positive definiteness nearby. Thus every sufficiently
-small fixed nonzero detuning gives nonzero \(A_0\) and nondegenerate \(L\)
+small fixed nonzero detuning gives nonzero $A_0$ and nondegenerate $L$
 for both nominal classes.
 
 At each such fixed detuning, the closures of both skewness families over
-\(0<\beta_G\le B\) contain zero. There is no strictly positive uniform
+$0<\beta_G\le B$ contain zero. There is no strictly positive uniform
 skewness gap over that full independent-strength domain. The same limit
 holds when the strengths are fixed positive multiples of a common scale
 tending to zero. Detuning is fixed first; the expansion constants need not

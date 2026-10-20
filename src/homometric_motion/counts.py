@@ -11,8 +11,8 @@ def ceil(value):
     return -(-value.numerator // value.denominator)
 
 
-def root_lower(value, check):
-    scale = 10**60
+def root_lower(value, check, places=60):
+    scale = 10**places
     k = isqrt(value.numerator * scale**2 // value.denominator)
     root = F(k, scale)
     check(root**2 <= value < (root + F(1, scale)) ** 2, "rational root bracket")
@@ -38,15 +38,40 @@ def count_certificate(frequency, nominal, protocol, check):
     )
     cell = joint
     eta = F(protocol["eta_exact"])
+    position_scenario = protocol.get("scenario", "exact_geometry") == "position_uncertainty"
     check(0 < eta < 1, "eta domain")
     classes = cell["classes"]
     expanded = {}
+    roots = []
+
+    def root80(value, label):
+        value = F(value)
+        check(value >= 0, "nonnegative count root " + label)
+        scale = 10**80
+        k = isqrt(value.numerator * scale**2 // value.denominator)
+        lo = F(k, scale)
+        hi = lo if lo * lo == value else F(k + 1, scale)
+        check(lo * lo <= value <= hi * hi, "count root bracket " + label)
+        roots.append({"label": label, "radicand": str(value), "lower": str(lo), "upper": str(hi)})
+        return lo, hi
+
+    if position_scenario:
+        plus_upper = root80(1 + eta, "expanded denominator plus")[1]
+        minus_lower = root80(1 - eta, "expanded denominator minus")[0]
+        check(minus_lower > 0, "positive expanded denominator")
     for side in ("A", "B"):
         row = classes[side]["skewness"]
-        lower = (I(F(row["lower"])) - eta) / ((I(1 + eta) ** 3).root(2))
-        upper = (I(F(row["upper"])) + eta) / ((I(1 - eta) ** 3).root(2))
-        expanded[side] = [lower.lower, upper.upper]
-        check(0 < lower.lower <= upper.upper, side + " expanded positive shape")
+        if position_scenario:
+            sl, su = F(row["lower"]), F(row["upper"])
+            check(eta < sl <= su, side + " positive shape before estimation")
+            lo = (sl - eta) / ((1 + eta) * plus_upper)
+            hi = (su + eta) / ((1 - eta) * minus_lower)
+        else:
+            lower = (I(F(row["lower"])) - eta) / ((I(1 + eta) ** 3).root(2))
+            upper = (I(F(row["upper"])) + eta) / ((I(1 - eta) ** 3).root(2))
+            lo, hi = lower.lower, upper.upper
+        expanded[side] = [lo, hi]
+        check(0 < lo <= hi, side + " expanded positive shape")
     check(expanded["A"][1] < expanded["B"][0], "expanded intervals separated")
     threshold = (expanded["A"][1] + expanded["B"][0]) / 2
     hlow, hhigh = map(F, protocol["h_interval_exact"])
@@ -67,7 +92,12 @@ def count_certificate(frequency, nominal, protocol, check):
     check(amin > 0, "positive factorial variance lower bound")
     f1, f2 = factorial[1], factorial[2]
     L2, L3 = 2 + 2 * f1, 6 + 9 * f1 + 3 * f2 + 6 * f1**2
-    tolerance = min(F(1), eta * amin / L2, eta * amin * root_lower(amin, check) / L3)
+    amin_root = (
+        root80(amin, "factorial variance lower bound")[0]
+        if position_scenario
+        else root_lower(amin, check)
+    )
+    tolerance = min(F(1), eta * amin / L2, eta * amin * amin_root / L3)
     check(0 < tolerance <= 1, "raw moment tolerance")
     check(L2 * tolerance <= eta * amin, "second cumulant error")
     check((L3 * tolerance) ** 2 <= eta**2 * amin**3, "third cumulant error")
@@ -131,4 +161,30 @@ def count_certificate(frequency, nominal, protocol, check):
         "selection_disclosure": protocol["selection_disclosure"],
         "qualification": "Extremely conservative sufficient existence bound, not practical feasibility or required cost. No physical measurements supplied.",
     }
+    if position_scenario:
+        check(
+            F(joint["position_error_cap_exact"]) == F(protocol["position_error_cap_exact"]),
+            "selected position cap agrees",
+        )
+        result.update(
+            {
+                "position_error_cap_exact": joint["position_error_cap_exact"],
+                "common_alpha_band_exact": joint["common_alpha_band_exact"],
+                "target_individual_class_error_exact": rational_text(target),
+                "expanded_shape_gap_lower_exact": rational_text(
+                    expanded["B"][0] - expanded["A"][1]
+                ),
+                "intensity_raw_moment_upper_exact": {
+                    str(j): rational_text(x) for j, x in upper.items()
+                },
+                "root_certificates": roots,
+                "root_decimal_places": 80,
+                "scope": (
+                    "Conditional bound with fixed mean-position offsets, preserved permanent "
+                    "graphs, bounded fixed frequency error, uncertain positive springs, "
+                    "stationary Gaussian OU motion, positive exposure and compact fixed "
+                    "gain/background. Actual configurations need not be clean-homometric."
+                ),
+            }
+        )
     return result

@@ -16,6 +16,19 @@
   ],
   "eta_exact": "1/100000",
   "target_individual_class_error": "1/20",
+  "scenarios": {
+    "exact_geometry": {
+      "frequency_error_cap_exact": "1/100000000000000",
+      "position_error_cap_exact": "0"
+    },
+    "position_uncertainty": {
+      "frequency_error_cap_exact": "1/10000000000000000",
+      "position_error_cap_exact": "1/100000000000000",
+      "geometry": "Fixed mean positions within 1e-14 of each nominal template, preserving permanent contact graphs. Actual configurations need not remain clean-homometric.",
+      "scope": "One selected position-uncertainty chain with fresh count bounds. No external workspace inputs or network resources.",
+      "selection_disclosure": "This is a new release implementation of previously examined parameters: position cap 1e-14 and frequency cap 1e-16. Selection occurred after earlier bounds were known. No blind selection or prospective preregistration is claimed. Counts are recomputed from this scenario, not transferred from exact geometry."
+    }
+  },
   "strength_band": "B/2 <= beta_G <= B for frequency uncertainty; 0 < beta_G <= B for the exact-null stage",
   "geometry": "Fixed 63-point mean configurations with permanent graph links. No position uncertainty.",
   "model": "Stationary centered Gaussian weighted-spring OU motion; fixed admissible parameters; rectangular exposure; conditionally independent Poisson counts in disjoint windows given the full trajectory.",

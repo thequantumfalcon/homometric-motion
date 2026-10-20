@@ -16,5 +16,17 @@ the 0.x certificate schema and Python API remain experimental.
   proof documentation and explicit limitations.
 - A new release implementation and fresh verification workflow. Historical
   execution records are not included or represented as this release.
+- A separately verified position-uncertainty scenario with its own joint
+  frequency domain and finite-window count.
+- An offline interactive geometry and certificate demo, checked against fresh
+  installed-package output.
+- Six finite arithmetic Lean checkpoints and six symbolic falling-factorial
+  identities, with explicit limits on their formal coverage.
+
+### Fixed
+
+- Pull-request commit-policy checks inspect the submitted head rather than
+  GitHub's temporary merge commit.
+- Source archives retain community and security configuration files.
 
 [Unreleased]: https://github.com/thequantumfalcon/homometric-motion/commits/main

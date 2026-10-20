@@ -45,6 +45,12 @@ class InstalledArtifactTests(unittest.TestCase):
                     verify_source_manifest()
 
     def test_cli_reproduces_api_and_refuses_to_overwrite(self):
+        self.assert_cli_scenario("exact_geometry", "975,281,623,024,726,766,278")
+
+    def test_cli_position_scenario_and_fixed_contract(self):
+        self.assert_cli_scenario("position_uncertainty", "975,028,627,229,038,193,209")
+
+    def assert_cli_scenario(self, scenario, expected_count):
         executable = os.environ.get("HM_TEST_PYTHON", sys.executable)
         with tempfile.TemporaryDirectory() as temporary:
             directory = Path(temporary)
@@ -56,6 +62,8 @@ class InstalledArtifactTests(unittest.TestCase):
                 "-m",
                 "homometric_motion",
                 "verify",
+                "--scenario",
+                scenario,
                 "--output",
                 str(output),
             ]
@@ -64,13 +72,17 @@ class InstalledArtifactTests(unittest.TestCase):
             )
             self.assertEqual(process.returncode, 0, process.stderr)
             self.assertEqual(process.stderr, "")
-            self.assertIn("975,281,623,024,726,766,278", process.stdout)
+            self.assertIn(expected_count, process.stdout)
             self.assertIn("under the declared model", process.stdout)
             encoded = output.read_bytes()
             result = json.loads(encoded)
             provenance = result.pop("source_revision")
             self.assertEqual(provenance, verify_source_manifest())
-            self.assertEqual(result, certificate())
+            self.assertEqual(result, certificate(scenario))
+            if scenario == "position_uncertainty":
+                self.assertIn("homometry applies to nominal templates only", process.stdout)
+            else:
+                self.assertIn("Exact mean geometry is assumed", process.stdout)
             # The output has no execution-time or machine-path fields, so it can
             # be compared as an exact deterministic mathematical record.
             self.assertEqual(set(directory.iterdir()), {output})
@@ -91,13 +103,21 @@ class InstalledArtifactTests(unittest.TestCase):
             self.assertEqual(show.returncode, 0, show.stderr)
             self.assertIn("UNVERIFIED DISPLAY", show.stdout)
             self.assertNotEqual(show.stdout, process.stdout)
-            self.assertIn("975,281,623,024,726,766,278", show.stdout)
-            for key in ("count", "frequency"):
+            self.assertIn(expected_count, show.stdout)
+            for key in ("count", "frequency", "scenario", "position", "risk"):
                 modified = json.loads(encoded)
                 if key == "count":
                     modified["stages"]["counts"]["sufficient_observation_windows"] = 1
-                else:
+                elif key == "frequency":
                     modified["parameters"]["frequency_error_cap_exact"] = "1"
+                elif key == "scenario":
+                    modified["scenario"] = (
+                        "position_uncertainty" if scenario == "exact_geometry" else "exact_geometry"
+                    )
+                elif key == "position":
+                    modified["parameters"]["position_error_cap_exact"] = "1"
+                else:
+                    modified["stages"]["counts"]["individual_class_error_upper_exact"] = "0"
                 altered = directory / f"altered-{key}.json"
                 altered.write_text(json.dumps(modified), encoding="utf-8")
                 rejected = subprocess.run(
@@ -109,6 +129,28 @@ class InstalledArtifactTests(unittest.TestCase):
                     check=False,
                 )
                 self.assertNotEqual(rejected.returncode, 0)
+            unknown_output = directory / "unknown.json"
+            unknown = subprocess.run(
+                [
+                    executable,
+                    "-I",
+                    "-B",
+                    "-m",
+                    "homometric_motion",
+                    "verify",
+                    "--scenario",
+                    "all",
+                    "--output",
+                    str(unknown_output),
+                ],
+                cwd=directory,
+                capture_output=True,
+                text=True,
+                timeout=30,
+                check=False,
+            )
+            self.assertNotEqual(unknown.returncode, 0)
+            self.assertFalse(unknown_output.exists())
 
 
 if __name__ == "__main__":

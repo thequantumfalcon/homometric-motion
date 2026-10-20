@@ -9,6 +9,11 @@ established novelty claim or practical acquisition recommendation. The sufficien
 sample bound is enormous; this is evidence of existence under the assumptions,
 not an efficient measurement proposal.
 
+The [interactive demo](demo/index.html) shows the two configurations, their
+coincident clean diffraction curves and the certified statistical intervals.
+Open `demo/index.html` from a local checkout in a browser; it works offline.
+Its graphics are illustrations, not experimental observations or a proof engine.
+
 ## What is certified
 
 The package reconstructs a noncongruent pair of 63-point configurations,
@@ -43,6 +48,15 @@ bounds were inspected; no blind selection or preregistration is claimed.
 
 Read the [proofs and assumptions](docs/proofs/README.md) before applying a result.
 Known failure regimes and prior literature are part of the proof documentation.
+The [claim ledger](docs/claims.md) separates assertions, evidence and open questions.
+
+The optional `position_uncertainty` scenario also permits fixed mean-position
+errors of at most **10⁻¹⁴** per coordinate, with a tighter frequency-error limit
+of **10⁻¹⁶**. Its separately recomputed sufficient count is
+**975,028,627,229,038,193,209 windows**. These are different joint domains:
+the new count does not show that adding position error improves discrimination.
+The ideal configurations remain homometric; perturbed specimens need not be.
+See the [position-uncertainty proof](docs/proofs/position-uncertainty.md).
 
 ## Reproduce
 
@@ -54,6 +68,7 @@ In a fresh virtual environment, from this repository:
 python -m pip install .
 python -I -m homometric_motion verify --output certificate.json
 python -I -m homometric_motion summary certificate.json
+python -I -m homometric_motion verify --scenario position_uncertainty --output position.json
 ```
 
 Installation downloads the pinned build tools unless they are already available.
@@ -70,21 +85,27 @@ python tools/project.py release
 ```
 
 Use an isolated development environment. `release` builds an sdist and wheel,
-tests the installed package, checks coverage, executes the CLI twice in a fresh
-environment and compares the results. It does not publish anything.
+tests the installed package, checks coverage, executes each scenario twice in a
+fresh environment and compares the results. It also checks that the committed
+demo data match the newly computed default certificate. It does not publish anything.
 See [contribution instructions](.github/CONTRIBUTING.md).
+
+Optional [Lean checkpoints](docs/proofs/formal/README.md) verify six finite
+arithmetic statements and six general falling-factorial identities. Their
+mapping is bound to the position-uncertainty certificate. They do not formalize
+the complete analytic theorem, and Lean is not required to run the package.
 
 ## What remains open
 
 Physical covariance, stationarity, calibration, permanent connectivity and
 conditional detector independence need validation against an actual system.
-The finite-count theorem does not cover drifting parameters, arbitrary detector
-noise or mean-position errors. Separate research extensions are not automatically
-part of this package's certificate.
+The finite-count theorems do not cover drifting parameters, arbitrary detector
+noise or position errors beyond their stated domains. Separate research
+extensions are not automatically part of this package's certificate.
 
 Computation and independent alternative arithmetic checks reduce the chance of
-an error. They are not proof-assistant verification or independent human peer
-review. Related work already studies homometry, fluctuation statistics and
+an error. They are not independent human peer review or formal verification of
+the full theorem. Related work already studies homometry, fluctuation statistics and
 factorial cumulants; this repository does not establish scientific priority.
 
 The public interface is `build_certificate()`, the `verify` and `summary` CLI

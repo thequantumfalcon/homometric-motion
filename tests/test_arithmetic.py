@@ -4,7 +4,13 @@ import sys
 import unittest
 from fractions import Fraction as F
 
-from homometric_motion.arithmetic import Interval, integer_root, pi_enclosure, rational_text
+from homometric_motion.arithmetic import (
+    Interval,
+    integer_root,
+    pi_enclosure,
+    rational_from_text,
+    rational_text,
+)
 
 
 class ArithmeticTests(unittest.TestCase):
@@ -89,7 +95,17 @@ class ArithmeticTests(unittest.TestCase):
         self.assertEqual(rational_text(F(-numerator, 7)), "-" + expected + "/7")
         self.assertEqual(rational_text(F(0)), "0")
         self.assertEqual(rational_text(F(123)), "123")
+        self.assertEqual(rational_from_text(expected + "/7"), F(numerator, 7))
+        self.assertEqual(rational_from_text("-" + expected + "/7"), F(-numerator, 7))
         self.assertEqual(sys.get_int_max_str_digits(), limit)
+
+    def test_saved_rational_parser_rejects_ambiguous_or_unbounded_text(self):
+        for text in ("", "1/0", "1/-2", "1/2/3", "1e3", "+2", " 2", "٢", "1" * 100001):
+            with self.subTest(text=text[:20]):
+                with self.assertRaises(ValueError):
+                    rational_from_text(text)
+        with self.assertRaises(ValueError):
+            rational_from_text(1)
 
     def test_pi_matches_alternative_arctangent_identity(self):
         """Use pi/4=atan(1/2)+atan(1/3), not the production Machin formula."""
