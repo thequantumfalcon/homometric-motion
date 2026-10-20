@@ -3,9 +3,12 @@
 This separate Lean project proves nine general standard-deviation and variance
 declarations, four deterministic cumulant-sensitivity statements, five
 explicit polynomial statements for the nine-point construction, and thirteen
-Gaussian phase, integrability and first-intensity declarations. A fifth
-file adds nine proved natural-moment declarations and two definitions.
-There are forty proved declarations in total. This project
+Gaussian phase, integrability and first-intensity declarations. Nine
+natural-moment declarations are extended by seven physical-parameter
+statements, five charge-histogram statements and forty-nine concrete
+covariance statements across two files. There are 101 proved declarations
+in nine source files, with the supporting definitions listed in
+[SCOPE.md](SCOPE.md). This project
 **does not formalize the complete discrimination theorem or validate its
 physical model**.
 
@@ -28,7 +31,7 @@ counterexample to dropping the upper-variance branch. These are algebraic
 and order statements over real numbers. They do not introduce a probability
 model or prove the final sample-size bound.
 
-[SCOPE.md](SCOPE.md) maps all five files to the larger argument and lists the
+[SCOPE.md](SCOPE.md) maps all nine files to the larger argument and lists the
 obligations left open.
 
 `NinePointBezout.lean` proves a complete integer-coefficient Bezout identity,
@@ -84,6 +87,54 @@ polynomial enumeration. The [detailed scope](SCOPE.md#every-natural-raw-intensit
 maps all nine declarations and those application gaps. This is a generic
 identity, with no novelty or physical-validation claim.
 
+## Physical parameters and exact charge histograms
+
+`GaussianChargeApplication.lean` imports `GaussianMoments` and introduces
+the nominal unit phase. For `beta>=0`, it substitutes `a=omega*sqrt(beta)`
+and proves integrability and the physical raw-moment formula
+
+```text
+E |sum_i exp(i*omega*(x_i+sqrt(beta)*Y_i))|^(2r)
+  = sum_p cos(omega*<x,u_p>) * exp(-(beta*omega^2/2)*u_p^T D u_p).
+```
+
+`ChargeHistogram.lean` imports that module. It defines integer charges,
+their real embedding, the finite charge image and its exact fiber
+multiplicities `m_r(u)`. The same moment is
+
+```text
+sum_u m_r(u) * cos(omega*<x,u>) * exp(-(beta*omega^2/2)*u^T D u).
+```
+
+The multiplicities sum to `n^(2r)`, including order zero and empty-index
+cases. Counting fibers is valid for these nominal unit phases; general
+non-unit complex weights require weighted fibers. These are mathematical
+finite-sum identities, not verification of a Python convolution or of
+the complete moment-polynomial tables.
+
+## Concrete nine-point covariance
+
+`GraphCommon.lean` and `GraphCovariance.lean` prove forty-nine declarations.
+For the two literal nine-point geometries and permanent threshold `15/2`,
+the rational adjacency rule gives the displayed Laplacians and incidence
+Gram matrices. Exact centered inverse identities imply PSD of `K`; the
+covariance `D=(108/79)*K` has trace nine and annihilates the all-ones vector.
+A general centered-Gaussian null-direction result then gives
+`sum_i Y_i=0` almost surely. No independence of the coordinates is assumed.
+
+These concrete PSD lemmas can discharge the covariance premise of the
+generic moment theorem. This revision does not include a theorem that
+substitutes each literal matrix into that formula and identifies the
+executable histogram or the complete polynomial coefficients. It proves
+centered inverse identities, not an equation to a named library
+Moore-Penrose operator. Nor does it prove a general connected-graph
+theorem, full support equality on the COM subspace, a Gibbs/OU mechanism
+or physical covariance validation.
+
+The [detailed scope](SCOPE.md#concrete-nine-point-covariance) names the
+source declarations, literal geometry, normalization and remaining
+application obligations.
+
 ## Replay
 
 Use **Lean 4.35.0** and its matching Lake. The included `lean-toolchain`,
@@ -91,25 +142,31 @@ Use **Lean 4.35.0** and its matching Lake. The included `lean-toolchain`,
 and all eight transitive dependency commits. From this directory:
 
 ```text
-lake exe cache get Mathlib.Probability.Moments.Variance Mathlib.MeasureTheory.Function.L2Space Mathlib.Basic.Real.Basic Mathlib.Probability.Distributions.Gaussian.Multivariate Mathlib.Tactic.Linarith Mathlib.Tactic.Ring Mathlib.Tactic.NormNum Mathlib.Tactic.Positivity
-lake build GaussianIntensity
+lake exe cache get Mathlib.Probability.Moments.Variance Mathlib.MeasureTheory.Function.L2Space Mathlib.Basic.Real.Basic Mathlib.Probability.Distributions.Gaussian.Multivariate Mathlib.Tactic.Linarith Mathlib.Tactic.Ring Mathlib.Tactic.NormNum Mathlib.Tactic.Positivity Mathlib.Tactic.FinCases
+lake build
 lake env lean --trust=0 StandardDeviationContinuity.lean
 lake env lean --trust=0 CumulantSensitivity.lean
 lake env lean --trust=0 NinePointBezout.lean
 lake env lean --trust=0 -o .lake/build/lib/lean/GaussianIntensity.olean GaussianIntensity.lean
-lake env lean --trust=0 GaussianMoments.lean
+lake env lean --trust=0 -o .lake/build/lib/lean/GaussianMoments.olean GaussianMoments.lean
+lake env lean --trust=0 -o .lake/build/lib/lean/GaussianChargeApplication.olean GaussianChargeApplication.lean
+lake env lean --trust=0 ChargeHistogram.lean
+lake env lean --trust=0 -o .lake/build/lib/lean/GraphCommon.olean GraphCommon.lean
+lake env lean --trust=0 GraphCovariance.lean
 ```
 
 The first command obtains the pinned source dependencies and the relevant
 official mathlib cache. It requires network access on an uncached machine.
-`lake build GaussianIntensity` prepares the local module and its build
-directory. The following five source replays use `--trust=0`, which requests
-type checking of imported modules as well. The explicit `-o` replaces the
-first-intensity object in Lake's library search path with the freshly checked
-one before the final import. Run these commands in the stated order from
-this directory. Each replay exits zero and prints nine axiom lists for the
-first file, four for the second, five for the third, thirteen for the fourth
-and nine for the fifth, each exactly:
+`lake build` prepares the local modules and their build directory.
+The nine following source replays use `--trust=0`, which requests type
+checking of imported modules as well. Each explicit `-o` replaces a
+prerequisite object in Lake's library search path with its freshly
+checked version before a downstream module imports it. Run the commands
+in this order. The first seven sources print respectively nine, four,
+five, thirteen, nine, seven and five axiom lists. `GraphCommon` prints
+none itself; `GraphCovariance` prints forty-nine, including the three
+generic statements imported from `GraphCommon`. Require a zero exit
+for every command and inspect every list, each exactly:
 
 ```text
 [propext, Classical.choice, Quot.sound]
@@ -120,8 +177,8 @@ desired result. Do not treat a nonzero exit, an unresolved goal, or an
 unexpected axiom as an accepted proof. The source declarations identify the
 explicit hypotheses.
 
-All five modules are listed as default targets in `lakefile.toml`, so
-`lake build` includes all five. That build command does not replace the explicit
+All nine modules are listed as default targets in `lakefile.toml`, so
+`lake build` includes all nine. That build command does not replace the explicit
 `--trust=0` replay and axiom inspection above.
 
 The source manifest binds this small project. Dependencies and generated
@@ -159,8 +216,10 @@ and inspect its exit code and five axiom reports.
 The original nine declarations were accepted by Lean 4.35.0 with
 `--trust=0`; a separately altered, intentionally overstrong zero-bound
 statement was rejected. The four sensitivity statements, five nine-point
-polynomial statements, thirteen first-intensity declarations and nine
-natural-moment declarations have separate replay commands above.
+polynomial statements, thirteen first-intensity declarations, nine
+natural-moment declarations, seven physical-parameter statements,
+five histogram statements and forty-nine covariance statements have
+separate replay commands above.
 All are checked by **Lean's own kernel**, using
 mathlib at commit `56a005855ea17e0b0958f73ec801ae140b0a1679`.
 This is not a successful replay by an independently implemented proof checker.

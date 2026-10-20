@@ -186,15 +186,19 @@ arithmetic statements, six general falling-factorial identities, nine
 analytic variance declarations, four deterministic cumulant-sensitivity
 statements, five explicit nine-point polynomial statements and thirteen
 Gaussian phase, integrability and first-intensity-moment declarations,
-plus nine natural-moment declarations and two charge/weight definitions.
-The forty proved analytic-project declarations occupy five source files;
-the original nine are unchanged. The finite arithmetic mapping remains bound
+plus nine natural-moment, seven physical-parameter, five charge-histogram
+and forty-nine concrete covariance declarations. The 101 proved
+analytic-project declarations occupy nine source files; the earlier
+forty and the runtime package are unchanged. The finite arithmetic mapping remains bound
 to the original `verify` position-uncertainty certificate, not to the new
 profile counts. The separate nine-point mapping rebuilds its installed model
 and binds every coefficient of the two-moment noncoincidence checkpoint.
-The generic Gaussian identities assume an explicit full PSD covariance
-and cover every natural raw intensity moment. They do not identify the
-concrete graph covariance, executable histogram enumeration or polynomial tables.
+The generic Gaussian identities cover every natural raw intensity moment,
+physical strength substitution and exact mathematical charge fibers.
+Separate concrete nine-point proofs establish threshold-Laplacian,
+centered-inverse, PSD, trace and almost-sure zero-COM identities. Their
+combined identification with executable histogram enumeration and the
+complete polynomial tables remains open.
 These bounded proofs do not formalize the complete theorem,
 and Lean is not required to run the package.
 

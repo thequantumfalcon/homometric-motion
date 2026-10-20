@@ -30,6 +30,11 @@ test or repository score does not establish a broader claim. See the
 | The demo displays the original `verify` certificate and clean geometry. | Deterministic generation from that recomputed installed certificate; explicit separation of exact fractions and floating-point rendering. | Measurement data, a browser proof checker, or display of the wider exposure certificate. |
 | The optional prototype generates and inspects declared synthetic processes. | [Model and limits](../prototype/MODEL_AND_LIMITS.md), source/reference bindings, repeated runs and recomputed covariance diagnostics. | A validated apparatus, calibrated diagnostic false-alarm rates, a test of the finite-window classifier or a guarantee for stress cases outside the theorem. |
 
+| Additional formal claim | Evidence and scope | What this does not establish |
+| --- | --- | --- |
+| Every natural physical intensity moment has an exact mathematical charge histogram. | [Physical substitution and finite fibers](proofs/formal/analytic/SCOPE.md#physical-parameter-substitution): nonnegative strength, full PSD covariance, nominal unit phases and exact fiber multiplicities with mass `n^(2r)`. | Correctness of executable convolution, phase-residue/exponent grouping or complete polynomial coefficients. |
+| The two literal nine-point covariance matrices are PSD, trace-normalized and give almost-sure zero COM. | [Concrete covariance proofs](proofs/formal/analytic/SCOPE.md#concrete-nine-point-covariance): threshold `15/2`, incidence Gram and centered inverse identities, real transport and a Gaussian null-direction lemma. | A named library pseudoinverse identification, generic all-graph/full-support result, physical covariance/OU preparation or the full classifier. |
+
 ## Evidence boundaries
 
 - The exact-geometry exposure cap 0.01 remains unresolved after nuisance
@@ -45,9 +50,10 @@ test or repository score does not establish a broader claim. See the
 - The complete theorem is not formally verified in a proof assistant.
   The formal checkpoints identify their exact statements. The generic
   Gaussian characteristic, first-intensity integral and generic natural
-  raw moments are included; graph-specific covariance, executable
-  histogram/polynomial identification, Markov dynamics and their
-  application to the full classifier remain separate.
+  raw moments, physical strength substitution, mathematical charge fibers
+  and the two literal nine-point PSD/COM covariances are included.
+  Combined executable histogram/polynomial identification, Markov
+  dynamics and their application to the full classifier remain separate.
 - Separate implementations and alternative arithmetic checks are useful error
   controls. They are not independent human peer review.
 - No novelty, priority, patentability or discovery-of-a-new-physical-law claim is made.

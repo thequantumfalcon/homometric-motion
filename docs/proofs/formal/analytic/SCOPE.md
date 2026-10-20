@@ -1,11 +1,12 @@
 # Statements, proof routes and application limits
 
-The project contains forty proved declarations in five files, together
-with the two charge and weight definitions used by the new moment module.
-The nine standard-deviation, four sensitivity, five nine-point polynomial
-and thirteen first-intensity declarations are unchanged. Nine new
-declarations prove the generic ordered-charge formula for every natural
-raw intensity moment.
+The project contains 101 proved declarations in nine files. The forty
+earlier declarations are unchanged. Four new modules add seven
+physical-parameter statements, five integer-charge histogram statements
+and forty-nine covariance statements. The physical and histogram modules
+preserve the accepted proof bodies behind new modular imports; the two
+graph sources retain their accepted bytes. Definitions are listed below
+and are not counted as proved declarations.
 
 ## Standard-deviation continuity
 
@@ -170,7 +171,8 @@ These statements establish a known generic first-moment identity. They do
 not identify the concrete graph pseudoinverse with `D`, prove its PSD or
 COM support, justify joint Gaussianity physically, or make the substitution
 `a=omega*sqrt(beta)`. The next module proves generic higher raw moments;
-their executable enumeration and nine-point polynomial grouping remain separate.
+the later physical and covariance modules supply some further application
+steps. Executable enumeration and nine-point polynomial grouping remain separate.
 
 ## Every natural raw intensity moment
 
@@ -237,7 +239,159 @@ support, make the substitution `a=omega*sqrt(beta)`, group ordered tuples
 into occupation histograms, or identify a program's variogram and complete
 polynomial coefficient tables. The existence of the abstract sum does not
 formalize an executable enumeration, its resource bounds or its implementation.
-The theorem contains no temporal, detector or classifier conclusion.
+The following modules supply physical substitution, mathematical charge
+fibers and concrete PSD/COM results, with the remaining links stated below.
+The generic theorem contains no temporal, detector or classifier conclusion.
+
+## Physical-parameter substitution
+
+`GaussianChargeApplication.lean` imports `GaussianMoments`. Its definition
+`nominal_phase x omega i` is `exp(i*omega*x_i)`. For `Y~N(0,D)`,
+full real PSD `D`, real `omega`, `beta>=0` and any natural order `r`, set
+
+\[
+I_{x,\omega,\beta}(y)=
+\left|\sum_i e^{i\omega(x_i+\sqrt{\beta}y_i)}\right|^2.
+\]
+
+The module proves
+
+\[
+E[I_{x,\omega,\beta}(Y)^r]
+=\sum_p\cos(\omega\langle x,u_p\rangle)
+  \exp[-(\beta\omega^2/2)u_p^\mathsf{T}D u_p].
+\]
+
+| Declaration | Exact role |
+| --- | --- |
+| `moment_charge_total_zero` | Every ordered-tuple charge has coordinate sum zero. |
+| `nominal_moment_weight` | The full unit-weight product equals the nominal phase of the summed charge. |
+| `nominal_moment_weight_real` | Its real part is the cosine of the nominal charge phase. |
+| `physical_amplitude_factorization` | Separates nominal and displacement phases, with scale `omega*sqrt(beta)`. |
+| `physical_strength_exponent` | For `beta>=0`, the squared scale is `beta*omega^2`, not `beta^2*omega^2`. |
+| `physical_intensity_power_integrable` | Proves genuine integrability of every natural real intensity power under any finite measure. |
+| `finite_physical_gaussian_intensity_moment` | Combines the factorization, nominal weight and full Gaussian charge formula. |
+
+The nonnegative-strength premise is needed for the squared-square-root
+identity. Integrability itself does not need that premise: all real phase
+terms remain bounded. The evaluated Gaussian moment uses both PSD and
+nonnegative strength. Singular covariance, empty indices, order zero,
+zero strength, and negative or zero frequency remain included.
+
+The wrong replacement `beta^2` is already false for two unit weights,
+zero nominal positions, `D=identity`, `omega=1`, `beta=4`, `r=1`:
+the correct mean is `2+2 exp(-4)` rather than `2+2 exp(-16)`.
+This explicit evaluation explains the failed variant; the separate
+formal scalar inequality is not a formal instantiation of that entire
+two-index integral.
+
+## Integer-charge histogram
+
+`ChargeHistogram.lean` imports the physical-parameter module and defines:
+
+| Definition | Meaning |
+| --- | --- |
+| `integer_charge` | Sum of integer basis differences for an ordered tuple. |
+| `charge_vector` | Coordinatewise real embedding into Euclidean space. |
+| `charge_support r` | Finite image of all order-`r` tuple charges. |
+| `charge_multiplicity r u` | Cardinality of the exact fiber over `u`. |
+
+The five statements are `charge_vector_of_tuple`,
+`integer_charge_total_zero`, `charge_histogram_sum`,
+`charge_histogram_mass` and `finite_physical_gaussian_intensity_histogram`.
+They identify the real charge, prove its conservation, regroup any
+real-valued function over the finite fibers, count the entire tuple
+domain, and apply the regrouping to the physical moment:
+
+\[
+E[I_{x,\omega,\beta}(Y)^r]
+=\sum_{u\in\mathcal U_r}m_r(u)
+ \cos(\omega\langle x,u\rangle)
+ \exp[-(\beta\omega^2/2)u^\mathsf{T}D u],\qquad
+\sum_{u\in\mathcal U_r}m_r(u)=n^{2r}.
+\]
+
+The fiber theorem requires no positivity of the function being summed.
+The phase and attenuation depend only on charge; their nominal unit
+weights make each coefficient the fiber cardinality. Arbitrary non-unit
+complex weights would need weighted fibers instead.
+
+At order zero there is one empty tuple and zero charge, even for an
+empty index type, so the mass is `0^0=1` in that boundary case. Empty
+indices at positive order give no tuples and zero mass. At two indices
+and order one, zero charge has multiplicity two and the two opposite
+nonzero charges have multiplicity one. At zero frequency the correct
+intensity moment is four, whereas discarding multiplicities gives three.
+That finite evaluation is a mapping control; the scalar `4!=3` statement
+alone is not a formal proof of the complete two-index evaluation.
+
+The source specifies a mathematical finite image and fiber cardinality.
+It does not verify dictionary convolution, resource limits, phase-residue
+or quadratic-exponent grouping, or a program's complete polynomial table.
+
+## Concrete nine-point covariance
+
+The accepted modules are `GraphCommon.lean` and `GraphCovariance.lean`,
+in namespace `HomometricMotion.GraphCovariance`. Their literal node orders are
+
+```text
+A = [0,1,5,10,11,15,22,23,27]
+B = [0,1,5,12,13,17,22,23,27].
+```
+
+Distinct mean-position nodes are adjacent exactly when their distance is
+strictly less than `15/2`. These are permanent nominal graphs; displacement does not
+recompute topology. Each has twelve unoriented edges, whose chosen
+orientation defines a rational incidence matrix `E_Q`. The finite
+threshold checks link those exact coordinates to degree-minus-adjacency
+entries in `L_Q`, and the incidence check proves `L_Q=E_Q^T E_Q`.
+
+Let `P_Q` have diagonal `8/9` and off-diagonal `-1/9`. For each literal
+rational matrix `K_Q`, the module checks symmetry and
+
+```text
+L_Q K_Q = P_Q,   K_Q P_Q = K_Q,   P_Q L_Q = L_Q,
+K_Q 1 = 0,      trace(K_Q) = 79/12.
+```
+
+The rational-to-real map transports multiplication and transpose.
+The generic Gram/congruence theorem derives PSD from
+`K^T L K = K`: a congruence of the PSD Gram matrix is PSD. Define
+`D=(108/79)K=9K/trace(K)`. The real proofs establish PSD, trace nine and
+`D 1=0`. For any centered joint Gaussian with PSD covariance and a
+null direction `D u=0`, the general support lemma uses genuine finite
+second moments, zero variance and zero mean to prove `<u,Y>=0` almost
+everywhere. Instantiation gives `sum_i Y_i=0` almost surely for both
+concrete covariances, without assuming coordinate independence.
+
+The forty-nine declarations are organized as follows:
+
+| Group | Count and role |
+| --- | --- |
+| `GraphCommon` | Three: `inverse_gram_certificate_psd`, `centered_gaussian_kernel_direction_ae_zero`, and `inner_comOnes_eq_sum`. |
+| Rational-to-real transport | Three: `liftMatrix_mul`, `liftMatrix_transpose`, `lift_projector`. |
+| Each of classes A and B | Twenty-one each: eight rational threshold/Gram/symmetry/centered-inverse/zero-COM/trace identities and thirteen real Gram/inverse/PSD/normalization/trace/zero-COM/Gaussian-support consequences. |
+| Sign boundary | One: `negative_covarianceA_not_psd`, proving that the negative of the nonzero covariance is not PSD. |
+
+The concrete rational checks use ordinary `decide +kernel`, not
+`native_decide` or an external numerical oracle. The generic proofs and
+casts use the same pinned mathlib as the other analytic modules.
+The supporting definitions are literal matrices, coordinates, adjacency,
+real lifts, covariances and the COM vector/projector; they are not
+additional theorem declarations.
+
+These statements formally provide concrete PSD covariances with the
+normalization used by this nine-point model. They establish the stated
+centered inverse identities, not an equality to a named library
+Moore-Penrose pseudoinverse. They also do not prove a generic theorem for
+all connected graphs, exact full support on the COM subspace, homometry,
+the Gaussian/Gibbs/OU preparation mechanism or empirical covariance adequacy.
+
+The PSD lemmas can be substituted into the generic physical-moment and
+histogram formulas. This revision does not include that combined
+instantiation as an additional named theorem or identify its finite
+charges with the executable histogram and complete polynomial tables.
+Those remaining links must be reviewed and proved separately.
 
 ## What remains unformalized
 
@@ -246,11 +400,13 @@ formalized by this project:
 
 - Identification of the modeled graph observable with the generic finite
   intensity, and the required same-space couplings.
-- The concrete graph covariance, COM support, motion-strength substitution,
-  joint Gaussian model justification and stationary OU process, including
-  finite exposure, signed kernel derivatives and their integral remainders.
-- The connection from generic natural-moment charges to executable
-  occupation histograms, variogram tables and complete polynomial grouping.
+- Physical justification of joint Gaussian motion and stationary OU
+  dynamics, including finite exposure, signed kernel derivatives and
+  their integral remainders. The two literal covariance/COM results
+  and generic motion-strength substitution are now included above.
+- A combined concrete-graph moment instantiation, and the connection
+  from the mathematical charge histogram to executable convolution,
+  variogram tables and complete polynomial grouping.
 - The amplitude, Taylor, increment, geometry and majorization estimates.
 - A formal connection from graph/input certificates and outward numerical
   intervals to the abstract real or random variables.
@@ -265,6 +421,8 @@ argument; they do not formalize its probabilistic conclusion. The nine
 variance statements prove a general analytic step, not its numerical
 model-specific inputs. The thirteen Gaussian declarations add a generic
 first-intensity identity with explicit full covariance and integrability;
-the nine new declarations extend it to every natural raw moment. Neither
-module supplies the graph-specific application. Physical calibration,
-model adequacy, novelty and human peer review remain outside all five files.
+nine further declarations extend it to every natural raw moment. The new
+physical, histogram and literal covariance modules supply additional
+links without proving the remaining executable identification or full
+scientific theorem. Physical calibration, model adequacy, novelty and
+human peer review remain outside all nine files.

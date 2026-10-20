@@ -1,9 +1,10 @@
 # Bounded formal checkpoints
 
-These files cover seven bounded parts of the argument, including generic
-Gaussian first-intensity and arbitrary-natural-moment identities. They do not
-formalize the concrete graph covariance, exposure estimates, concentration inequalities, physical
-assumptions or the complete conditional theorem.
+These files cover ten bounded parts of the argument, including generic
+Gaussian moments, physical strength substitution, mathematical charge
+histograms and two concrete nine-point covariances. They do not
+formalize executable convolution/polynomial identification, exposure
+estimates, concentration, physical adequacy or the complete theorem.
 They are not experimental validation or independent human peer review.
 
 | File | Statement scope | Proof dependencies |
@@ -16,8 +17,14 @@ They are not experimental validation or independent human peer review.
 | [Gaussian first intensity moment](analytic/SCOPE.md#gaussian-first-intensity-moment) | Thirteen declarations: three Gaussian phase prerequisites and ten finite expansion, integrability and first-moment results under explicit full PSD covariance | The same pinned project; arbitrary finite fixed complex weights and real phase scale, with the graph/physical application outside this source |
 | [Every natural raw intensity moment](analytic/SCOPE.md#every-natural-raw-intensity-moment) | Nine proved declarations and two charge/weight definitions: ordered tuple expansion, genuine finite-measure integrability and the full-PSD Gaussian raw moment for every natural order | Imports the unchanged first-intensity module; executable graph/histogram/polynomial identification remains outside Lean |
 
-There are forty proved declarations across the five analytic-project source files,
-plus the two charge and weight definitions in the natural-moment module.
+| Additional file group | Statement scope | Proof dependencies |
+| --- | --- | --- |
+| [Physical Gaussian parameters](analytic/SCOPE.md#physical-parameter-substitution) | Seven statements and a nominal-phase definition give every raw moment for positions, real frequency and nonnegative displacement strength | Imports the generic moment module; full PSD covariance and finite-measure integrability remain explicit |
+| [Integer-charge histogram](analytic/SCOPE.md#integer-charge-histogram) | Five statements and four definitions identify integer/real charges, conserve charge and regroup exact finite fibers with total mass `n^(2r)` | Imports the physical module; count-only fibers apply to nominal unit phases, not arbitrary weighted amplitudes |
+| [Concrete nine-point covariance](analytic/SCOPE.md#concrete-nine-point-covariance) | Forty-nine statements in two files prove literal threshold/Gram/centered-inverse identities, PSD, trace normalization and almost-sure zero COM | Exact rational kernel checks and real transport; no named library pseudoinverse equality, generic all-graph or physical-model theorem |
+
+There are 101 proved declarations across nine analytic-project source files,
+plus supporting charge, phase, finite-fiber and literal-matrix definitions.
 The nine original standard-deviation declarations are unchanged.
 The six factorial identities alone do not establish a covariance formula.
 Taking expectations and using the mixed-Poisson model are separate
@@ -59,7 +66,7 @@ lean /path/to/checkout/docs/proofs/formal/FactorialIdentities.lean
 ```
 
 The separate [analytic project](analytic/README.md#replay) supplies commands
-for its five files and a portable fresh nine-point coefficient mapping.
+for its nine files and a portable fresh nine-point coefficient mapping.
 The local `lean-toolchain` pins the intended Lean version
 for installations using a toolchain manager. No Lean executable, library
 bundle or installer is included. The ordinary Python certificate does not

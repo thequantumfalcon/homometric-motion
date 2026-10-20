@@ -1,7 +1,7 @@
 name = "analytic_robustness"
 version = "0.1.0"
 fixedToolchain = true
-defaultTargets = ["StandardDeviationContinuity", "CumulantSensitivity", "NinePointBezout", "GaussianIntensity", "GaussianMoments"]
+defaultTargets = ["StandardDeviationContinuity", "CumulantSensitivity", "NinePointBezout", "GaussianIntensity", "GaussianMoments", "GaussianChargeApplication", "ChargeHistogram", "GraphCommon", "GraphCovariance"]
 
 [[require]]
 name = "mathlib"
@@ -23,3 +23,15 @@ name = "GaussianIntensity"
 
 [[lean_lib]]
 name = "GaussianMoments"
+
+[[lean_lib]]
+name = "GaussianChargeApplication"
+
+[[lean_lib]]
+name = "ChargeHistogram"
+
+[[lean_lib]]
+name = "GraphCommon"
+
+[[lean_lib]]
+name = "GraphCovariance"

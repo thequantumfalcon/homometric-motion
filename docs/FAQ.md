@@ -90,13 +90,16 @@ original `verify` position certificate, six universal factorial-product
 identities, nine analytic variance declarations, four deterministic
 cumulant-sensitivity statements, five explicit nine-point polynomial
 statements, thirteen Gaussian phase, integrability and first-intensity
-declarations, and nine natural-moment declarations with two charge/weight
-definitions. The latter five sets share one pinned Lean/mathlib project.
-The Gaussian formulas cover every natural raw intensity moment, arbitrary
-fixed complex weights and explicit full PSD covariance, including singular
-covariances. Concrete graph covariance, executable histogram/polynomial
-identification, temporal concentration and the classifier remain outside
-these formal statements. See
+declarations, nine natural-moment, seven physical-parameter, five
+charge-histogram and forty-nine concrete covariance declarations.
+The analytic project has 101 proved declarations in nine files.
+Generic Gaussian formulas retain full PSD covariance and singular cases;
+the physical unit-phase specialization has exact mathematical charge
+multiplicities. The two literal nine-point covariance matrices have
+formal threshold, centered-inverse, PSD, trace and zero-COM support
+proofs. Executable convolution/polynomial identification, temporal
+concentration, the classifier and physical validation remain outside
+these statements. See
 [formal scope](proofs/formal/README.md).
 
 ## Does a saved summary verify a certificate?

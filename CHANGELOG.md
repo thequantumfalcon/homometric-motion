@@ -15,10 +15,19 @@ the 0.x certificate schema and Python API remain experimental.
 
 ### Added
 
+- Four optional applied-Gaussian formal modules: seven physical-parameter
+  statements, five integer-charge histogram statements and forty-nine
+  covariance statements across two files. The analytic project now contains
+  101 proved declarations in nine files. The two literal nine-point covariances
+  have exact threshold, Gram, centered-inverse, PSD, trace and zero-COM proofs.
+  Executable histogram/polynomial identification, dynamics and the full
+  classifier remain separate. Package APIs, runtime manifests and numerical
+  outputs are unchanged.
+
 - An optional arbitrary-natural-moment Gaussian intensity formula. Nine
   proved declarations and two charge/weight definitions import the unchanged
-  first-intensity module, bringing the analytic project to forty proved
-  declarations in five files. Ordered tuple multiplicities, full PSD
+  first-intensity module; that revision brought the analytic project to
+  forty proved declarations in five files. Ordered tuple multiplicities, full PSD
   covariance, order zero and genuine finite-measure integrability are explicit.
   Graph covariance, executable histogram/polynomial identification, temporal
   dynamics and the complete classifier remain separate. Package APIs,

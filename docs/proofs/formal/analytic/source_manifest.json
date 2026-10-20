@@ -11,9 +11,19 @@
       "sha256": "db3d07cbad11e8abe5ee56481fcd4b105479662aabbf8550d7f28958117e0cab"
     },
     {
+      "bytes": 3501,
+      "path": "ChargeHistogram.lean",
+      "sha256": "a6a79ea179673a19b8a276d35e63055ec97e5f0e2a8080e5c0258c8b04b5b277"
+    },
+    {
       "bytes": 1857,
       "path": "CumulantSensitivity.lean",
       "sha256": "52a89c385dfeb1a3f244bbbb4e901870f8d67dd3885b224cc167734e3de3a3aa"
+    },
+    {
+      "bytes": 3658,
+      "path": "GaussianChargeApplication.lean",
+      "sha256": "7a3e25bb09a618f5ac1c66294ae0694f888588bc8724abc0a76cfe37814915e4"
     },
     {
       "bytes": 9123,
@@ -26,14 +36,24 @@
       "sha256": "1630a54e2c838d35c7c0dc19a3da8c6dbb39445eff402e9d9c8deede25ede1d6"
     },
     {
+      "bytes": 1979,
+      "path": "GraphCommon.lean",
+      "sha256": "d0154d5e0ebb7930bcd06c09dfa9c1bbfe31e5972eac6b4f540080a4412cb9a4"
+    },
+    {
+      "bytes": 17596,
+      "path": "GraphCovariance.lean",
+      "sha256": "09d0222959c89770d59f8ebad16b4ee9c8a7517bcbaf3a345152ce7324cdf640"
+    },
+    {
       "bytes": 3572,
       "path": "lake-manifest.json",
       "sha256": "c151500d77377548f07eb8dfc2a194b02b42db03939b3fb03ff924313c3485b2"
     },
     {
-      "bytes": 584,
+      "bytes": 828,
       "path": "lakefile.toml",
-      "sha256": "d6f4dfa5fd373473e67e6c672219011b95991b2f76889441c330b2cf0fe4d971"
+      "sha256": "7740517aaebeaf335e73acd9e411b8015e6c21d016ac1767d07604200d76cf26"
     },
     {
       "bytes": 25,
@@ -51,14 +71,14 @@
       "sha256": "775de40ebd3c150142033d5bcf1e4bb7222bb5b2c6bf178ae775e76c343ef5ca"
     },
     {
-      "bytes": 9505,
+      "bytes": 12448,
       "path": "README.md",
-      "sha256": "bc59e04c7521151ddaf9f6ccdbecc23c6cfed4bba1c3190c0506a84879bf0d7f"
+      "sha256": "6c9ab73ff2719a05b4fa01b4895c65ba9981e8d722d3fe59e53a3206be7694bd"
     },
     {
-      "bytes": 15360,
+      "bytes": 23248,
       "path": "SCOPE.md",
-      "sha256": "279cbd8885c8d40a8f00645a3b5b54e947e667dc81e8e28c499c1e2bd3ace1df"
+      "sha256": "85e1b7d153a4876f397be0c52281a5f726969d25431f901b4a93bfc0ddbe6a89"
     },
     {
       "bytes": 6647,
@@ -66,6 +86,6 @@
       "sha256": "51fd5df2ab01983c76ed5d47f63c0745c78f13484a205845116541c8de2f0b1b"
     }
   ],
-  "revision_kind": "analytic_gaussian_natural_moments_public_v5_wording_r2",
+  "revision_kind": "analytic_applied_gaussian_covariance_public_v6_strict_threshold_r2",
   "schema_version": 1
 }
