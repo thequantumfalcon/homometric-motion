@@ -18,6 +18,7 @@ test or repository score does not establish a broader claim. See the
 | The installed package reproduces its numerical assertions. | `python tools/project.py release`: exact checks, installed-wheel tests, source manifest and deterministic CLI replay. | Correctness of every untested code path or formal verification of the analytic proof. |
 | Selected arithmetic and factorial identities have Lean proofs. | [Formal checkpoints](proofs/formal/README.md), statement mapping and pinned toolchain. | Formalization of the Gaussian, integration, covariance or Markov arguments, or physical validation. |
 | The demo displays the default certificate and clean geometry. | Deterministic generation from a recomputed installed certificate; explicit separation of exact fractions and floating-point rendering. | Measurement data, a browser proof checker or an extension of the certified frequency domain. |
+| The optional prototype generates and inspects declared synthetic processes. | [Model and limits](../prototype/MODEL_AND_LIMITS.md), source/reference bindings, repeated runs and recomputed covariance diagnostics. | A validated apparatus, calibrated diagnostic false-alarm rates, a test of the finite-window classifier or a guarantee for stress cases outside the theorem. |
 
 ## Evidence boundaries
 

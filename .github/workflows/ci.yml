@@ -32,6 +32,30 @@ jobs:
           python-version: ${{ matrix.python }}
       - run: python tools/project.py setup
       - run: python tools/project.py release
+  prototype:
+    name: prototype (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    steps:
+      - uses: step-security/harden-runner@dc2769abcc0fcfbadfc1df54081c1608579ef6b2 # v2.22.2
+        if: runner.os == 'Linux'
+        with:
+          egress-policy: audit
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.11"
+      - run: python tools/project.py setup
+      - run: >-
+          python -m pip install --require-hashes --only-binary=:all:
+          -r prototype/requirements.txt
+      - run: python tools/project.py prototype
   hooks:
     name: hooks
     runs-on: ubuntu-latest
@@ -52,7 +76,7 @@ jobs:
           COMMIT_POLICY_REF: ${{ github.event.pull_request.head.sha || github.sha }}
   ci:
     name: ci
-    needs: [test, hooks]
+    needs: [test, hooks, prototype]
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -61,4 +85,5 @@ jobs:
         env:
           TEST_RESULT: ${{ needs.test.result }}
           HOOK_RESULT: ${{ needs.hooks.result }}
-        run: test "$TEST_RESULT" = success && test "$HOOK_RESULT" = success
+          PROTOTYPE_RESULT: ${{ needs.prototype.result }}
+        run: test "$TEST_RESULT" = success && test "$HOOK_RESULT" = success && test "$PROTOTYPE_RESULT" = success

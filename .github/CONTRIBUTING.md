@@ -21,6 +21,13 @@ Do not add `src` to the test import path. `verify` also executes the shipped
 CLI twice in an isolated directory and checks deterministic output.
 `release` runs the local lint, tests and artifact checks; it publishes nothing.
 
+The optional instrument has separate dependencies. In an environment with the
+development lock and `prototype/requirements.txt` installed, run
+`python tools/project.py prototype`. It builds the source archive, copies only
+the manifest-listed prototype files into a fresh directory, runs and inspects
+two synthetic datasets, and compares all output hashes. CI runs this separate
+task on Windows and Linux. It is not included in the dependency-free core tests.
+
 After an intentional package source or input change, run
 `python tools/project.py manifest`, then run `release` again. Manifest
 regeneration acknowledges a new source revision; it is never a fix for an

@@ -11,11 +11,15 @@ pair under specified stochastic motion and observation models.
   novelty, optimal sample complexity or full-theorem proof-assistant verification.
   Formal checkpoints must name their exact statements and proof dependencies.
 - Keep negative results and unresolved parameter cases visible.
-- Use exact rational or outward interval arithmetic for assertions.
-  Floating-point values are display summaries only.
-- The runtime must use the Python standard library only. Do not read
+- Use exact rational or outward interval arithmetic for certificate assertions.
+  Floating-point simulations must be separately labelled and cannot certify
+  the mathematical risk bound.
+- The certificate runtime must use the Python standard library only. Do not read
   external workspace files, historical outputs, host settings or network
   resources to calculate a certificate.
+- The optional `prototype/` uses its own hash-locked numerical dependencies.
+  Keep its synthetic outputs outside the published source. Verify its separate
+  source manifest and run the packaged scripts through the prototype task.
 - Every published source revision needs a new manifest and fresh
   reproduction. Do not present adapted source as an unchanged old freeze.
 

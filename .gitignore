@@ -17,3 +17,6 @@ htmlcov/
 # Local artifact-verification environments, outputs and receipts.
 .build/
 certificate.json
+# Optional instrument environment and default synthetic output.
+.prototype-venv/
+/synthetic-run/

@@ -1,0 +1,114 @@
+{
+  "artifact_type": "SYNTHETIC_VIRTUAL_INSTRUMENT_PROTOTYPE",
+  "channel_controls": {
+    "linear_drift": "gain multiplier linearly 0.8 to 1.2; background linearly 0 to 2",
+    "lognormal_AR1": "stationary eta~N(0,0.04), AR coefficient 0.95; gain multiplier exp(eta-0.02), fixed background 1",
+    "sampling": "counts conditionally independent Poisson given complete latent intensity and actual channel state; fixed calibration is violated by the channel controls"
+  },
+  "classes": [
+    "A",
+    "B"
+  ],
+  "descriptive_flags_not_hypothesis_tests": {
+    "finite_vs_leading_relative_RMS_above": 0.0001,
+    "first_nominal_mode_lag1_correlation_absolute_above": 0.1,
+    "mean_modal_excess_kurtosis_absolute_above": 0.25,
+    "nominal_whitened_covariance_frobenius_relative_above": 0.2,
+    "reference_channel_pearson_mean_outside": [
+      0.8,
+      1.2
+    ],
+    "reference_channel_pearson_residual_lag1_absolute_above": 0.1,
+    "reference_channel_residual_second_minus_first_half_z_absolute_above": 5
+  },
+  "frames_per_class_scenario": 8192,
+  "model": {
+    "COM": "zero translational mode omitted",
+    "OU": "exact stationary eigenmode transition: r=exp(-lambda*u), innovation variance=c/lambda*(1-r^2); no Euler discretization",
+    "count_reference": "mu=10, one shared gain_on_J=mu/pooled nominal leading mean, reference background 1",
+    "edges": "path plus chord (20,22) for A and (41,43) for B, zero-based indices",
+    "exposure": "instantaneous snapshots only; integrated exposure not modeled",
+    "observable": "J=|sum z_i expm1(i omega sqrt(beta)Y_i)|^2/beta, omega=pi/3; exact finite-beta null representation, ordinary floating arithmetic",
+    "phase": "algebraic nominal exact-null construction, evaluated in float64",
+    "stationary_covariance": "D=c L_weighted_plus, c=63/trace(nominal L_plus); fixed nominal scaling",
+    "vertices": 63
+  },
+  "numeric_controls": "Nominal trace/q/p2 against retained exact enclosures within stated float tolerance; eigensystem/projector residuals; exact-null phase residual; stable vs direct amplitude comparison; matrix-exponential stationary covariance identity.",
+  "preservation": "Verify the source manifest before running; exclusively create a fresh user-selected output directory. A source change is a new revision requiring a new manifest and replay.",
+  "purpose": "Exercise exact finite-beta observable and diagnostic failure modes with deliberately generated signals. No physical-model validation or discrimination-error guarantee.",
+  "recording": "All 16 scenario/class cells, source/model labels, every seed tuple, diagnostics, covariance matrices, numerical controls and compressed arrays of all 8192 frames; no selected-best-only reporting. All 62 nominally standardized motion modes are retained in this v2 release adaptation, allowing complete covariance/kurtosis replay.",
+  "revision_kind": "portable_synthetic_prototype_v2",
+  "root_seed": 202610200920,
+  "scenarios": [
+    {
+      "beta": "B",
+      "channel": "fixed",
+      "lag": 1000,
+      "latent": "gaussian_iid",
+      "name": "iid_nominal",
+      "weights": "unit"
+    },
+    {
+      "beta": "B",
+      "channel": "fixed",
+      "lag": 1,
+      "latent": "gaussian_ou",
+      "name": "ou_short_lag",
+      "weights": "unit"
+    },
+    {
+      "beta": "B",
+      "channel": "fixed",
+      "lag": 1000,
+      "latent": "gaussian_ou",
+      "name": "ou_long_lag",
+      "weights": "unit"
+    },
+    {
+      "beta": "0.01",
+      "channel": "fixed",
+      "lag": 1000,
+      "latent": "gaussian_ou",
+      "name": "finite_beta_stress",
+      "weights": "unit"
+    },
+    {
+      "beta": "B",
+      "channel": "fixed",
+      "lag": 1000,
+      "latent": "gaussian_iid",
+      "name": "spring_misspecification",
+      "weights": "alternating_0.5_1.5"
+    },
+    {
+      "beta": "B",
+      "channel": "fixed",
+      "lag": 1000,
+      "latent": "rademacher_iid",
+      "name": "nongaussian_same_covariance",
+      "weights": "unit"
+    },
+    {
+      "beta": "B",
+      "channel": "linear_drift",
+      "lag": 1000,
+      "latent": "gaussian_iid",
+      "name": "gain_background_drift",
+      "weights": "unit"
+    },
+    {
+      "beta": "B",
+      "channel": "lognormal_AR1",
+      "lag": 1000,
+      "latent": "gaussian_iid",
+      "name": "correlated_channel_noise",
+      "weights": "unit"
+    }
+  ],
+  "scope": "Deliberate stress cases and mu-derived gains can be outside the certified domain. Threshold flags are descriptive engineering diagnostics without calibrated false-alarm coverage. Self-generated data do not validate the assumptions used to generate them. Short-lag correlation can cause empirical covariance or kurtosis flags even for the correct stationary Gaussian generating law; flags are not causal diagnoses.",
+  "seed_rule": "NumPy PCG64(SeedSequence([root_seed, scenario_index, class_index]))",
+  "selection_disclosure": "All eight scenarios and their seeds were retained from an earlier completed private pilot. This portable revision is validated by fresh runs; it is not a new preregistration.",
+  "status": "PORTABLE_RELEASE_ADAPTATION",
+  "supported_python": "CPython >=3.11,<3.14; conventional builds with official wheels",
+  "tested_python": "3.11.9"
+}

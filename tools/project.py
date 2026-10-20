@@ -6,10 +6,11 @@ import json
 import os
 import subprocess
 import sys
+import tarfile
 import tempfile
 import venv
 import zipfile
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 ROOT = Path(__file__).resolve().parents[1]
 PACKAGE = ROOT / "src" / "homometric_motion"
@@ -22,6 +23,7 @@ COMMANDS = {
     "build": "check the manifest and build an sdist and wheel",
     "test": "build, install and test a wheel with a coverage gate",
     "verify": "build and replay both scenarios twice, then check the demo data",
+    "prototype": "build and replay the optional instrument from the source archive",
     "release": "run lint, installed tests and artifact verification; publish nothing",
     "hooks": "run the pinned pre-commit checks on all tracked files",
 }
@@ -209,6 +211,82 @@ def verify(wheel: Path) -> None:
     print(json.dumps(receipt, indent=2))
 
 
+def prototype() -> None:
+    """Execute source-archive scripts using the active optional numerical environment."""
+    source = ROOT / "prototype"
+    manifest = json.loads((source / "source_manifest.json").read_text("utf-8"))
+    expected = {row["path"] for row in manifest["files"]} | {"source_manifest.json"}
+    if any(PurePosixPath(name).name != name for name in expected):
+        raise RuntimeError("prototype manifest paths must be simple filenames")
+    distributions = list((ROOT / "dist").glob("homometric_motion-*.tar.gz"))
+    if len(distributions) != 1:
+        raise RuntimeError("dist must contain exactly one source distribution")
+    BUILD.mkdir(exist_ok=True)
+    directory = Path(tempfile.mkdtemp(prefix="prototype-", dir=BUILD))
+    package = directory / "prototype"
+    package.mkdir()
+    found = set()
+    with tarfile.open(distributions[0], "r:gz") as archive:
+        for member in archive.getmembers():
+            parts = PurePosixPath(member.name).parts
+            if len(parts) < 2 or parts[1] != "prototype" or member.isdir():
+                continue
+            if len(parts) != 3 or not member.isfile() or member.size > 1_000_000:
+                raise RuntimeError("unexpected prototype archive member")
+            name = parts[2]
+            if name not in expected or name in found:
+                raise RuntimeError("unexpected or duplicate prototype source")
+            stream = archive.extractfile(member)
+            if stream is None:
+                raise RuntimeError("prototype archive file could not be read")
+            raw = stream.read()
+            if raw != (source / name).read_bytes():
+                raise RuntimeError("prototype archive differs from reviewed source")
+            (package / name).write_bytes(raw)
+            found.add(name)
+    if found != expected:
+        raise RuntimeError("prototype source archive is incomplete")
+    for label in ("first", "second"):
+        output = directory / label
+        run(
+            sys.executable,
+            "-I",
+            "-B",
+            package / "run_instrument.py",
+            "--output",
+            output,
+            cwd=directory,
+        )
+        run(sys.executable, "-I", "-B", package / "inspect_run.py", "--run", output, cwd=directory)
+    inventories = []
+    for label in ("first", "second"):
+        output = directory / label
+        inventories.append(
+            {
+                path.relative_to(output).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
+                for path in sorted(output.rglob("*"))
+                if path.is_file()
+            }
+        )
+    if inventories[0] != inventories[1]:
+        raise RuntimeError("prototype outputs differ between repeated runs")
+    receipt = {
+        "status": "PASS",
+        "scope": "Synthetic source-artifact replay and saved-output consistency, not physical validation",
+        "sdist_sha256": hashlib.sha256(distributions[0].read_bytes()).hexdigest(),
+        "prototype_manifest_sha256": hashlib.sha256(
+            (package / "source_manifest.json").read_bytes()
+        ).hexdigest(),
+        "replays": 2,
+        "files_per_run": len(inventories[0]),
+        "output_hashes": inventories[0],
+    }
+    (directory / "verification.json").write_text(
+        json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n"
+    )
+    print(f"PASS: two matching synthetic artifact runs, {len(inventories[0])} files each")
+
+
 def lint() -> None:
     run(sys.executable, "-m", "ruff", "check", ".")
     run(sys.executable, "-m", "ruff", "format", "--check", ".")
@@ -230,7 +308,7 @@ def main() -> None:
             "install",
             "--require-hashes",
             "-r",
-            "requirements-dev.lock",
+            "requirements-dev.txt",
         )
     elif command == "lint":
         lint()
@@ -251,6 +329,8 @@ def main() -> None:
             test(wheel)
         if command in {"verify", "release"}:
             verify(wheel)
+        if command == "prototype":
+            prototype()
 
 
 if __name__ == "__main__":

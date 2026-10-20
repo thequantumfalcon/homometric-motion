@@ -14,6 +14,11 @@ coincident clean diffraction curves and the certified statistical intervals.
 Open `demo/index.html` from a local checkout in a browser; it works offline.
 Its graphics are illustrations, not experimental observations or a proof engine.
 
+An optional [virtual instrument](prototype/README.md) generates synthetic motion
+and photon-count records with deliberate model failures. It runs on the CPU,
+uses a separate NumPy/SciPy environment, and retains the full simulated motion
+for inspection. It does not implement or validate the final count theorem.
+
 ## What is certified
 
 The package reconstructs a noncongruent pair of 63-point configurations,

@@ -5,4 +5,4 @@
 docs/** linguist-documentation
 # The interactive application is executable source even under the demo directory.
 /demo/app.js linguist-documentation=false
-/requirements-dev.lock linguist-generated
+/requirements-dev.txt linguist-generated

@@ -1,5 +1,5 @@
 include LICENSE.txt README.md CHANGELOG.md CITATION.cff AGENTS.md
-include pyproject.toml requirements-dev.in requirements-dev.lock Makefile
+include pyproject.toml requirements-dev.in requirements-dev.txt Makefile
 include .pre-commit-config.yaml .editorconfig .gitattributes .gitignore
 recursive-include .github *.md *.yml *.yaml CODEOWNERS
 recursive-include .githooks *
@@ -8,4 +8,5 @@ recursive-include tests *.py
 recursive-include tools *.py
 recursive-include docs *.md *.lean *.py *.json lean-toolchain
 recursive-include demo *.html *.css *.js *.json *.md
+recursive-include prototype *.py *.json *.md *.txt .gitignore
 global-exclude __pycache__ *.py[cod]

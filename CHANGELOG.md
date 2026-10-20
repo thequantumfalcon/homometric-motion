@@ -7,6 +7,12 @@ the 0.x certificate schema and Python API remain experimental.
 
 ## [Unreleased]
 
+### Changed
+
+- Use standard requirements filenames so dependency monitors can discover the
+  development and optional prototype pins. Updates still require explicit
+  source-manifest review and fresh artifact verification.
+
 ### Added
 
 - A portable, standard-library certificate for one fixed chain of geometry,
@@ -22,6 +28,9 @@ the 0.x certificate schema and Python API remain experimental.
   installed-package output.
 - Six finite arithmetic Lean checkpoints and six symbolic falling-factorial
   identities, with explicit limits on their formal coverage.
+- An optional synthetic instrument with eight scenarios per class, complete
+  simulated motion records, a saved-output inspector and separate numerical
+  dependencies. It does not claim physical validation or classifier performance.
 
 ### Fixed
 
