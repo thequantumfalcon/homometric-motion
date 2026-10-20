@@ -40,6 +40,12 @@ statistic crossovers, and a local projection gap across independently uncertain
 fixed strengths. It has no detector channel or count guarantee. It is not
 another parameter profile of the 63-point certificate.
 
+The [phase-permutation counterexample](phase-permutation.md) changes the same
+nine-point pair to a common complete-graph interaction rule. Its exact nonlinear
+intensity paths agree at the selected frequency under shared strength, clock
+and observation settings. It identifies a limitation of unrestricted dynamics
+claims without changing the threshold-`15/2` theorem.
+
 The package recomputes two geometry/calibration scenarios with explicitly named
 count methods and versioned profiles from its own mathematical resources.
 The three earlier commands retain their parameter, threshold and numerical

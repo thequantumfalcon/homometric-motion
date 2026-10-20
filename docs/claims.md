@@ -1,7 +1,8 @@
 # Claim ledger
 
 This ledger describes the 63-point `exact_geometry` and `position_uncertainty`
-scenarios and the separately identified nine-point instantaneous-intensity model.
+scenarios, the separately identified nine-point instantaneous-intensity model,
+and a complete-graph counterexample with a different interaction rule.
 A successful
 test or repository score does not establish a broader claim. See the
 [proof index](proofs/README.md) for definitions and derivations.
@@ -67,6 +68,23 @@ frequency and calibrated intensity. Their claims do not inherit the
 | The mean crosses exactly once; skewness crosses at least twice. | Rational Sturm chain, positive variance/cumulant Bernstein coefficients and exact cross-product signs. | The exact total number of skewness roots or equality of laws at a single-statistic crossing. |
 | A fixed combination of the first two raw moments separates independently uncertain fixed strengths in a restricted band. | Full Bernstein enclosures give `E_A[I²-cI]-E_B[I²-cI]>7/100000` for `t_A,t_B` in `[831/1024,833/1024]`. All five radii and three wider unresolved tests remain visible. | Unknown gain/background invariance, global unknown-strength separation, exposure robustness or finite-sample error control. |
 | A small shared-strength interval has a positive skewness gap. | Degree-16 Taylor expansion with a global exponential remainder and complete polynomial propagation. | Arbitrary strength; the larger cap `1/10` remains unresolved. |
+
+## Separate complete-graph counterexample
+
+The [phase-permutation proof](proofs/phase-permutation.md) uses the same
+nine-point geometries with a different permanent graph: threshold `28`
+connects every pair, whereas the positive finite-motion result uses `15/2`.
+At exact frequency `2*pi/3`, complete-graph OU motion with shared strength
+and clock gives identical exact intensity-path laws, despite nonzero relative
+motion. A common conditional observation kernel preserves this equality.
+Every binary rule on those identical observation laws has equal-prior error
+`1/2` and maximum class error at least `1/2`.
+
+The standalone source-documentation checker verifies finite phase and matrix
+identities; the analytic argument supplies the whole-path conclusion.
+This is neither an arbitrary-frequency assertion nor equality for every
+choice of dynamics, strengths, clocks or observation channels. It does not
+alter the threshold-`15/2` or 63-point certificates.
 
 ## Correction policy
 

@@ -15,6 +15,10 @@ the 0.x certificate schema and Python API remain experimental.
 
 ### Added
 
+- A separate phase-permutation proof and standalone exact checker for a
+  complete-graph indistinguishability example. The source-archive checker
+  is replayed by the normal verification task. Existing package APIs,
+  mathematical source manifest and certificate outputs are unchanged.
 - A separate fixed nine-point moment certificate and `small-pair` command.
   Exact witnesses establish equal leading intensity-process laws, distinct
   nonlinear laws at every shared finite positive strength, individual

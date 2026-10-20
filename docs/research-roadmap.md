@@ -95,6 +95,14 @@ For example, fix a common rule assigning a permanent spring graph and
 stationary Gaussian dynamics to each geometry, then ask which homometric
 pairs have different intensity-process laws under that rule.
 
+The separate [phase-permutation criterion](proofs/phase-permutation.md)
+gives one exact counterexample: the same nine-point pair under a common
+complete-graph rule has identical nonlinear intensity-path laws at the
+selected frequency and shared strength and clock. It deliberately changes
+the graph from the positive threshold-`15/2` construction. Thus nonzero
+relative motion alone does not guarantee discrimination; this is not an
+indistinguishability claim for all dynamics or frequencies.
+
 Several claims must remain distinct: different finite moments, different
 one-time distributions, different temporal laws, and uniformly separated
 observation laws across unknown nuisance parameters. Equality of a chosen

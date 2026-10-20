@@ -27,6 +27,12 @@ reconstructs its saved scientific record for comparison. This is 22 computing
 CLI invocations and 11 summary invocations; the nine-point summary performs
 one additional full model reconstruction. The nine-point model
 has no embedded 63-point core or detector/count guarantee.
+`verify` also extracts the separate phase-permutation proof and checker from
+the built source archive, runs the checker twice in distinct isolated
+directories with site imports disabled, and checks deterministic output and
+overwrite refusal. Run `python tools/project.py phase-permutation` for this
+bounded documentation-artifact check alone. Its finite algebra checks support
+the separate analytic path-law proof; they add no package API or count claim.
 `release` runs the local lint, tests and artifact checks; it publishes nothing.
 
 The optional instrument has separate dependencies. In an environment with the

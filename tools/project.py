@@ -24,6 +24,7 @@ COMMANDS = {
     "build": "check the manifest and build an sdist and wheel",
     "test": "build, install and test a wheel with a coverage gate",
     "verify": "replay both scenarios/all method profiles and the fixed nine-point model twice",
+    "phase-permutation": "build and replay the complete-graph documentation checker from the sdist",
     "prototype": "build and replay the optional instrument from the source archive",
     "release": "run lint, installed tests and artifact verification; publish nothing",
     "hooks": "run the pinned pre-commit checks on all tracked files",
@@ -151,6 +152,7 @@ def test(wheel: Path) -> None:
 
 
 def verify(wheel: Path) -> None:
+    documentation_check = phase_permutation()
     directory, executable, _ = installed(wheel)
     scenarios = []
     extensions = []
@@ -436,11 +438,136 @@ def verify(wheel: Path) -> None:
         },
         "fresh_cli_calculations": 22,
         "demo_data_matches_exact_geometry": True,
+        "phase_permutation_documentation": documentation_check,
     }
     (directory / "verification.json").write_text(
         json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n"
     )
     print(json.dumps(receipt, indent=2))
+
+
+def phase_permutation() -> dict:
+    """Replay the two reviewed documentation files from the actual source archive."""
+    expected = {
+        "docs/proofs/phase-permutation.md",
+        "docs/proofs/check_phase_permutation.py",
+    }
+    distributions = list((ROOT / "dist").glob("homometric_motion-*.tar.gz"))
+    if len(distributions) != 1:
+        raise RuntimeError("dist must contain exactly one source distribution")
+    payload = {}
+    archive_root = None
+    with tarfile.open(distributions[0], "r:gz") as archive:
+        for member in archive.getmembers():
+            path = PurePosixPath(member.name)
+            parts = path.parts
+            if path.is_absolute() or ".." in parts or "\\" in member.name or not parts:
+                raise RuntimeError("unsafe source-archive member path")
+            if archive_root is None:
+                archive_root = parts[0]
+            elif archive_root != parts[0]:
+                raise RuntimeError("source archive has multiple top-level directories")
+            relative = PurePosixPath(*parts[1:]).as_posix()
+            if relative not in expected:
+                continue
+            if not member.isfile() or member.size > 100_000 or relative in payload:
+                raise RuntimeError("unexpected phase-permutation documentation member")
+            stream = archive.extractfile(member)
+            if stream is None:
+                raise RuntimeError("phase-permutation source could not be read")
+            raw = stream.read()
+            if raw != (ROOT / relative).read_bytes():
+                raise RuntimeError("phase-permutation archive differs from reviewed source")
+            payload[relative] = raw
+    if set(payload) != expected:
+        raise RuntimeError("phase-permutation source archive is incomplete")
+    BUILD.mkdir(exist_ok=True)
+    directory = Path(tempfile.mkdtemp(prefix="phase-permutation-", dir=BUILD))
+    outputs = []
+    for label in ("first", "second"):
+        isolated = directory / label
+        isolated.mkdir()
+        for relative, raw in payload.items():
+            target = isolated / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            with target.open("xb") as stream:
+                stream.write(raw)
+        checker = isolated / "docs/proofs/check_phase_permutation.py"
+        output = isolated / "result.json"
+        subprocess.run(
+            [sys.executable, "-I", "-S", "-B", str(checker), "--output", str(output)],
+            cwd=isolated,
+            check=True,
+            timeout=30,
+        )
+        outputs.append(output)
+    first = outputs[0].read_bytes()
+    if first != outputs[1].read_bytes():
+        raise RuntimeError("phase-permutation artifact replay outputs differ")
+    certificate = json.loads(first)
+    if (
+        certificate["status"] != "PASS"
+        or certificate["kind"] != "phase_permutation_k9_algebra_v1"
+        or certificate["schema_version"] != 1
+        or certificate["phase_permutation"]["row_to_column_zero_based"]
+        != [0, 1, 2, 5, 3, 4, 6, 7, 8]
+        or not certificate["phase_permutation"]["all_81_formal_intensity_coefficients_identical"]
+        or certificate["common_graph"]["nominal_threshold_exact"] != "28"
+        or certificate["common_graph"]["trace_Lplus_exact"] != "8/9"
+        or certificate["common_graph"]["relative_pair_variance_exact"] != "9/4"
+    ):
+        raise RuntimeError("phase-permutation artifact fixed model changed")
+    controls = certificate["negative_controls"]
+    if any(
+        controls[name] is not False
+        for name in (
+            "cross_residue_permutation_phase_match",
+            "perturbed_covariance_permutation_invariant",
+            "threshold_15_over_2_full_graph_conjugacy_under_fixed_P",
+        )
+    ):
+        raise RuntimeError("phase-permutation failed-criterion controls changed")
+    refused = subprocess.run(
+        [
+            sys.executable,
+            "-I",
+            "-S",
+            "-B",
+            str(outputs[0].parent / "docs/proofs/check_phase_permutation.py"),
+            "--output",
+            str(outputs[0]),
+        ],
+        cwd=outputs[0].parent,
+        capture_output=True,
+        text=True,
+        check=False,
+        timeout=30,
+    )
+    if (
+        refused.returncode == 0
+        or "FileExistsError: output exists; choose a new file" not in refused.stderr
+        or outputs[0].read_bytes() != first
+    ):
+        raise RuntimeError("phase-permutation output overwrite was not refused")
+    receipt = {
+        "status": "PASS",
+        "scope": "Finite algebra from source-archive documentation; analytic path proof is separate",
+        "sdist_sha256": hashlib.sha256(distributions[0].read_bytes()).hexdigest(),
+        "documentation_files": {
+            name: hashlib.sha256(raw).hexdigest() for name, raw in sorted(payload.items())
+        },
+        "checks": certificate["checks"]["count"],
+        "deterministic_runs": 2,
+        "separate_isolated_directories": True,
+        "site_imports_disabled": True,
+        "overwrite_refused": True,
+        "overwrite_refusal_exit_code": refused.returncode,
+        "result_sha256": hashlib.sha256(first).hexdigest(),
+    }
+    with (directory / "verification.json").open("x", encoding="utf-8", newline="\n") as stream:
+        stream.write(json.dumps(receipt, indent=2, sort_keys=True) + "\n")
+    print(json.dumps(receipt, indent=2))
+    return receipt
 
 
 def prototype() -> None:
@@ -563,6 +690,8 @@ def main() -> None:
             verify(wheel)
         if command == "prototype":
             prototype()
+        if command == "phase-permutation":
+            phase_permutation()
 
 
 if __name__ == "__main__":
