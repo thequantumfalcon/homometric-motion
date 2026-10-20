@@ -18,7 +18,8 @@ python tools/project.py test
 The command catalog is `python tools/project.py --help`; Make targets are
 thin wrappers. `test` builds and installs a wheel in a fresh environment.
 Do not add `src` to the test import path. `verify` also executes the shipped
-CLI twice in an isolated directory and checks deterministic output.
+CLI twice for each scenario and count method in an isolated directory and
+checks deterministic output, including equality of the embedded core.
 `release` runs the local lint, tests and artifact checks; it publishes nothing.
 
 The optional instrument has separate dependencies. In an environment with the

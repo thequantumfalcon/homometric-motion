@@ -15,6 +15,11 @@ the 0.x certificate schema and Python API remain experimental.
 
 ### Added
 
+- An optional `coordinate-count` command and API that recompute the full
+  core and a separate exact coordinate-tolerance witness. Sufficient counts
+  fall to 26,814,048,499,063,502 and 26,808,243,624,540,316 for the two
+  scenarios, with all model assumptions and the classifier unchanged.
+
 - A portable, standard-library certificate for one fixed chain of geometry,
   Gaussian motion, covariance uncertainty, exposure, frequency error and
   dependent photon-count discrimination.

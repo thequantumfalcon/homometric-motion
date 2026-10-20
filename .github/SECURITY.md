@@ -10,8 +10,9 @@ Provide the affected commit, a minimal reproducer, impact and verification
 steps. Reports must be reproducible and verified by the submitter.
 
 The scientific runtime uses the standard library and reads packaged mathematical
-inputs. It does not fetch data or contact a service. The `verify` command writes
-only the requested new certificate file and refuses an existing output.
+inputs. It does not fetch data or contact a service. The `verify` and
+`coordinate-count` commands write only the requested new certificate file and
+refuse an existing output.
 Development tooling downloads pinned dependencies; run it only for trusted code.
 
 Checksums detect accidental changes relative to a manifest. They do not make

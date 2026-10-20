@@ -11,10 +11,13 @@ Read the proofs in this order:
 3. [Position uncertainty](position-uncertainty.md) proves a separate scenario
    for fixed imperfect mean positions, with a smaller frequency cap and a
    freshly computed finite-window bound.
-4. [Scope and related work](scope-and-related-work.md) states the essential
+4. [Coordinate-count extension](coordinate-counts.md) reduces the sufficient
+   count by allocating separate error tolerances to the estimated moments,
+   with the classifier and physical assumptions unchanged.
+5. [Scope and related work](scope-and-related-work.md) states the essential
    strength floor, unresolved directions, finite-error limitations and close
    prior work.
-5. [Formal checkpoints](formal/README.md) distinguishes six mapped finite
+6. [Formal checkpoints](formal/README.md) distinguishes six mapped finite
    arithmetic statements, six universal polynomial identities and general
    analytic variance-stability lemmas from the full probabilistic theorem.
 

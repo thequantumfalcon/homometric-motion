@@ -2,7 +2,7 @@
   "files": [
     {
       "path": "__init__.py",
-      "sha256": "fe7f22b919792541ff8336676e81801931c432b24892c9bcf9e2f38dae0647ea"
+      "sha256": "2c615a842ebd23eb603f2f14e1a90e377e75d6f67c39036d681df0387465a39f"
     },
     {
       "path": "__main__.py",
@@ -18,7 +18,11 @@
     },
     {
       "path": "cli.py",
-      "sha256": "f2090b7daab97c3cffe2263864c8f17933d38c576c4ad072daa3b33698491906"
+      "sha256": "1bf94a7d9ee2783e156e68ef5e9f85f8601111705fef9a05de82eb1de4b5add1"
+    },
+    {
+      "path": "coordinate.py",
+      "sha256": "a0bc817d421887e06b23a4738ac9138aa235f5dae065d6ba7a3ccf5e3c04ed8d"
     },
     {
       "path": "counts.py",

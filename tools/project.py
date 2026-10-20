@@ -22,7 +22,7 @@ COMMANDS = {
     "manifest": "explicitly record the current package source revision",
     "build": "check the manifest and build an sdist and wheel",
     "test": "build, install and test a wheel with a coverage gate",
-    "verify": "build and replay both scenarios twice, then check the demo data",
+    "verify": "build and replay both scenarios and count methods twice, then check demo data",
     "prototype": "build and replay the optional instrument from the source archive",
     "release": "run lint, installed tests and artifact verification; publish nothing",
     "hooks": "run the pinned pre-commit checks on all tracked files",
@@ -152,6 +152,7 @@ def test(wheel: Path) -> None:
 def verify(wheel: Path) -> None:
     directory, executable, _ = installed(wheel)
     scenarios = []
+    extensions = []
     for scenario, expected_count in (
         ("exact_geometry", 975281623024726766278),
         ("position_uncertainty", 975028627229038193209),
@@ -198,11 +199,68 @@ def verify(wheel: Path) -> None:
                 "sufficient_observation_windows": count,
             }
         )
+        coordinate_outputs = [
+            directory / f"{scenario}-coordinate-{name}.json" for name in ("first", "second")
+        ]
+        for output in coordinate_outputs:
+            run(
+                executable,
+                "-I",
+                "-m",
+                "homometric_motion",
+                "coordinate-count",
+                "--scenario",
+                scenario,
+                "--output",
+                output,
+                cwd=directory,
+            )
+        if coordinate_outputs[0].read_bytes() != coordinate_outputs[1].read_bytes():
+            raise RuntimeError(f"{scenario}: coordinate certificates differ")
+        extension = json.loads(coordinate_outputs[0].read_text("utf-8"))
+        core = dict(certificate)
+        provenance = core.pop("source_revision")
+        if (
+            extension["status"] != "PASS"
+            or extension["certificate_kind"] != "coordinate_count_extension"
+            or extension["core_certificate"] != core
+            or extension["source_revision"] != provenance
+        ):
+            raise RuntimeError(f"{scenario}: coordinate extension changed the core or provenance")
+        coordinate_count = extension["coordinate_counts"]["sufficient_observation_windows"]
+        expected_coordinate = {
+            "exact_geometry": 26814048499063502,
+            "position_uncertainty": 26808243624540316,
+        }[scenario]
+        if coordinate_count != expected_coordinate:
+            raise RuntimeError(f"{scenario}: coordinate count changed; review scientific revision")
+        run(
+            executable,
+            "-I",
+            "-m",
+            "homometric_motion",
+            "summary",
+            coordinate_outputs[0],
+            cwd=directory,
+        )
+        extensions.append(
+            {
+                "scenario": scenario,
+                "certificate_sha256": hashlib.sha256(
+                    coordinate_outputs[0].read_bytes()
+                ).hexdigest(),
+                "deterministic_cli_runs": 2,
+                "coordinate_checks": extension["checks"]["count"],
+                "sufficient_observation_windows": coordinate_count,
+                "embedded_core_matches_original_method": True,
+            }
+        )
     receipt = {
         "status": "PASS",
         "wheel": wheel.name,
         "wheel_sha256": hashlib.sha256(wheel.read_bytes()).hexdigest(),
         "scenarios": scenarios,
+        "coordinate_extensions": extensions,
         "demo_data_matches_exact_geometry": True,
     }
     (directory / "verification.json").write_text(

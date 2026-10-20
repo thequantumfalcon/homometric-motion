@@ -3,5 +3,6 @@
 __version__ = "0.1.0"
 
 from .certificate import build_certificate
+from .coordinate import build_coordinate_certificate
 
-__all__ = ["__version__", "build_certificate"]
+__all__ = ["__version__", "build_certificate", "build_coordinate_certificate"]

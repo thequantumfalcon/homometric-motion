@@ -18,6 +18,8 @@ An optional [virtual instrument](prototype/README.md) generates synthetic motion
 and photon-count records with deliberate model failures. It runs on the CPU,
 uses a separate NumPy/SciPy environment, and retains the full simulated motion
 for inspection. It does not implement or validate the final count theorem.
+Its reference remains bound to the explicitly hashed earlier core certificate;
+it does not automatically track new package revisions.
 
 ## What is certified
 
@@ -27,7 +29,8 @@ bounds. For the fixed parameter chain below, standardized third cumulants occupy
 disjoint intervals, even after covariance uncertainty, positive exposure and
 small frequency error. A count-based classifier has a conservative error bound
 of at most **5% in either class** after
-**975,281,623,024,726,766,278 observation windows**.
+**26,814,048,499,063,502 observation windows**, using the
+[coordinate-tolerance count proof](docs/proofs/coordinate-counts.md).
 
 | Assumption | Certified domain |
 | --- | --- |
@@ -57,11 +60,24 @@ The [claim ledger](docs/claims.md) separates assertions, evidence and open quest
 
 The optional `position_uncertainty` scenario also permits fixed mean-position
 errors of at most **10⁻¹⁴** per coordinate, with a tighter frequency-error limit
-of **10⁻¹⁶**. Its separately recomputed sufficient count is
-**975,028,627,229,038,193,209 windows**. These are different joint domains:
+of **10⁻¹⁶**. Its separately recomputed coordinate-tolerance sufficient count is
+**26,808,243,624,540,316 windows**. These are different joint domains:
 the new count does not show that adding position error improves discrimination.
 The ideal configurations remain homometric; perturbed specimens need not be.
 See the [position-uncertainty proof](docs/proofs/position-uncertainty.md).
+
+The coordinate proof allocates different error tolerances to the three estimated
+factorial moments. It retains the original classifier, parameter domains and
+5% target. The original common-tolerance certificates remain available through
+`verify`, and the demo displays that original method.
+
+| Scenario | Original common-tolerance sufficient windows | Coordinate-tolerance sufficient windows |
+| --- | ---: | ---: |
+| Exact geometry | 975,281,623,024,726,766,278 | 26,814,048,499,063,502 |
+| Position uncertainty | 975,028,627,229,038,193,209 | 26,808,243,624,540,316 |
+
+The new allocation was selected after inspecting the earlier bounds. It is an
+exact feasible witness, with no claim of global optimality or practical feasibility.
 
 ## Reproduce
 
@@ -71,13 +87,15 @@ In a fresh virtual environment, from this repository:
 
 ```sh
 python -m pip install .
-python -I -m homometric_motion verify --output certificate.json
+python -I -m homometric_motion coordinate-count --output certificate.json
 python -I -m homometric_motion summary certificate.json
+python -I -m homometric_motion coordinate-count --scenario position_uncertainty --output position-coordinate.json
+python -I -m homometric_motion verify --output original-certificate.json
 python -I -m homometric_motion verify --scenario position_uncertainty --output position.json
 ```
 
 Installation downloads the pinned build tools unless they are already available.
-The installed verification itself runs offline. `verify` refuses to overwrite
+The installed verification itself runs offline. Both computing commands refuse to overwrite
 an existing output: choose a new filename for another run. The JSON contains
 exact fractions and check labels; decimal output is for reading only.
 `summary` displays a saved file and does not independently reverify it.
@@ -90,7 +108,7 @@ python tools/project.py release
 ```
 
 Use an isolated development environment. `release` builds an sdist and wheel,
-tests the installed package, checks coverage, executes each scenario twice in a
+tests the installed package, checks coverage, executes each scenario and count method twice in a
 fresh environment and compares the results. It also checks that the committed
 demo data match the newly computed default certificate. It does not publish anything.
 See [contribution instructions](.github/CONTRIBUTING.md).
@@ -115,8 +133,9 @@ an error. They are not independent human peer review or formal verification of
 the full theorem. Related work already studies homometry, fluctuation statistics and
 factorial cumulants; this repository does not establish scientific priority.
 
-The public interface is `build_certificate()`, the `verify` and `summary` CLI
-commands, and the versioned JSON schema. All are experimental during 0.x.
+The public interface comprises `build_certificate()` and
+`build_coordinate_certificate()`, the `verify`, `coordinate-count` and `summary`
+CLI commands, and their versioned JSON schemas. All are experimental during 0.x.
 The CLI binds its output to the packaged source manifest; hashes do not make an
 untrusted source authentic. Cite the exact Git commit using [CITATION.cff](CITATION.cff).
 

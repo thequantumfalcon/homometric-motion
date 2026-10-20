@@ -12,6 +12,9 @@ decimal labels. No stochastic simulation or measured data is presented.
 
 This explorer shows the `exact_geometry` certificate, with exact mean geometry
 and frequency error at most 10^-14. Other package scenarios are outside this demonstration.
+It retains the original common-tolerance count. The optional
+`coordinate-count` command proves a smaller sufficient count under the same
+assumptions; it does not change the displayed population intervals.
 The sufficient count, model assumptions, positive strength floor and limits
 are displayed with the plots.
 

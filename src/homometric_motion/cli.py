@@ -11,6 +11,7 @@ from pathlib import Path
 from . import __version__
 from .arithmetic import rational_from_text
 from .certificate import SCENARIOS, build_certificate
+from .coordinate import KIND, build_coordinate_certificate, validate_saved_extension
 
 MANIFEST_FILES = {
     "__init__.py",
@@ -19,6 +20,7 @@ MANIFEST_FILES = {
     "certificate.py",
     "cli.py",
     "counts.py",
+    "coordinate.py",
     "geometry.py",
     "motion.py",
     "position.py",
@@ -64,6 +66,10 @@ def summary(certificate: dict, *, verified: bool = False) -> str:
     """
     if not isinstance(certificate, dict):
         raise ValueError("certificate must be a JSON object")
+    if "certificate_kind" in certificate:
+        if certificate["certificate_kind"] != KIND:
+            raise ValueError("unsupported saved certificate kind")
+        return extension_summary(certificate, verified=verified)
     if certificate.get("schema_version") != 1 or certificate.get("status") != "PASS":
         raise ValueError("unsupported or unsuccessful certificate")
     scenario = certificate["scenario"]
@@ -159,6 +165,49 @@ def summary(certificate: dict, *, verified: bool = False) -> str:
     )
 
 
+def extension_summary(certificate: dict, *, verified: bool = False) -> str:
+    """Display a named extension, keeping recorded-input limits explicit."""
+    core = certificate["core_certificate"]
+    if not isinstance(core, dict) or "certificate_kind" in core:
+        raise ValueError("coordinate extension requires an ordinary core certificate")
+    core_text = summary(core, verified=verified)
+    counts = validate_saved_extension(certificate)
+    qualifier = "" if verified else "Recorded claim - "
+    heading = (
+        f"PASS: homometric-motion {__version__} coordinate-count extension"
+        if verified
+        else "UNVERIFIED DISPLAY: saved certificate claims (not recomputed)"
+    )
+    domain = core_text.splitlines()
+    domain_index = next(
+        index for index, line in enumerate(domain) if line.startswith(f"{qualifier}domain:")
+    )
+    return "\n".join(
+        [
+            heading,
+            f"{qualifier}scenario: {certificate['scenario']}",
+            f"{qualifier}core mathematical checks: {core['checks']['count']}",
+            f"{qualifier}coordinate mathematical checks: {certificate['checks']['count']}",
+            (
+                f"{qualifier}common-tolerance sufficient windows: "
+                f"{counts['previous_sufficient_observation_windows']:,}"
+            ),
+            (
+                f"{qualifier}coordinate-tolerance sufficient windows: "
+                f"{counts['sufficient_observation_windows']:,}"
+            ),
+            f"{qualifier}risk bound: at most 5% in either class under the same declared model.",
+            (
+                "The full core and coordinate proof were freshly recomputed."
+                if verified
+                else "Saved-input consistency checks do not authenticate or recompute the core model."
+            ),
+            "The coordinate allocation is an exact feasible witness, not a global optimum.",
+            *domain[domain_index:],
+        ]
+    )
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(prog="homometric-motion")
     parser.add_argument("--version", action="version", version=__version__)
@@ -171,6 +220,16 @@ def main(argv=None) -> int:
         type=Path,
         help="new JSON file; existing files are never overwritten",
     )
+    coordinate = commands.add_parser(
+        "coordinate-count", help="freshly recompute core and coordinate-tolerance count proof"
+    )
+    coordinate.add_argument("--scenario", choices=SCENARIOS, default="exact_geometry")
+    coordinate.add_argument(
+        "--output",
+        required=True,
+        type=Path,
+        help="new extension JSON file; existing files are never overwritten",
+    )
     show = commands.add_parser("summary", help="display a saved certificate")
     show.add_argument("path", type=Path)
     args = parser.parse_args(argv)
@@ -182,7 +241,11 @@ def main(argv=None) -> int:
         if args.output.exists():
             raise FileExistsError("output exists; choose a new path")
         provenance = verify_source_manifest()
-        certificate = build_certificate(scenario=args.scenario)
+        certificate = (
+            build_coordinate_certificate(scenario=args.scenario)
+            if args.command == "coordinate-count"
+            else build_certificate(scenario=args.scenario)
+        )
         certificate["source_revision"] = provenance
         encoded = json.dumps(certificate, indent=2, sort_keys=True, allow_nan=False) + "\n"
         with args.output.open("x", encoding="utf-8", newline="\n") as stream:
