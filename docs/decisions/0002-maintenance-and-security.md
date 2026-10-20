@@ -38,3 +38,9 @@ unavailable platform features rather than claiming perfect security.
 Community and workflow files remain in source archives. Excluding `.github`
 would hide the security policy and dependency-update configuration from
 archive-based review tools and leave documentation links broken for readers.
+
+The executable demo JavaScript explicitly overrides Linguist's default
+documentation classification for `demo/`. GitHub otherwise omits JavaScript
+from detected languages and rejects its selection in CodeQL default setup.
+This exception identifies maintained application source; it does not classify
+the generated numerical data as hand-written code.

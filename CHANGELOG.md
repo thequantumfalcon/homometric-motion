@@ -28,5 +28,7 @@ the 0.x certificate schema and Python API remain experimental.
 - Pull-request commit-policy checks inspect the submitted head rather than
   GitHub's temporary merge commit.
 - Source archives retain community and security configuration files.
+- GitHub language detection includes the executable demo JavaScript, enabling
+  its selection in default CodeQL setup.
 
 [Unreleased]: https://github.com/thequantumfalcon/homometric-motion/commits/main
