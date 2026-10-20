@@ -30,8 +30,9 @@ Read the proofs in this order:
    arithmetic statements, six universal factorial identities, nine analytic
    variance declarations, four deterministic sensitivity statements, five
    explicit nine-point polynomial statements and thirteen generic Gaussian
-   phase, integrability and first-intensity declarations from
-   the full probabilistic theorem.
+   phase, integrability and first-intensity declarations, plus nine
+   natural-moment declarations and two definitions, from the full
+   probabilistic theorem.
 
 The separate [nine-point moment construction](nine-point-moments.md) uses
 exact instantaneous intensity with fixed nominal covariance and frequency.

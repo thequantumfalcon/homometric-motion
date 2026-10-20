@@ -15,11 +15,21 @@ the 0.x certificate schema and Python API remain experimental.
 
 ### Added
 
+- An optional arbitrary-natural-moment Gaussian intensity formula. Nine
+  proved declarations and two charge/weight definitions import the unchanged
+  first-intensity module, bringing the analytic project to forty proved
+  declarations in five files. Ordered tuple multiplicities, full PSD
+  covariance, order zero and genuine finite-measure integrability are explicit.
+  Graph covariance, executable histogram/polynomial identification, temporal
+  dynamics and the complete classifier remain separate. Package APIs,
+  runtime manifests and numerical outputs are unchanged.
+
 - An optional generic Gaussian first-intensity-moment proof with explicit
   full PSD covariance and proved integrability. Its thirteen declarations
   include three Gaussian phase prerequisites; the four-file analytic project
-  now has thirty-one declarations. Concrete graph covariance, higher moments,
-  temporal dynamics and the complete scientific theorem remain separate.
+  at that revision had thirty-one declarations. Concrete graph covariance,
+  executable polynomial identification, temporal dynamics and the complete
+  scientific theorem remain separate.
   Package APIs, runtime manifests and numerical outputs are unchanged.
 - A separate phase-permutation proof and standalone exact checker for a
   complete-graph indistinguishability example. The source-archive checker

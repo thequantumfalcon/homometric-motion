@@ -21,14 +21,19 @@
       "sha256": "8db20180970c90092fb930e9fb4a5f2d0e623f4e121a03d17d766e656f9f92ce"
     },
     {
+      "bytes": 6035,
+      "path": "GaussianMoments.lean",
+      "sha256": "1630a54e2c838d35c7c0dc19a3da8c6dbb39445eff402e9d9c8deede25ede1d6"
+    },
+    {
       "bytes": 3572,
       "path": "lake-manifest.json",
       "sha256": "c151500d77377548f07eb8dfc2a194b02b42db03939b3fb03ff924313c3485b2"
     },
     {
-      "bytes": 526,
+      "bytes": 584,
       "path": "lakefile.toml",
-      "sha256": "7dbc5e455b92fd9b5f2de56a7331f98d3e76a03e4f429be8ca8efd7bd8c8321c"
+      "sha256": "d6f4dfa5fd373473e67e6c672219011b95991b2f76889441c330b2cf0fe4d971"
     },
     {
       "bytes": 25,
@@ -46,14 +51,14 @@
       "sha256": "775de40ebd3c150142033d5bcf1e4bb7222bb5b2c6bf178ae775e76c343ef5ca"
     },
     {
-      "bytes": 7645,
+      "bytes": 9505,
       "path": "README.md",
-      "sha256": "36b21e6dac4c43663822cc0f4067af9baec42f4b4d29082590e3377922f65250"
+      "sha256": "bc59e04c7521151ddaf9f6ccdbecc23c6cfed4bba1c3190c0506a84879bf0d7f"
     },
     {
-      "bytes": 11433,
+      "bytes": 15360,
       "path": "SCOPE.md",
-      "sha256": "9f8f64e6d7e213cec1f9429f7c0c08a678bdefa42de81835159d4c4af197e089"
+      "sha256": "279cbd8885c8d40a8f00645a3b5b54e947e667dc81e8e28c499c1e2bd3ace1df"
     },
     {
       "bytes": 6647,
@@ -61,6 +66,6 @@
       "sha256": "51fd5df2ab01983c76ed5d47f63c0745c78f13484a205845116541c8de2f0b1b"
     }
   ],
-  "revision_kind": "analytic_gaussian_first_intensity_public_v4_wording_r2",
+  "revision_kind": "analytic_gaussian_natural_moments_public_v5_wording_r2",
   "schema_version": 1
 }

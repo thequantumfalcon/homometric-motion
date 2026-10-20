@@ -89,11 +89,13 @@ The optional sources check six finite integer statements mapped to the
 original `verify` position certificate, six universal factorial-product
 identities, nine analytic variance declarations, four deterministic
 cumulant-sensitivity statements, five explicit nine-point polynomial
-statements and thirteen Gaussian phase, integrability and first-intensity
-declarations. The latter four sets share one pinned Lean/mathlib project.
-The Gaussian identity uses arbitrary fixed complex weights and an explicitly
-PSD full covariance, including singular covariances. Concrete graph covariance,
-higher moments, temporal concentration and the classifier remain outside
+statements, thirteen Gaussian phase, integrability and first-intensity
+declarations, and nine natural-moment declarations with two charge/weight
+definitions. The latter five sets share one pinned Lean/mathlib project.
+The Gaussian formulas cover every natural raw intensity moment, arbitrary
+fixed complex weights and explicit full PSD covariance, including singular
+covariances. Concrete graph covariance, executable histogram/polynomial
+identification, temporal concentration and the classifier remain outside
 these formal statements. See
 [formal scope](proofs/formal/README.md).
 

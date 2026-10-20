@@ -1,8 +1,8 @@
 # Bounded formal checkpoints
 
-These files cover six bounded parts of the argument, including a generic
-Gaussian first-intensity-moment identity. They do not formalize the concrete
-graph covariance, exposure estimates, concentration inequalities, physical
+These files cover seven bounded parts of the argument, including generic
+Gaussian first-intensity and arbitrary-natural-moment identities. They do not
+formalize the concrete graph covariance, exposure estimates, concentration inequalities, physical
 assumptions or the complete conditional theorem.
 They are not experimental validation or independent human peer review.
 
@@ -14,8 +14,10 @@ They are not experimental validation or independent human peer review.
 | [Cumulant sensitivity](analytic/SCOPE.md#cumulant-sensitivity-statements) | Four real-variable declarations: a full cubic perturbation identity, a coefficient identity, a two-endpoint coefficient bound and a counterexample to dropping one branch | The same pinned analytic project and standard logical foundations; no probability interpretation is formalized |
 | [Nine-point polynomial witnesses](analytic/SCOPE.md#nine-point-polynomial-statements) | Five real-polynomial statements: a complete Bezout identity, no common zero, mean factorization, positive cofactor and noncoincidence on `0<t<1` | The same pinned project; complete coefficients mapped from a fresh installed certificate, with their identification as the complete modeled moment polynomials outside Lean |
 | [Gaussian first intensity moment](analytic/SCOPE.md#gaussian-first-intensity-moment) | Thirteen declarations: three Gaussian phase prerequisites and ten finite expansion, integrability and first-moment results under explicit full PSD covariance | The same pinned project; arbitrary finite fixed complex weights and real phase scale, with the graph/physical application outside this source |
+| [Every natural raw intensity moment](analytic/SCOPE.md#every-natural-raw-intensity-moment) | Nine proved declarations and two charge/weight definitions: ordered tuple expansion, genuine finite-measure integrability and the full-PSD Gaussian raw moment for every natural order | Imports the unchanged first-intensity module; executable graph/histogram/polynomial identification remains outside Lean |
 
-There are thirty-one declarations across the four analytic-project source files.
+There are forty proved declarations across the five analytic-project source files,
+plus the two charge and weight definitions in the natural-moment module.
 The nine original standard-deviation declarations are unchanged.
 The six factorial identities alone do not establish a covariance formula.
 Taking expectations and using the mixed-Poisson model are separate
@@ -57,7 +59,7 @@ lean /path/to/checkout/docs/proofs/formal/FactorialIdentities.lean
 ```
 
 The separate [analytic project](analytic/README.md#replay) supplies commands
-for its four files and a portable fresh nine-point coefficient mapping.
+for its five files and a portable fresh nine-point coefficient mapping.
 The local `lean-toolchain` pins the intended Lean version
 for installations using a toolchain manager. No Lean executable, library
 bundle or installer is included. The ordinary Python certificate does not

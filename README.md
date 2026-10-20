@@ -185,14 +185,16 @@ Optional [Lean checkpoints](docs/proofs/formal/README.md) verify six finite
 arithmetic statements, six general falling-factorial identities, nine
 analytic variance declarations, four deterministic cumulant-sensitivity
 statements, five explicit nine-point polynomial statements and thirteen
-Gaussian phase, integrability and first-intensity-moment declarations.
-The thirty-one analytic-project declarations occupy four source files;
+Gaussian phase, integrability and first-intensity-moment declarations,
+plus nine natural-moment declarations and two charge/weight definitions.
+The forty proved analytic-project declarations occupy five source files;
 the original nine are unchanged. The finite arithmetic mapping remains bound
 to the original `verify` position-uncertainty certificate, not to the new
 profile counts. The separate nine-point mapping rebuilds its installed model
 and binds every coefficient of the two-moment noncoincidence checkpoint.
-The generic first-moment identity assumes an explicit PSD covariance; it does
-not identify the concrete graph covariance or establish higher moments.
+The generic Gaussian identities assume an explicit full PSD covariance
+and cover every natural raw intensity moment. They do not identify the
+concrete graph covariance, executable histogram enumeration or polynomial tables.
 These bounded proofs do not formalize the complete theorem,
 and Lean is not required to run the package.
 

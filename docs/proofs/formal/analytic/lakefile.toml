@@ -1,7 +1,7 @@
 name = "analytic_robustness"
 version = "0.1.0"
 fixedToolchain = true
-defaultTargets = ["StandardDeviationContinuity", "CumulantSensitivity", "NinePointBezout", "GaussianIntensity"]
+defaultTargets = ["StandardDeviationContinuity", "CumulantSensitivity", "NinePointBezout", "GaussianIntensity", "GaussianMoments"]
 
 [[require]]
 name = "mathlib"
@@ -20,3 +20,6 @@ name = "NinePointBezout"
 
 [[lean_lib]]
 name = "GaussianIntensity"
+
+[[lean_lib]]
+name = "GaussianMoments"

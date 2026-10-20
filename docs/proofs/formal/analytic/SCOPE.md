@@ -1,10 +1,11 @@
 # Statements, proof routes and application limits
 
-The project contains thirty-one declarations in four files. The nine
-standard-deviation declarations and four sensitivity statements are unchanged.
-Five statements concern explicit nine-point polynomials. Thirteen further
-declarations concern Gaussian phases, finite-intensity integrability and
-the first raw intensity moment.
+The project contains forty proved declarations in five files, together
+with the two charge and weight definitions used by the new moment module.
+The nine standard-deviation, four sensitivity, five nine-point polynomial
+and thirteen first-intensity declarations are unchanged. Nine new
+declarations prove the generic ordered-charge formula for every natural
+raw intensity moment.
 
 ## Standard-deviation continuity
 
@@ -93,8 +94,8 @@ The generator and `mapping.json` connect the definitions to the installed
 package's fresh first- and second-moment differences. Exact re-expansion
 and full field comparison are executable checks outside Lean.
 
-The generic Gaussian characteristic-function and first finite-intensity
-formula are formalized separately below. Identifying the complete
+The generic Gaussian characteristic function and all natural finite-intensity
+moments are formalized separately below. Identifying the complete
 nine-point moment polynomials with that modeled intensity, constructing
 the graph covariance, and inferring different bounded intensity laws from
 different moments remain outside these five statements.
@@ -168,8 +169,75 @@ that fails its PSD predicate, rather than assigning that invalid covariance.
 These statements establish a known generic first-moment identity. They do
 not identify the concrete graph pseudoinverse with `D`, prove its PSD or
 COM support, justify joint Gaussianity physically, or make the substitution
-`a=omega*sqrt(beta)`. Higher raw moments, charge enumeration and complete
-nine-point polynomial grouping remain separate.
+`a=omega*sqrt(beta)`. The next module proves generic higher raw moments;
+their executable enumeration and nine-point polynomial grouping remain separate.
+
+## Every natural raw intensity moment
+
+`GaussianMoments.lean` imports `GaussianIntensity` and adds two definitions
+and nine proved declarations. The prior first-intensity source is unchanged.
+For a finite index type and each natural `r`, let
+
+\[
+I(y)=\left|\sum_i z_i e^{ia y_i}\right|^2,\qquad
+u_p=\sum_{k=0}^{r-1}(e_{p(k).1}-e_{p(k).2}),\qquad
+w_p=\prod_{k=0}^{r-1}z_{p(k).1}\overline{z_{p(k).2}},
+\]
+
+where `p : Fin r -> (index x index)` is ordered. The definitions are
+`moment_charge` and `moment_weight`. Repetition and multiplicity are retained.
+For full real PSD `D`, arbitrary fixed complex weights and real `a`, the
+final theorem proves
+
+\[
+\int I(y)^r\,dN(0,D)(y)
+=\sum_p \operatorname{Re}(w_p)
+  \exp[-a^2u_p^\mathsf{T}D u_p/2].
+\]
+
+| New declaration | Exact mathematical role |
+| --- | --- |
+| `inner_moment_charge` | The inner product with the charge is the selected sum of coordinate differences. |
+| `tuple_phase_product` | The product of pair phases is the phase of the summed charge. |
+| `finite_intensity_power_expansion` | Expands the complex embedding of the real intensity power into the complete ordered tuple sum. |
+| `tuple_intensity_integrable` | Each weighted tuple phase is genuinely integrable under a finite measure. |
+| `finite_intensity_power_complex_integrable` | Proves integrability of the complete complex-embedded intensity power. |
+| `finite_intensity_power_integrable` | Proves integrability of the actual real nonnegative power. |
+| `gaussian_tuple_phase` | Evaluates each charge phase using the full PSD covariance. |
+| `finite_gaussian_intensity_complex_moment` | Interchanges the finite sum and integral and evaluates every term. |
+| `finite_gaussian_intensity_moment` | Takes real parts to obtain the stated real moment formula. |
+
+The finite-power expansion uses ordered tuples, not unordered sets of
+pairs. The charge collects their phases; the coefficient remains the
+full complex product. Taking a product of real parts or replacing the
+coefficient by its absolute value would generally give a different
+formula. Individual real coefficients may be negative.
+
+The integrability statements hold for any finite measure on the Euclidean
+space, since a finite sum of fixed weighted phases is bounded and continuous.
+The evaluated expectation uses the centered Gaussian probability measure
+and the explicit PSD premise. It never relies on non-PSD fallback behavior.
+No invertibility, density, independent coordinates, clean null, nonempty
+index, unit weights or positive phase scale is assumed.
+
+At `r=0` there is one empty tuple, its charge is zero and its weight is one:
+the probability integral is one, including for an empty coordinate type.
+For empty coordinates and positive `r`, there are no tuples and both sides
+vanish. Repeated coordinates and diagonal pairs are included.
+
+A bounded wrong-power control changes only the final left-hand exponent
+from `r` to `r+1`. It is false for a singleton with `D=0`, `z=2`, `a=0`
+and `r=0`: the changed left-hand side is four while the empty-tuple sum is
+one. This exact witness explains the failed variant; rejection of a proof
+attempt alone would not show that a statement is false.
+
+This closes a generic natural-moment identity. It does not identify a
+graph-derived matrix with the formal covariance, establish its PSD or COM
+support, make the substitution `a=omega*sqrt(beta)`, group ordered tuples
+into occupation histograms, or identify a program's variogram and complete
+polynomial coefficient tables. The existence of the abstract sum does not
+formalize an executable enumeration, its resource bounds or its implementation.
+The theorem contains no temporal, detector or classifier conclusion.
 
 ## What remains unformalized
 
@@ -181,7 +249,8 @@ formalized by this project:
 - The concrete graph covariance, COM support, motion-strength substitution,
   joint Gaussian model justification and stationary OU process, including
   finite exposure, signed kernel derivatives and their integral remainders.
-- Higher raw intensity moments and their complete polynomial grouping.
+- The connection from generic natural-moment charges to executable
+  occupation histograms, variogram tables and complete polynomial grouping.
 - The amplitude, Taylor, increment, geometry and majorization estimates.
 - A formal connection from graph/input certificates and outward numerical
   intervals to the abstract real or random variables.
@@ -195,6 +264,7 @@ The four algebraic statements isolate useful pieces of the estimator
 argument; they do not formalize its probabilistic conclusion. The nine
 variance statements prove a general analytic step, not its numerical
 model-specific inputs. The thirteen Gaussian declarations add a generic
-first-intensity identity with explicit full covariance and integrability,
-not its graph-specific application. Physical calibration, model adequacy,
-novelty and human peer review remain outside the scope of all four files.
+first-intensity identity with explicit full covariance and integrability;
+the nine new declarations extend it to every natural raw moment. Neither
+module supplies the graph-specific application. Physical calibration,
+model adequacy, novelty and human peer review remain outside all five files.
