@@ -6,14 +6,19 @@
       "sha256": "38b1c59269dffef34920752fd8bd6e71322816e3b200b67c6dc48d3abaccf250"
     },
     {
-      "bytes": 3534,
-      "path": "README.md",
-      "sha256": "8a9a91a3427b6fbd8294eb5c65c3ad53d9c2dbe3b94b959e97bb422eb4e33d9c"
+      "bytes": 1857,
+      "path": "CumulantSensitivity.lean",
+      "sha256": "52a89c385dfeb1a3f244bbbb4e901870f8d67dd3885b224cc167734e3de3a3aa"
     },
     {
-      "bytes": 2558,
+      "bytes": 4437,
+      "path": "README.md",
+      "sha256": "59e18a9dc096db64113ff782efa9826a4b4ddeff339d00dcfe03ed084583f8eb"
+    },
+    {
+      "bytes": 5184,
       "path": "SCOPE.md",
-      "sha256": "9529ecce9547794bb0f6fa459f14f8e48f50ae90ab65c0fc77e449435139eedf"
+      "sha256": "99de93d66e3d5105b2b41711e6fa6df7d66411c955b2f4ba9d8bb2073ea99a4f"
     },
     {
       "bytes": 6647,
@@ -26,9 +31,9 @@
       "sha256": "c151500d77377548f07eb8dfc2a194b02b42db03939b3fb03ff924313c3485b2"
     },
     {
-      "bytes": 340,
+      "bytes": 406,
       "path": "lakefile.toml",
-      "sha256": "4fcf75203c59fc5a4c8e9606e826a1bef37932d66f9594e2a51eb03d7c5d4dd2"
+      "sha256": "699ed792eec6197e96fcfad7fca1b55dc670af3f2571e71a695c993b563833cb"
     },
     {
       "bytes": 25,
@@ -36,6 +41,6 @@
       "sha256": "ca5f1f601d34c49079e38d7e7041eb0f2a9c227fbc1df0f404820069a052330c"
     }
   ],
-  "revision_kind": "analytic_robustness_public_v1",
+  "revision_kind": "analytic_robustness_and_cumulant_sensitivity_public_v2",
   "schema_version": 1
 }

@@ -224,9 +224,9 @@ window.HOMOMETRIC_DEMO_DATA = {
   "scenario": "exact_geometry",
   "schema_version": 1,
   "source": {
-    "certificate_sha256": "da5309a1a6597d155d3202aace241bc41a0654fd607209a1508f5dec3c1374ce",
+    "certificate_sha256": "44a96c606d03cf8522fa3b476bb4eb9207d1f18e76ed4d7a18bb69daf3ac92cb",
     "mathematical_checks": 359,
-    "package_manifest_sha256": "22d83ca6544f9537864ac8f5f08ebf0df639ebfeff9f80a970fbb9cf16a6d497",
+    "package_manifest_sha256": "8e3c6aaec2e5a2420cf162d39823a8e4a36c9eaddb47f1fe478a1186a005e66f",
     "revision_kind": "release_adaptation"
   },
   "title": "Homometric motion: an offline explorer"

@@ -22,7 +22,7 @@ COMMANDS = {
     "manifest": "explicitly record the current package source revision",
     "build": "check the manifest and build an sdist and wheel",
     "test": "build, install and test a wheel with a coverage gate",
-    "verify": "build and replay both scenarios and all three methods twice, then check demo data",
+    "verify": "build and replay both scenarios and all five method/profile cases twice",
     "prototype": "build and replay the optional instrument from the source archive",
     "release": "run lint, installed tests and artifact verification; publish nothing",
     "hooks": "run the pinned pre-commit checks on all tracked files",
@@ -154,6 +154,7 @@ def verify(wheel: Path) -> None:
     scenarios = []
     extensions = []
     exposure_extensions = []
+    profile_certificates = []
     for scenario, expected_count in (
         ("exact_geometry", 975281623024726766278),
         ("position_uncertainty", 975028627229038193209),
@@ -310,6 +311,74 @@ def verify(wheel: Path) -> None:
                 "reference_core_matches_original_method": True,
             }
         )
+        expected_profiles = {
+            "short-exposure-v1": {
+                "exact_geometry": (69803163290068, "1/100000"),
+                "position_uncertainty": (5362340030851, "1/100000"),
+            },
+            "long-exposure-v1": {
+                "exact_geometry": (36938105282195, "1/1000"),
+                "position_uncertainty": (16852383428868, "1/100"),
+            },
+        }
+        for profile, selected in expected_profiles.items():
+            profile_outputs = [
+                directory / f"{scenario}-{profile}-{name}.json" for name in ("first", "second")
+            ]
+            for output in profile_outputs:
+                run(
+                    executable,
+                    "-I",
+                    "-m",
+                    "homometric_motion",
+                    "count",
+                    "--profile",
+                    profile,
+                    "--scenario",
+                    scenario,
+                    "--output",
+                    output,
+                    cwd=directory,
+                )
+            if profile_outputs[0].read_bytes() != profile_outputs[1].read_bytes():
+                raise RuntimeError(f"{scenario}/{profile}: profile certificates differ")
+            result = json.loads(profile_outputs[0].read_text("utf-8"))
+            expected, cap = selected[scenario]
+            if (
+                result["status"] != "PASS"
+                or result["certificate_kind"] != "profiled_count_certificate"
+                or result["profile"] != profile
+                or result["scenario"] != scenario
+                or result["core_certificate"] != core
+                or result["source_revision"] != provenance
+                or result["parameters"]["exposure_cap_exact"] != cap
+                or "eta_exact" in result["parameters"]
+                or result["allocation"]["sufficient_observation_windows"] != expected
+            ):
+                raise RuntimeError(f"{scenario}/{profile}: profile reference or contract changed")
+            run(
+                executable,
+                "-I",
+                "-m",
+                "homometric_motion",
+                "summary",
+                profile_outputs[0],
+                cwd=directory,
+            )
+            profile_certificates.append(
+                {
+                    "profile": profile,
+                    "scenario": scenario,
+                    "certificate_sha256": hashlib.sha256(
+                        profile_outputs[0].read_bytes()
+                    ).hexdigest(),
+                    "deterministic_cli_runs": 2,
+                    "profile_checks": result["checks"]["count"],
+                    "sufficient_observation_windows": expected,
+                    "exposure_cap_exact": cap,
+                    "reference_core_matches_original_method": True,
+                }
+            )
     receipt = {
         "status": "PASS",
         "wheel": wheel.name,
@@ -317,6 +386,8 @@ def verify(wheel: Path) -> None:
         "scenarios": scenarios,
         "coordinate_extensions": extensions,
         "exposure_extensions": exposure_extensions,
+        "profile_certificates": profile_certificates,
+        "fresh_cli_calculations": 20,
         "demo_data_matches_exact_geometry": True,
     }
     (directory / "verification.json").write_text(

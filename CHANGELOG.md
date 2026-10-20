@@ -15,6 +15,21 @@ the 0.x certificate schema and Python API remain experimental.
 
 ### Added
 
+- An additive `count` command and fresh API with explicit versioned profiles.
+  `short-exposure-v1` keeps the 10⁻⁵ exposure cap; `long-exposure-v1`
+  permits 0.001 for exact geometry and 0.01 for position uncertainty.
+  Both recompute complete nonlinear shape-error allocations, thresholds
+  and sufficient counts. All three earlier commands preserve their contracts.
+- Signed kernel derivative/remainder bounds, a rank-two majorization bound,
+  all 512 exposure cells and independent class-wise nuisance-propagated
+  skewness unions for the long profile. The unresolved exact-geometry
+  cap 0.01 and separately evaluated position cap 0.001 remain visible.
+- Four optional real-variable sensitivity statements in the pinned analytic
+  Lean project, alongside its nine unchanged variance declarations.
+  These bounded statements do not formalize the full probabilistic theorem.
+- An explicit profile decision record and FAQ separating sufficient counts,
+  exposure domains, fixed settings and physical calibration requirements.
+
 - An additive `exposure-count` command and API with a linear exposure-moment
   bound and Gaussian parity transfer. Both scenarios permit normalized exposure
   up to 10⁻⁵, with freshly recomputed sufficient counts and classifiers.

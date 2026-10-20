@@ -14,19 +14,26 @@ from .certificate import SCENARIOS, build_certificate
 from .coordinate import KIND, build_coordinate_certificate, validate_saved_extension
 from .exposure import KIND as EXPOSURE_KIND
 from .exposure import build_exposure_certificate, validate_saved_exposure
+from .profiles import KIND as PROFILE_KIND
+from .profiles import PROFILES, build_count_certificate, validate_saved_count
 
 MANIFEST_FILES = {
     "__init__.py",
     "__main__.py",
     "arithmetic.py",
+    "allocation.py",
     "certificate.py",
     "cli.py",
     "counts.py",
     "coordinate.py",
     "exposure.py",
     "geometry.py",
+    "kernel.py",
+    "kernel_arithmetic.py",
+    "kernel_observation.py",
     "motion.py",
     "position.py",
+    "profiles.py",
     "robustness.py",
     "inputs.json",
     "protocol.json",
@@ -70,6 +77,8 @@ def summary(certificate: dict, *, verified: bool = False) -> str:
     if not isinstance(certificate, dict):
         raise ValueError("certificate must be a JSON object")
     if "certificate_kind" in certificate:
+        if certificate["certificate_kind"] == PROFILE_KIND:
+            return profile_summary(certificate, verified=verified)
         if certificate["certificate_kind"] == EXPOSURE_KIND:
             return exposure_summary(certificate, verified=verified)
         if certificate["certificate_kind"] != KIND:
@@ -265,6 +274,54 @@ def exposure_summary(certificate: dict, *, verified: bool = False) -> str:
     )
 
 
+def profile_summary(certificate: dict, *, verified: bool = False) -> str:
+    """Display the selected profile; saved-input arithmetic is not authentication."""
+    if (
+        "source_revision" in certificate
+        and certificate["source_revision"] != verify_source_manifest()
+    ):
+        raise ValueError("saved profile provenance differs from the installed source manifest")
+    summary(certificate["core_certificate"], verified=verified)
+    allocation = validate_saved_count(certificate)
+    params = certificate["parameters"]
+    heading = (
+        f"PASS: homometric-motion {__version__} profiled count certificate"
+        if verified
+        else "UNVERIFIED DISPLAY: saved certificate claims (reference model not recomputed)"
+    )
+    qualifier = "" if verified else "Recorded claim - "
+    return "\n".join(
+        [
+            heading,
+            f"{qualifier}profile: {certificate['profile']}",
+            f"{qualifier}scenario: {certificate['scenario']}",
+            f"{qualifier}profile mathematical checks: {certificate['checks']['count']}",
+            f"{qualifier}sufficient observation windows: {allocation['sufficient_observation_windows']:,}",
+            f"{qualifier}risk bound: at most 5% in either class under the selected model.",
+            f"{qualifier}domain: beta in [B/2,B], fixed frequency error <= {float(Fraction(params['frequency_error_cap_exact'])):.0e},",
+            f"spring weights within 1 +/- 1/100001, exposure <= {float(Fraction(params['exposure_cap_exact'])):g}, start lag >= 1000,",
+            "fixed integrated normalized gain in [0.9,1.1], Poisson background in [0,1].",
+            (
+                "Fixed position errors <= 1e-14; homometry applies to nominal templates only."
+                if certificate["scenario"] == "position_uncertainty"
+                else "Exact mean geometry is assumed."
+            ),
+            "Stationary compatible weighted Gaussian OU motion is assumed.",
+            "Exposure, strength, frequency, springs, positions and channel parameters stay fixed during acquisition.",
+            "Use this profile's newly computed threshold in allocation.classifier.",
+            "The embedded 1e-20 core is a reference; its eta, count and threshold are not selected here.",
+            (
+                "The reference core and full selected count chain were freshly recomputed."
+                if verified
+                else "Saved-input checks reconstruct conditional arithmetic; they do not authenticate the reference motion model."
+            ),
+            "The allocation is a feasible witness, not a global optimum or a necessary count.",
+            "The exact-geometry exposure cap 0.01 remains unresolved by these bounds.",
+            "No physical validation or practical feasibility is claimed.",
+        ]
+    )
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(prog="homometric-motion")
     parser.add_argument("--version", action="version", version=__version__)
@@ -297,6 +354,17 @@ def main(argv=None) -> int:
         type=Path,
         help="new exposure extension JSON file; existing files are never overwritten",
     )
+    count = commands.add_parser(
+        "count", help="freshly recompute a required, explicitly versioned count profile"
+    )
+    count.add_argument("--profile", choices=PROFILES, required=True)
+    count.add_argument("--scenario", choices=SCENARIOS, default="exact_geometry")
+    count.add_argument(
+        "--output",
+        required=True,
+        type=Path,
+        help="new profile JSON file; existing files are never overwritten",
+    )
     show = commands.add_parser("summary", help="display a saved certificate")
     show.add_argument("path", type=Path)
     args = parser.parse_args(argv)
@@ -313,7 +381,11 @@ def main(argv=None) -> int:
             "coordinate-count": build_coordinate_certificate,
             "exposure-count": build_exposure_certificate,
         }
-        certificate = builders[args.command](scenario=args.scenario)
+        certificate = (
+            build_count_certificate(profile=args.profile, scenario=args.scenario)
+            if args.command == "count"
+            else builders[args.command](scenario=args.scenario)
+        )
         certificate["source_revision"] = provenance
         encoded = json.dumps(certificate, indent=2, sort_keys=True, allow_nan=False) + "\n"
         with args.output.open("x", encoding="utf-8", newline="\n") as stream:

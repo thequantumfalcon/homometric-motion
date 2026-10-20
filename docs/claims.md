@@ -17,6 +17,9 @@ test or repository score does not establish a broader claim. See the
 | The stated count is sufficient for error at most 5% in each class. | Whole-window OU dependence bound, factorial-moment bounds, estimator allowance, Chebyshev inequality and union bound. | A necessary or optimal count, a zero-error classifier, or a practical laboratory budget. |
 | Separate coordinate tolerances reduce the sufficient counts under the same assumptions. | [Coordinate-count proof](proofs/coordinate-counts.md): complete nonlinear error bounds and a rational feasible allocation, freshly recomputed with the full core. | Global optimality, a lower bound on required observations or a less restrictive physical domain. |
 | A separate method permits normalized exposure up to 10⁻⁵ in both scenarios. | [Linear exposure proof](proofs/linear-exposure.md): weighted-OU quadratic kernel bounds, stationary Gaussian parity transfer, and newly computed frequency/position, classifier and count witnesses. | Arbitrary exposure, a temporal model inferred from marginal covariance alone, or practical hardware validation. |
+| Explicit profiles provide new sufficient counts without replacing earlier contracts. | [Profile proof](proofs/profiled-counts.md): the complete cancellation-aware estimator polynomial, separate actual variance/third errors, fresh thresholds and exact union-risk ceilings. | Global optimality, an implicit best profile, a necessary sample size or transfer of an earlier threshold. |
+| The selected long profiles permit exposure caps 0.001 and 0.01 in their respective scenarios. | [Signed kernel proof](proofs/signed-kernel-exposure.md): same-generator signed derivatives, absolute remainders, rank-two majorization, finite-motion parity, all 512 cells and independent class-wise nuisance-propagated shape unions. | A two-eigenvalue time-averaged law, exponential monotonicity across different generators, an independent global moment-rectangle shape argument or arbitrary temporal models. |
+| Four deterministic sensitivity statements have optional Lean proofs. | [Analytic-project scope](proofs/formal/analytic/SCOPE.md#cumulant-sensitivity-statements): two exact identities, an absolute interval coefficient bound and an abstract counterexample to dropping its upper-variance branch. | Formalization of the full error-budget inequalities, the Poisson interpretation, the numerical allocation, concentration or the classifier. |
 | The installed package reproduces its numerical assertions. | `python tools/project.py release`: exact checks, installed-wheel tests, source manifest and deterministic CLI replay. | Correctness of every untested code path or formal verification of the analytic proof. |
 | Selected arithmetic and factorial identities have Lean proofs. | [Formal checkpoints](proofs/formal/README.md), statement mapping and pinned toolchain. | Formalization of the Gaussian, integration, covariance or Markov arguments, or physical validation. |
 | Standard deviation changes by at most the L2 size of a coupled perturbation. | [Analytic Lean proof](proofs/formal/analytic/README.md), with explicit finite moments on a common probability space; also derives L3-based variance enclosures. | Construction of the coupling, numerical perturbation bounds, third-cumulant separation or the full classifier theorem. |
@@ -25,6 +28,14 @@ test or repository score does not establish a broader claim. See the
 
 ## Evidence boundaries
 
+- The exact-geometry exposure cap 0.01 remains unresolved after nuisance
+  propagation and has no allocated count. Position uncertainty at cap 0.001
+  is an evaluated stricter domain with a smaller sufficient count than the
+  selected 0.01 profile; it is not an implicit runtime choice.
+- The geometry scenarios are not nested because their frequency tolerances
+  differ. All nuisance settings remain fixed during each acquisition.
+  Neither arbitrary parameter mixtures nor physical rate calibration follow
+  from a bound on integrated gain and background.
 - The repository contains a mathematical model and computations, not experimental
   measurements. No apparatus has been validated by these files.
 - The complete theorem is not formally verified in a proof assistant.

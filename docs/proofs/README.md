@@ -17,15 +17,24 @@ Read the proofs in this order:
 5. [Linear exposure extension](linear-exposure.md) allows longer exposures by
    bounding averaged quadratic moments directly, retaining finite-motion
    parity errors and recomputing nuisance and count bounds.
-6. [Scope and related work](scope-and-related-work.md) states the essential
+6. [Signed kernel exposure bounds](signed-kernel-exposure.md) retains signed
+   derivatives, bounds their remainders, proves a rank-two majorization
+   inequality, and propagates all 512 time cells through nuisance bounds.
+7. [Explicit count profiles](profiled-counts.md) combines the selected moment
+   route with a cancellation-aware full estimator polynomial, separate actual
+   shape errors, a new threshold and an exact finite-window risk witness.
+8. [Scope and related work](scope-and-related-work.md) states the essential
    strength floor, unresolved directions, finite-error limitations and close
    prior work.
-7. [Formal checkpoints](formal/README.md) distinguishes six mapped finite
-   arithmetic statements, six universal polynomial identities and general
-   analytic variance-stability lemmas from the full probabilistic theorem.
+9. [Formal checkpoints](formal/README.md) distinguishes six mapped finite
+   arithmetic statements, six universal factorial identities, nine analytic
+   variance declarations and four deterministic sensitivity statements from
+   the full probabilistic theorem.
 
 The package recomputes two geometry/calibration scenarios with explicitly named
-count and exposure methods from its own mathematical resources.
+count methods and versioned profiles from its own mathematical resources.
+The three earlier commands retain their parameter, threshold and numerical
+contracts; neither new profile is selected implicitly.
 Its exact rational outputs and integer interval checks support the
 stated conditional inequalities. They are not physical measurements,
 independent human peer review or a formalization of the full theorem.
