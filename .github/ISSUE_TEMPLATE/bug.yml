@@ -1,0 +1,31 @@
+name: Software defect or proof gap
+description: Report a reproducible failure, missing assumption or counterexample.
+labels: ["bug"]
+body:
+  - type: input
+    id: revision
+    attributes:
+      label: Exact commit and Python version
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Claim or behavior in question
+      description: Identify the equation, assumption, file or command.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction or mathematical argument
+      description: Include expected and observed results. Remove personal information.
+    validations:
+      required: true
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Reporting scope
+      options:
+        - label: This report contains no credentials, confidential data or undisclosed security vulnerability.
+          required: true

@@ -1,0 +1,19 @@
+# Python patterns adapted from github/gitignore's Python template (CC0-1.0).
+__pycache__/
+*.py[codz]
+*.egg-info/
+build/
+dist/
+.venv/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.ruff_cache/
+.pytest_cache/
+.tox/
+.env
+.pypirc
+# Local artifact-verification environments, outputs and receipts.
+.build/
+certificate.json

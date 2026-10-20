@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions and research discussion
+    url: https://github.com/thequantumfalcon/homometric-motion/discussions
+    about: Discuss assumptions, extensions and reproduction.
+  - name: Private security report
+    url: https://github.com/thequantumfalcon/homometric-motion/security/advisories/new
+    about: Report security vulnerabilities privately.
+  - name: Conduct reporting
+    url: https://github.com/thequantumfalcon/homometric-motion/blob/main/.github/CODE_OF_CONDUCT.md
+    about: Read the public maintainer and private GitHub platform reporting routes.

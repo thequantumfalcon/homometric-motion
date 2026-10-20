@@ -1,0 +1,27 @@
+name: pr-title
+on:
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
+permissions:
+  contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  pr-title:
+    name: pr-title
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Validate a Conventional Commit subject
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          python - <<'PY'
+          import os
+          import re
+          title = os.environ["PR_TITLE"]
+          pattern = r"(feat|fix|docs|test|refactor|perf|build|ci|chore|revert)(\([a-z0-9_-]+\))?!?: \S.+"
+          if not re.fullmatch(pattern, title):
+              raise SystemExit("Use a Conventional Commit title, such as 'fix: correct a bound'.")
+          PY

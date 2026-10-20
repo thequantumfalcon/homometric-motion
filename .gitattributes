@@ -1,0 +1,7 @@
+* text=auto eol=lf
+*.bat text eol=crlf
+*.png -text
+*.whl -text
+docs/** linguist-documentation
+/requirements-dev.lock linguist-generated
+/.github export-ignore

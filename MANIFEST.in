@@ -1,0 +1,7 @@
+include LICENSE.txt README.md CHANGELOG.md CITATION.cff AGENTS.md
+include pyproject.toml requirements-dev.in requirements-dev.lock Makefile
+recursive-include src *.py *.json
+recursive-include tests *.py
+recursive-include tools *.py
+recursive-include docs *.md
+global-exclude __pycache__ *.py[cod]

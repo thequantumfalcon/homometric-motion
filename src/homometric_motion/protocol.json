@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "revision_kind": "release_adaptation",
+  "selection_disclosure": "This is a new release implementation of previously examined parameters. The frequency tolerance was selected after its earlier bounds were known. No blind selection or prospective preregistration is claimed. Historical freezes and execution records are not reproduced or relabeled.",
+  "epsilon_exact": "1/100000",
+  "exposure_cap_exact": "1/100000000000000000000",
+  "frequency_error_cap_exact": "1/100000000000000",
+  "lag_lower_exact": "1000",
+  "h_interval_exact": [
+    "9/10",
+    "11/10"
+  ],
+  "b_interval_exact": [
+    "0",
+    "1"
+  ],
+  "eta_exact": "1/100000",
+  "target_individual_class_error": "1/20",
+  "strength_band": "B/2 <= beta_G <= B for frequency uncertainty; 0 < beta_G <= B for the exact-null stage",
+  "geometry": "Fixed 63-point mean configurations with permanent graph links. No position uncertainty.",
+  "model": "Stationary centered Gaussian weighted-spring OU motion; fixed admissible parameters; rectangular exposure; conditionally independent Poisson counts in disjoint windows given the full trajectory.",
+  "scope": "One fixed parameter chain, not a replay of all earlier grids. No external workspace inputs or network resources.",
+  "limits": [
+    "No physical validation, independent human peer review or proof-assistant verification.",
+    "No novelty, optimal tolerance, necessary sample size or practical feasibility claim.",
+    "Frequency uncertainty requires the positive strength floor.",
+    "Drifting settings, non-Gaussian motion, nonstationary preparation and other detectors are outside this theorem."
+  ]
+}

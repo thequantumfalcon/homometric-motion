@@ -1,0 +1,50 @@
+{
+  "files": [
+    {
+      "path": "__init__.py",
+      "sha256": "fe7f22b919792541ff8336676e81801931c432b24892c9bcf9e2f38dae0647ea"
+    },
+    {
+      "path": "__main__.py",
+      "sha256": "2d975f2559a13d57e0f20cf1a513578b7c55c96b69e632233f24121a42530b92"
+    },
+    {
+      "path": "arithmetic.py",
+      "sha256": "c2ee938f5adbe2eeb896d5cb86da0b3ad7a3b0580b3853e65f3a4eee5ae58594"
+    },
+    {
+      "path": "certificate.py",
+      "sha256": "4652709a8c165350a544e60782dac01b35826407b6392ffdefb090e9ade07238"
+    },
+    {
+      "path": "cli.py",
+      "sha256": "e2086bbcda9a5eab6c783422296dc401c835ffe8191ffdc044664f3cd1db3f09"
+    },
+    {
+      "path": "counts.py",
+      "sha256": "971e143906afc9b90fa44de7134bcf0192eefc691e9814dcc4f0fb4a31e3eaa7"
+    },
+    {
+      "path": "geometry.py",
+      "sha256": "0810fa1c7c678ff009a798b0775219a2f4b31bd2c7c589930838ac19bdfdfd73"
+    },
+    {
+      "path": "inputs.json",
+      "sha256": "2f2632855ef37064bb936dffb4abb09c508d2da666bb29f03726e0d512ce7092"
+    },
+    {
+      "path": "motion.py",
+      "sha256": "88fbf4ca3529848911009a9c749ea9fafd0b3afad22b046155823762932712bd"
+    },
+    {
+      "path": "protocol.json",
+      "sha256": "539510221b60075916f9540788a6219889ea36c6e9c77311568e85a2f4df07a6"
+    },
+    {
+      "path": "robustness.py",
+      "sha256": "82a6b4dc1971607869b23dfb22d7e928f28289f4553ebefacb6ca45bb7475cc4"
+    }
+  ],
+  "revision_kind": "release_adaptation",
+  "schema_version": 1
+}

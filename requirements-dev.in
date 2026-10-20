@@ -1,0 +1,7 @@
+# Development only. The installed scientific package has no dependencies.
+build==1.6.1
+setuptools==84.2.0
+wheel==0.48.0
+ruff==0.17.1
+coverage==7.16.2
+pre-commit==4.7.0

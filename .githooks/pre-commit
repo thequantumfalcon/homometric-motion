@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+set -eu
+root="$(git rev-parse --show-toplevel)"
+if [ -x "$root/.venv/Scripts/python.exe" ]; then
+    python="$root/.venv/Scripts/python.exe"
+elif [ -x "$root/.venv/bin/python" ]; then
+    python="$root/.venv/bin/python"
+else
+    python=python
+fi
+exec "$python" -m pre_commit run --hook-stage pre-commit

@@ -1,0 +1,12 @@
+changelog:
+  exclude:
+    labels: ["ignore-for-release"]
+  categories:
+    - title: Breaking changes
+      labels: ["breaking"]
+    - title: Mathematical results and features
+      labels: ["enhancement"]
+    - title: Corrections
+      labels: ["bug"]
+    - title: Other changes
+      labels: ["*"]
