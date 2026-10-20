@@ -87,19 +87,25 @@ coincide or that other analyses cannot distinguish them.
 
 The optional sources check six finite integer statements mapped to the
 original `verify` position certificate, six universal factorial-product
-identities, nine analytic variance declarations and four deterministic
-cumulant-sensitivity statements. The latter two sets share one pinned
+identities, nine analytic variance declarations, four deterministic
+cumulant-sensitivity statements and five explicit nine-point polynomial
+statements. The latter three sets share one pinned
 Lean/mathlib project. They do not formalize the complete Gaussian,
 integration, temporal-concentration or classifier argument. See
 [formal scope](proofs/formal/README.md).
 
 ## Does a saved summary verify a certificate?
 
-No. `summary` is labelled **UNVERIFIED** even when it rejects inconsistent
-parameters, digests or witnesses. These checks do not authenticate a
-saved file or recompute its physical model. Run the computing command
-from the installed artifact to obtain fresh output; source hashes bind
-bytes but do not establish that an untrusted source is genuine.
+It does not authenticate the supplied record. `summary` remains labelled
+**UNVERIFIED** even when it rejects inconsistent parameters, digests or
+witnesses. For the nine-point record it additionally reconstructs and compares
+all scientific values using the installed fixed model. Earlier summaries
+retain their consistency checks without recomputing the reference motion
+model. None of these operations validates physical assumptions.
+
+Run the corresponding computing command from the installed artifact to obtain
+fresh output. Source hashes bind bytes but do not establish that an untrusted
+source is genuine.
 
 ## Is this a claim of a new physical law or a completed experiment?
 

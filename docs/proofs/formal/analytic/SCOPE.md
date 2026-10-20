@@ -1,8 +1,8 @@
 # Statements, proof routes and application limits
 
-The project contains thirteen declarations in two files. The nine
-standard-deviation declarations are unchanged; the four added sensitivity
-statements cover a separate deterministic step.
+The project contains eighteen declarations in three files. The nine
+standard-deviation declarations and four sensitivity statements are unchanged.
+Five further statements concern explicit nine-point polynomials.
 
 ## Standard-deviation continuity
 
@@ -73,6 +73,32 @@ positive-denominator checks, the search for tolerances, the threshold and
 the probability guarantee remain separate mathematical steps in the
 [profiled count proof](../../profiled-counts.md).
 
+## Nine-point polynomial statements
+
+`NinePointBezout.lean` contains five theorems over real numbers.
+
+| Declaration | Exact mathematical role |
+| --- | --- |
+| `bezout_identity` | Expands the complete fixed polynomials and proves `a(t)h(t)+b(t)d(t)=c` for every real `t`, with the explicit positive integer constant. |
+| `no_common_zero` | Uses that identity to prove `h(t)` and `d(t)` cannot both vanish at any real `t`. |
+| `mean_factorization` | Proves the complete coefficient identity `meanDifference(t)=cofactor(t)h(t)`. |
+| `cofactor_positive` | Proves the explicit product `cofactor(t)>0` under `0<t<1`. |
+| `joint_moment_noncoincidence` | Concludes that `meanDifference(t)` and `d(t)` cannot both vanish under `0<t<1`. |
+
+These definitions contain all integer coefficients. The Bezout relation is
+proved by expansion, not supplied as a hypothesis or custom axiom.
+The generator and `mapping.json` connect the definitions to the installed
+package's fresh first- and second-moment differences. Exact re-expansion
+and full field comparison are executable checks outside Lean.
+
+The Gaussian characteristic-function formula, finite phase sum and graph
+covariance construction are not formalized here. The implication from
+different moments to different bounded intensity laws is also outside
+these five statements. The local independently uncertain-strength projection,
+Sturm count, Bernstein sign statements, skewness crossings and Taylor
+remainder certificate remain separately justified mathematics.
+This checkpoint does not formalize the complete nine-point or 63-point theorem.
+
 ## What remains unformalized
 
 The following parts of the complete discovery argument are not
@@ -95,4 +121,4 @@ The four algebraic statements isolate useful pieces of the estimator
 argument; they do not formalize its probabilistic conclusion. The nine
 variance statements prove a general analytic step, not its numerical
 model-specific inputs. Physical calibration, model adequacy, novelty and
-human peer review remain outside the scope of both files.
+human peer review remain outside the scope of all three files.

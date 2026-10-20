@@ -6,24 +6,14 @@
       "sha256": "38b1c59269dffef34920752fd8bd6e71322816e3b200b67c6dc48d3abaccf250"
     },
     {
+      "bytes": 13442,
+      "path": "build_nine_point_checkpoint.py",
+      "sha256": "db3d07cbad11e8abe5ee56481fcd4b105479662aabbf8550d7f28958117e0cab"
+    },
+    {
       "bytes": 1857,
       "path": "CumulantSensitivity.lean",
       "sha256": "52a89c385dfeb1a3f244bbbb4e901870f8d67dd3885b224cc167734e3de3a3aa"
-    },
-    {
-      "bytes": 4437,
-      "path": "README.md",
-      "sha256": "59e18a9dc096db64113ff782efa9826a4b4ddeff339d00dcfe03ed084583f8eb"
-    },
-    {
-      "bytes": 5184,
-      "path": "SCOPE.md",
-      "sha256": "99de93d66e3d5105b2b41711e6fa6df7d66411c955b2f4ba9d8bb2073ea99a4f"
-    },
-    {
-      "bytes": 6647,
-      "path": "StandardDeviationContinuity.lean",
-      "sha256": "51fd5df2ab01983c76ed5d47f63c0745c78f13484a205845116541c8de2f0b1b"
     },
     {
       "bytes": 3572,
@@ -31,16 +21,41 @@
       "sha256": "c151500d77377548f07eb8dfc2a194b02b42db03939b3fb03ff924313c3485b2"
     },
     {
-      "bytes": 406,
+      "bytes": 464,
       "path": "lakefile.toml",
-      "sha256": "699ed792eec6197e96fcfad7fca1b55dc670af3f2571e71a695c993b563833cb"
+      "sha256": "a7c2d8e6232779caaee9c28c9126c92aae003c34c355c89c98c0b0e93f9ccc07"
     },
     {
       "bytes": 25,
       "path": "lean-toolchain",
       "sha256": "ca5f1f601d34c49079e38d7e7041eb0f2a9c227fbc1df0f404820069a052330c"
+    },
+    {
+      "bytes": 47721,
+      "path": "mapping.json",
+      "sha256": "759d6522018fbb9e4c4ca700f8643e4f433318333e85e707d8d39497c3186a2a"
+    },
+    {
+      "bytes": 44044,
+      "path": "NinePointBezout.lean",
+      "sha256": "775de40ebd3c150142033d5bcf1e4bb7222bb5b2c6bf178ae775e76c343ef5ca"
+    },
+    {
+      "bytes": 6501,
+      "path": "README.md",
+      "sha256": "d2d801fdfee6681cbf1459f525ee6a44e6ed68c3d974202b123c940fa3dcd855"
+    },
+    {
+      "bytes": 6802,
+      "path": "SCOPE.md",
+      "sha256": "78a26a36981967c0271b5332110b2bd7cd985fe40cd0a79e42ee938b6bc0616a"
+    },
+    {
+      "bytes": 6647,
+      "path": "StandardDeviationContinuity.lean",
+      "sha256": "51fd5df2ab01983c76ed5d47f63c0745c78f13484a205845116541c8de2f0b1b"
     }
   ],
-  "revision_kind": "analytic_robustness_and_cumulant_sensitivity_public_v2",
+  "revision_kind": "analytic_robustness_cumulant_sensitivity_and_nine_point_public_v3",
   "schema_version": 1
 }

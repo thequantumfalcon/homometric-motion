@@ -1,9 +1,10 @@
 # Research roadmap and evidence requirements
 
 These are open research directions, not achieved applications or predictions
-of a breakthrough. The current result is the conditional certificate for one
-explicit 63-point pair described in the [claim ledger](claims.md) and
-[proofs](proofs/README.md). It does not establish a general reconstruction
+of a breakthrough. Current results include the conditional photon-count
+certificate for an explicit 63-point pair and a separate exact nine-point
+moment construction described in the [claim ledger](claims.md) and
+[proofs](proofs/README.md). They do not establish a general reconstruction
 algorithm, physical feasibility, optimal sample complexity or scientific priority.
 
 ## Current quantitative starting point
@@ -115,7 +116,9 @@ classification theorem is supplied by the current certificate.
    or reverse. Publish a new result only with its reproducible evidence.
 2. Prove robustness across the actual nuisance domains needed for a classifier.
    Common-parameter pointwise results must not be promoted to independent
-   nuisance-set separation.
+   nuisance-set separation. The separate [nine-point result](proofs/nine-point-moments.md)
+   supplies one local independent-strength projection bound in calibrated
+   intensity units; its wider bands and unmodeled detector uncertainties remain open.
 3. Compare statistical procedures under matched contracts and quantify both
    sufficient budgets and any information-based limitations.
 4. Extend synthetic benchmarks with calibrated failure cases and uncertainty

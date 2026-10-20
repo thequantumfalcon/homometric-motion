@@ -1,7 +1,8 @@
-# Analytic robustness and cumulant sensitivity
+# Analytic robustness, cumulant sensitivity and polynomial witnesses
 
 This separate Lean project proves nine general standard-deviation and variance
-declarations and four deterministic cumulant-sensitivity statements. It
+declarations, four deterministic cumulant-sensitivity statements and five
+explicit polynomial statements for the nine-point construction. It
 **does not formalize the complete discrimination theorem or validate its
 physical model**.
 
@@ -24,8 +25,16 @@ counterexample to dropping the upper-variance branch. These are algebraic
 and order statements over real numbers. They do not introduce a probability
 model or prove the final sample-size bound.
 
-[SCOPE.md](SCOPE.md) maps both files to the larger argument and lists the
+[SCOPE.md](SCOPE.md) maps all three files to the larger argument and lists the
 obligations left open.
+
+`NinePointBezout.lean` proves a complete integer-coefficient Bezout identity,
+its no-common-zero consequence, a mean-factorization identity, positivity
+of its cofactor on `0<t<1`, and noncoincidence of the two resulting
+polynomials on that interval. Its connection to Gaussian intensity moments
+requires the separate [nine-point proof](../../nine-point-moments.md).
+No equality-of-law, strength-band, root-count or detector theorem is formalized
+by these five statements.
 
 ## Replay
 
@@ -34,16 +43,18 @@ Use **Lean 4.35.0** and its matching Lake. The included `lean-toolchain`,
 and all eight transitive dependency commits. From this directory:
 
 ```text
-lake exe cache get Mathlib.Probability.Moments.Variance Mathlib.MeasureTheory.Function.L2Space Mathlib.Basic.Real.Basic Mathlib.Tactic.Linarith Mathlib.Tactic.Ring
+lake exe cache get Mathlib.Probability.Moments.Variance Mathlib.MeasureTheory.Function.L2Space Mathlib.Basic.Real.Basic Mathlib.Tactic.Linarith Mathlib.Tactic.Ring Mathlib.Tactic.NormNum Mathlib.Tactic.Positivity
 lake env lean --trust=0 StandardDeviationContinuity.lean
 lake env lean --trust=0 CumulantSensitivity.lean
+lake env lean --trust=0 NinePointBezout.lean
 ```
 
 The first command obtains the pinned source dependencies and the relevant
 official mathlib cache. It requires network access on an uncached machine.
-The next commands check the two source files; `--trust=0` requests type
+The next commands check the three source files; `--trust=0` requests type
 checking of imported modules as well. A successful run exits zero and prints
-nine axiom lists for the first file and four for the second, each exactly:
+nine axiom lists for the first file, four for the second and five for the
+third, each exactly:
 
 ```text
 [propext, Classical.choice, Quot.sound]
@@ -54,8 +65,8 @@ desired result. Do not treat a nonzero exit, an unresolved goal, or an
 unexpected axiom as an accepted proof. The source declarations identify the
 explicit hypotheses.
 
-Both modules are also listed as default targets in `lakefile.toml`, so
-`lake build` includes both. That build command does not replace the explicit
+All three modules are listed as default targets in `lakefile.toml`, so
+`lake build` includes all three. That build command does not replace the explicit
 `--trust=0` replay and axiom inspection above.
 
 The source manifest binds this small project. Dependencies and generated
@@ -63,12 +74,38 @@ The source manifest binds this small project. Dependencies and generated
 dependency lock, source or documentation creates a new revision requiring
 review and the applicable proof replay.
 
+## Reconstruct the nine-point coefficient mapping
+
+With this revision's wheel installed, run the following from an empty
+working directory, substituting the checkout path:
+
+```sh
+python -I /path/to/checkout/docs/proofs/formal/analytic/build_nine_point_checkpoint.py --output-dir new-nine-point-checkpoint
+python -I /path/to/checkout/docs/proofs/formal/analytic/build_nine_point_checkpoint.py --check /path/to/checkout/docs/proofs/formal/analytic
+```
+
+Each command checks the installed source manifest and freshly rebuilds
+the complete fixed nine-point certificate. It maps every polynomial
+coefficient, re-expands the identities in Python, and emits or compares
+`NinePointBezout.lean` and `mapping.json`. It reads no private workspace
+record or supplied saved certificate. The first command refuses existing
+output paths; the second writes nothing.
+
+The mapping includes the generator, installed-source and full-certificate
+hashes, complete coefficient vectors and field pointers. A source revision
+may change these bindings even when the mathematical coefficients are
+unchanged. A failed comparison requires investigation and a reviewed new
+mapping; it must not be explained away by regenerating a manifest.
+The generator does not run Lean. Execute the separate kernel replay above
+and inspect its exit code and five axiom reports.
+
 ## What the check establishes
 
 The original nine declarations were accepted by Lean 4.35.0 with
 `--trust=0`; a separately altered, intentionally overstrong zero-bound
-statement was rejected. The four additional statements have the separate
-replay command above. All are checked by **Lean's own kernel**, using
+statement was rejected. The four sensitivity statements and five nine-point
+polynomial statements have separate replay commands above.
+All are checked by **Lean's own kernel**, using
 mathlib at commit `56a005855ea17e0b0958f73ec801ae140b0a1679`.
 This is not a successful replay by an independently implemented proof checker.
 

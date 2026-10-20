@@ -6,6 +6,7 @@ from .certificate import build_certificate
 from .coordinate import build_coordinate_certificate
 from .exposure import build_exposure_certificate
 from .profiles import build_count_certificate
+from .smallpair import build_small_pair_certificate
 
 __all__ = [
     "__version__",
@@ -13,4 +14,5 @@ __all__ = [
     "build_coordinate_certificate",
     "build_exposure_certificate",
     "build_count_certificate",
+    "build_small_pair_certificate",
 ]

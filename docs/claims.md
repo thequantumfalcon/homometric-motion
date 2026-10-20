@@ -1,6 +1,7 @@
 # Claim ledger
 
-This ledger describes the `exact_geometry` and `position_uncertainty` scenarios.
+This ledger describes the 63-point `exact_geometry` and `position_uncertainty`
+scenarios and the separately identified nine-point instantaneous-intensity model.
 A successful
 test or repository score does not establish a broader claim. See the
 [proof index](proofs/README.md) for definitions and derivations.
@@ -51,6 +52,21 @@ test or repository score does not establish a broader claim. See the
   scores measure selected maintenance signals, not scientific truth.
 - Development and demonstration results apply to the exact revision and model
   they identify. An extension is not covered merely because an earlier theorem passed.
+
+## Separate nine-point model
+
+The [nine-point proof](proofs/nine-point-moments.md) and `small-pair` command
+use fixed permanent nominal graphs, centered Gaussian displacement, exact
+frequency and calibrated intensity. Their claims do not inherit the
+63-point count theorem's detector or robustness allowances.
+
+| Claim | Evidence and scope | What this does not establish |
+| --- | --- | --- |
+| The two leading intensity laws agree, including their common-clock OU path laws. | Exact projected covariance powers, a shared characteristic polynomial and Gaussian covariance determination. | Equality of the exact nonlinear intensity laws. |
+| The first two exact intensity moments cannot both agree at any shared finite positive strength. | Generated complete Bezout identity and strictly positive mean cofactor on `0<t<1`. | A uniform global gap or separation across arbitrary different strengths. |
+| The mean crosses exactly once; skewness crosses at least twice. | Rational Sturm chain, positive variance/cumulant Bernstein coefficients and exact cross-product signs. | The exact total number of skewness roots or equality of laws at a single-statistic crossing. |
+| A fixed combination of the first two raw moments separates independently uncertain fixed strengths in a restricted band. | Full Bernstein enclosures give `E_A[I²-cI]-E_B[I²-cI]>7/100000` for `t_A,t_B` in `[831/1024,833/1024]`. All five radii and three wider unresolved tests remain visible. | Unknown gain/background invariance, global unknown-strength separation, exposure robustness or finite-sample error control. |
+| A small shared-strength interval has a positive skewness gap. | Degree-16 Taylor expansion with a global exponential remainder and complete polynomial propagation. | Arbitrary strength; the larger cap `1/10` remains unresolved. |
 
 ## Correction policy
 

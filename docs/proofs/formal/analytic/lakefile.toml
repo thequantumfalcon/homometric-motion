@@ -1,7 +1,7 @@
 name = "analytic_robustness"
 version = "0.1.0"
 fixedToolchain = true
-defaultTargets = ["StandardDeviationContinuity", "CumulantSensitivity"]
+defaultTargets = ["StandardDeviationContinuity", "CumulantSensitivity", "NinePointBezout"]
 
 [[require]]
 name = "mathlib"
@@ -14,3 +14,6 @@ name = "StandardDeviationContinuity"
 
 [[lean_lib]]
 name = "CumulantSensitivity"
+
+[[lean_lib]]
+name = "NinePointBezout"

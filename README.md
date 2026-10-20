@@ -21,6 +21,27 @@ for inspection. It does not implement or validate the final count theorem.
 Its reference remains bound to the explicitly hashed earlier core certificate;
 it does not automatically track new package revisions.
 
+A separate [nine-point construction](docs/proofs/nine-point-moments.md)
+studies exact instantaneous intensity without a detector channel. Its leading
+intensity laws under Gaussian motion agree, yet its exact first two moments cannot both
+agree at any shared finite positive motion strength. A further local bound
+separates independently uncertain fixed strengths using calibrated raw
+intensity. Neither result carries the 63-point photon-count guarantee.
+
+After installation, reproduce this separate fixed model with:
+
+```sh
+python -m homometric_motion small-pair --output nine-point.json
+python -m homometric_motion summary nine-point.json
+```
+
+The command reconstructs all polynomial witnesses from the fixed inputs.
+The mean crosses once and skewness crosses at least twice, so neither
+statistic has a single global ordering. Wider unresolved parameter bands
+remain in the output. Saved-record inspection performs a fresh scientific
+reconstruction; it does not authenticate the supplied record or validate
+physical assumptions.
+
 ## What is certified
 
 The package reconstructs a noncongruent pair of 63-point configurations,
@@ -140,7 +161,10 @@ Installation downloads the pinned build tools unless they are already available.
 The installed verification itself runs offline. All computing commands refuse to overwrite
 an existing output: choose a new filename for another run. The JSON contains
 exact fractions and check labels; decimal output is for reading only.
-`summary` displays a saved file and does not independently reverify it.
+`summary` does not authenticate a saved file or its provenance. For a nine-point
+record it additionally reconstructs and compares all fixed scientific values
+using the installed model. Earlier certificate summaries retain their stated
+consistency checks without recomputing the reference motion model.
 
 To test the artifact, contributors and CI run these commands from a Git checkout:
 
@@ -152,17 +176,21 @@ python tools/project.py release
 Use an isolated development environment. `release` builds an sdist and wheel,
 tests the installed package, checks coverage, executes each scenario and
 each of the three earlier methods plus both explicit profiles twice in a fresh
-environment, and compares the results. It also checks that the committed
+environment, and compares the results. It separately replays `small-pair` twice
+and reconstructs its saved record. It also checks that the committed
 demo data match a newly computed original `verify` certificate. It does not publish anything.
 See [contribution instructions](.github/CONTRIBUTING.md).
 
 Optional [Lean checkpoints](docs/proofs/formal/README.md) verify six finite
 arithmetic statements, six general falling-factorial identities, nine
-analytic variance declarations and four deterministic cumulant-sensitivity
-statements. The thirteen analytic-project declarations occupy two source files;
+analytic variance declarations, four deterministic cumulant-sensitivity
+statements and five explicit nine-point polynomial statements. The eighteen
+analytic-project declarations occupy three source files;
 the original nine are unchanged. The finite arithmetic mapping remains bound
 to the original `verify` position-uncertainty certificate, not to the new
-profile counts. These bounded proofs do not formalize the complete theorem,
+profile counts. The separate nine-point mapping rebuilds its installed model
+and binds every coefficient of the two-moment noncoincidence checkpoint.
+These bounded proofs do not formalize the complete theorem,
 and Lean is not required to run the package.
 
 ## What remains open
@@ -184,8 +212,9 @@ factorial cumulants; this repository does not establish scientific priority.
 
 The public interface comprises `build_certificate()`,
 `build_coordinate_certificate()`, `build_exposure_certificate()` and
-`build_count_certificate(*, profile, scenario="exact_geometry")`,
-the `verify`, `coordinate-count`, `exposure-count`, `count` and `summary`
+`build_count_certificate(*, profile, scenario="exact_geometry")` and the
+parameter-free `build_small_pair_certificate()`,
+the `verify`, `coordinate-count`, `exposure-count`, `count`, `small-pair` and `summary`
 CLI commands, and their versioned JSON schemas. All are experimental during 0.x.
 The CLI binds its output to the packaged source manifest; hashes do not make an
 untrusted source authentic. Cite the exact Git commit using [CITATION.cff](CITATION.cff).

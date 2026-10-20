@@ -15,6 +15,16 @@ the 0.x certificate schema and Python API remain experimental.
 
 ### Added
 
+- A separate fixed nine-point moment certificate and `small-pair` command.
+  Exact witnesses establish equal leading intensity-process laws, distinct
+  nonlinear laws at every shared finite positive strength, individual
+  mean/skewness crossings and a local calibrated projection gap with independently
+  uncertain fixed strengths. All evaluated unresolved bands remain visible.
+  This construction has no detector channel or finite-count guarantee.
+- Five optional Lean polynomial statements with a portable fresh mapping of
+  every coefficient in the nine-point noncoincidence argument. The Gaussian
+  moment interpretation and full scientific theorem remain outside Lean.
+
 - A research roadmap distinguishing existing imaging methods, open mathematical
   questions, statistical targets and the calibration required before hardware
   development. Potential applications are not presented as achieved results.

@@ -10,6 +10,7 @@ import tarfile
 import tempfile
 import venv
 import zipfile
+from fractions import Fraction
 from pathlib import Path, PurePosixPath
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -22,7 +23,7 @@ COMMANDS = {
     "manifest": "explicitly record the current package source revision",
     "build": "check the manifest and build an sdist and wheel",
     "test": "build, install and test a wheel with a coverage gate",
-    "verify": "build and replay both scenarios and all five method/profile cases twice",
+    "verify": "replay both scenarios/all method profiles and the fixed nine-point model twice",
     "prototype": "build and replay the optional instrument from the source archive",
     "release": "run lint, installed tests and artifact verification; publish nothing",
     "hooks": "run the pinned pre-commit checks on all tracked files",
@@ -379,6 +380,45 @@ def verify(wheel: Path) -> None:
                     "reference_core_matches_original_method": True,
                 }
             )
+    small_outputs = [directory / f"nine-point-{name}.json" for name in ("first", "second")]
+    for output in small_outputs:
+        run(
+            executable,
+            "-I",
+            "-m",
+            "homometric_motion",
+            "small-pair",
+            "--output",
+            output,
+            cwd=directory,
+        )
+    if small_outputs[0].read_bytes() != small_outputs[1].read_bytes():
+        raise RuntimeError("nine-point installed CLI certificates differ")
+    small = json.loads(small_outputs[0].read_text("utf-8"))
+    bands = small["independent_strength_bands"]
+    if (
+        small["status"] != "PASS"
+        or small["certificate_kind"] != "nine_point_finite_motion_v1"
+        or small["parameters"]["n"] != 9
+        or small["source_revision"] != provenance
+        or "core_certificate" in small
+        or bands["passing_projection_radii"] != ["1/1024", "1/4096"]
+        or len(bands["rows"]) != 5
+    ):
+        raise RuntimeError("nine-point fixed model or scope changed")
+    for index, row in enumerate(bands["rows"]):
+        tests = row["independent_strength_range_tests"]
+        if any(tests[name]["status"] != "UNRESOLVED_RANGE_OVERLAP" for name in ("mu1", "mu2")):
+            raise RuntimeError("nine-point single-moment range result changed")
+        projection = tests["projection"]
+        if index < 3:
+            if projection["status"] != "UNRESOLVED_RANGE_OVERLAP":
+                raise RuntimeError("nine-point wider unresolved projection band changed")
+        elif projection["status"] != "CERTIFIED_B_BELOW_A" or Fraction(
+            projection["positive_gap"]
+        ) <= Fraction(7, 100000):
+            raise RuntimeError("nine-point local projection gap changed")
+    run(executable, "-I", "-m", "homometric_motion", "summary", small_outputs[0], cwd=directory)
     receipt = {
         "status": "PASS",
         "wheel": wheel.name,
@@ -387,7 +427,14 @@ def verify(wheel: Path) -> None:
         "coordinate_extensions": extensions,
         "exposure_extensions": exposure_extensions,
         "profile_certificates": profile_certificates,
-        "fresh_cli_calculations": 20,
+        "nine_point_certificate": {
+            "certificate_sha256": hashlib.sha256(small_outputs[0].read_bytes()).hexdigest(),
+            "deterministic_cli_runs": 2,
+            "checks": small["checks"]["count"],
+            "saved_summary_fresh_reconstructions": 1,
+            "has_detector_or_count_guarantee": False,
+        },
+        "fresh_cli_calculations": 22,
         "demo_data_matches_exact_geometry": True,
     }
     (directory / "verification.json").write_text(

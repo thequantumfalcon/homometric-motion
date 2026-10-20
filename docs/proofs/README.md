@@ -28,8 +28,17 @@ Read the proofs in this order:
    prior work.
 9. [Formal checkpoints](formal/README.md) distinguishes six mapped finite
    arithmetic statements, six universal factorial identities, nine analytic
-   variance declarations and four deterministic sensitivity statements from
+   variance declarations, four deterministic sensitivity statements and five
+   explicit nine-point polynomial statements from
    the full probabilistic theorem.
+
+The separate [nine-point moment construction](nine-point-moments.md) uses
+exact instantaneous intensity with fixed nominal covariance and frequency.
+It proves equality of leading intensity-process laws, noncoincidence of the
+first two exact moments at every shared finite positive strength, individual
+statistic crossovers, and a local projection gap across independently uncertain
+fixed strengths. It has no detector channel or count guarantee. It is not
+another parameter profile of the 63-point certificate.
 
 The package recomputes two geometry/calibration scenarios with explicitly named
 count methods and versioned profiles from its own mathematical resources.

@@ -16,6 +16,8 @@ from .exposure import KIND as EXPOSURE_KIND
 from .exposure import build_exposure_certificate, validate_saved_exposure
 from .profiles import KIND as PROFILE_KIND
 from .profiles import PROFILES, build_count_certificate, validate_saved_count
+from .smallpair import KIND as SMALL_PAIR_KIND
+from .smallpair import build_small_pair_certificate, validate_saved_small_pair
 
 MANIFEST_FILES = {
     "__init__.py",
@@ -35,6 +37,13 @@ MANIFEST_FILES = {
     "position.py",
     "profiles.py",
     "robustness.py",
+    "smallpair.py",
+    "smallpair_algebra.py",
+    "smallpair_bounds.py",
+    "smallpair_geometry.py",
+    "smallpair_mean.py",
+    "smallpair_moments.py",
+    "smallpair_strength.py",
     "inputs.json",
     "protocol.json",
 }
@@ -77,6 +86,8 @@ def summary(certificate: dict, *, verified: bool = False) -> str:
     if not isinstance(certificate, dict):
         raise ValueError("certificate must be a JSON object")
     if "certificate_kind" in certificate:
+        if certificate["certificate_kind"] == SMALL_PAIR_KIND:
+            return small_pair_summary(certificate, verified=verified)
         if certificate["certificate_kind"] == PROFILE_KIND:
             return profile_summary(certificate, verified=verified)
         if certificate["certificate_kind"] == EXPOSURE_KIND:
@@ -322,6 +333,43 @@ def profile_summary(certificate: dict, *, verified: bool = False) -> str:
     )
 
 
+def small_pair_summary(certificate: dict, *, verified: bool = False) -> str:
+    """Distinguish fresh model reconstruction from saved-record authentication."""
+    if (
+        "source_revision" in certificate
+        and certificate["source_revision"] != verify_source_manifest()
+    ):
+        raise ValueError("saved small-pair provenance differs from the installed manifest")
+    values = certificate if verified else validate_saved_small_pair(certificate)
+    heading = (
+        f"PASS: homometric-motion {__version__} fixed nine-point moment certificate"
+        if verified
+        else "UNVERIFIED SAVED RECORD: values match a fresh installed-model reconstruction"
+    )
+    return "\n".join(
+        [
+            heading,
+            f"Mathematical checks: {values['checks']['count']}",
+            "Two fixed nine-point configurations; exact frequency 2*pi/3.",
+            "Permanent nominal graphs; centered Gaussian covariance D=9*Lplus/tr(Lplus).",
+            "The leading intensity laws agree, including common-clock OU path laws.",
+            "The exact first two intensity moments cannot both agree at any shared finite s>0.",
+            "Thus the exact intensity laws differ at each shared calibrated strength.",
+            "The mean crosses exactly once; skewness crosses at least twice.",
+            "The matched-strength small-band certificate is separate; cap s<=1/10 is unresolved.",
+            "A separate local raw-intensity projection separates independent fixed strengths",
+            "for each t in [831/1024,833/1024]; the three wider tested bands are unresolved.",
+            "No global unknown-strength separation, detector/exposure robustness or count guarantee.",
+            (
+                "All scientific witnesses were freshly reconstructed from fixed inputs."
+                if verified
+                else "Fresh value comparison does not authenticate this saved record or source."
+            ),
+            "No physical validation, practical feasibility, novelty or full formalization is claimed.",
+        ]
+    )
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(prog="homometric-motion")
     parser.add_argument("--version", action="version", version=__version__)
@@ -365,7 +413,16 @@ def main(argv=None) -> int:
         type=Path,
         help="new profile JSON file; existing files are never overwritten",
     )
-    show = commands.add_parser("summary", help="display a saved certificate")
+    small_pair = commands.add_parser(
+        "small-pair", help="reconstruct the separate fixed nine-point moment proof"
+    )
+    small_pair.add_argument(
+        "--output",
+        required=True,
+        type=Path,
+        help="new nine-point JSON file; existing files are never overwritten",
+    )
+    show = commands.add_parser("summary", help="inspect a saved certificate")
     show.add_argument("path", type=Path)
     args = parser.parse_args(argv)
     try:
@@ -381,11 +438,12 @@ def main(argv=None) -> int:
             "coordinate-count": build_coordinate_certificate,
             "exposure-count": build_exposure_certificate,
         }
-        certificate = (
-            build_count_certificate(profile=args.profile, scenario=args.scenario)
-            if args.command == "count"
-            else builders[args.command](scenario=args.scenario)
-        )
+        if args.command == "small-pair":
+            certificate = build_small_pair_certificate()
+        elif args.command == "count":
+            certificate = build_count_certificate(profile=args.profile, scenario=args.scenario)
+        else:
+            certificate = builders[args.command](scenario=args.scenario)
         certificate["source_revision"] = provenance
         encoded = json.dumps(certificate, indent=2, sort_keys=True, allow_nan=False) + "\n"
         with args.output.open("x", encoding="utf-8", newline="\n") as stream:

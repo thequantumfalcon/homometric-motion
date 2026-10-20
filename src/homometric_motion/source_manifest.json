@@ -2,7 +2,7 @@
   "files": [
     {
       "path": "__init__.py",
-      "sha256": "9beba130ac6f8da9fcc4f675abd2779b99d777ca5129f6d84f6d478f03267f78"
+      "sha256": "257aba918e5c0a3fb69b1cb922981f11da718a5cb5d78ed0da37bd8f7ee31eed"
     },
     {
       "path": "__main__.py",
@@ -22,7 +22,7 @@
     },
     {
       "path": "cli.py",
-      "sha256": "4c775d7dfb66a1c98ae125e5b991e7e200a3efe9025e5587d0a78bc30b6d739b"
+      "sha256": "4ec9c03e9cde3b6ef563da3e7ff652145110934cd910e8740b909c4484dbef36"
     },
     {
       "path": "coordinate.py",
@@ -75,6 +75,34 @@
     {
       "path": "robustness.py",
       "sha256": "82a6b4dc1971607869b23dfb22d7e928f28289f4553ebefacb6ca45bb7475cc4"
+    },
+    {
+      "path": "smallpair.py",
+      "sha256": "eb070c06b98cdd41afbe74cb8cbcf718b5f3929049575f9c2e644acbb9774a9d"
+    },
+    {
+      "path": "smallpair_algebra.py",
+      "sha256": "bb4f2851604758dfe573d7a90a7e8a3398dfbe08523575cbb2f9c8acde8de97a"
+    },
+    {
+      "path": "smallpair_bounds.py",
+      "sha256": "068452c522ff2f75fd3edadde9e346f1dbad69328b6623e30271c0fbdf091710"
+    },
+    {
+      "path": "smallpair_geometry.py",
+      "sha256": "7228df0d435d7ba1cc519c1406ce12b2fc182a26ba603a7858c31a4e79e4c699"
+    },
+    {
+      "path": "smallpair_mean.py",
+      "sha256": "9925f7b842785d8f2e7aa63d425db0dad5167aae2a836a08a831a423d91e9ea9"
+    },
+    {
+      "path": "smallpair_moments.py",
+      "sha256": "cc46c43d181d311021d0f2f2f6d01c62a4463c139f9b6e8dacc0f40bccca8f75"
+    },
+    {
+      "path": "smallpair_strength.py",
+      "sha256": "b2d6b8040650e76521d6017728201a0e660cd81a69ce6b6f77dc02a2bd31289d"
     }
   ],
   "revision_kind": "release_adaptation",

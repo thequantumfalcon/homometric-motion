@@ -22,6 +22,11 @@ CLI twice for each scenario and each of the three earlier computation methods
 plus both explicitly selected count profiles
 in an isolated directory and
 checks deterministic output, including equality of the embedded core.
+It also executes the separate fixed `small-pair` construction twice, then
+reconstructs its saved scientific record for comparison. This is 22 computing
+CLI invocations and 11 summary invocations; the nine-point summary performs
+one additional full model reconstruction. The nine-point model
+has no embedded 63-point core or detector/count guarantee.
 `release` runs the local lint, tests and artifact checks; it publishes nothing.
 
 The optional instrument has separate dependencies. In an environment with the
