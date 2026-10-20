@@ -15,6 +15,9 @@ the 0.x certificate schema and Python API remain experimental.
 
 ### Added
 
+- A research roadmap distinguishing existing imaging methods, open mathematical
+  questions, statistical targets and the calibration required before hardware
+  development. Potential applications are not presented as achieved results.
 - An additive `count` command and fresh API with explicit versioned profiles.
   `short-exposure-v1` keeps the 10⁻⁵ exposure cap; `long-exposure-v1`
   permits 0.001 for exact geometry and 0.01 for position uncertainty.

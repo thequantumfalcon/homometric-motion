@@ -167,6 +167,10 @@ and Lean is not required to run the package.
 
 ## What remains open
 
+The [research roadmap](docs/research-roadmap.md) sets evidence requirements
+for broader uniqueness theorems, better estimators, motion-informed imaging
+and physical feasibility. These are open directions, not established applications.
+
 Physical covariance, stationarity, calibration, permanent connectivity and
 conditional detector independence need validation against an actual system.
 The finite-count theorems do not cover drifting parameters, arbitrary detector
