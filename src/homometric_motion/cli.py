@@ -12,6 +12,8 @@ from . import __version__
 from .arithmetic import rational_from_text
 from .certificate import SCENARIOS, build_certificate
 from .coordinate import KIND, build_coordinate_certificate, validate_saved_extension
+from .exposure import KIND as EXPOSURE_KIND
+from .exposure import build_exposure_certificate, validate_saved_exposure
 
 MANIFEST_FILES = {
     "__init__.py",
@@ -21,6 +23,7 @@ MANIFEST_FILES = {
     "cli.py",
     "counts.py",
     "coordinate.py",
+    "exposure.py",
     "geometry.py",
     "motion.py",
     "position.py",
@@ -67,6 +70,8 @@ def summary(certificate: dict, *, verified: bool = False) -> str:
     if not isinstance(certificate, dict):
         raise ValueError("certificate must be a JSON object")
     if "certificate_kind" in certificate:
+        if certificate["certificate_kind"] == EXPOSURE_KIND:
+            return exposure_summary(certificate, verified=verified)
         if certificate["certificate_kind"] != KIND:
             raise ValueError("unsupported saved certificate kind")
         return extension_summary(certificate, verified=verified)
@@ -208,6 +213,58 @@ def extension_summary(certificate: dict, *, verified: bool = False) -> str:
     )
 
 
+def exposure_summary(certificate: dict, *, verified: bool = False) -> str:
+    """Display the new chain's domain and counts, not its reference core's."""
+    if (
+        "source_revision" in certificate
+        and certificate["source_revision"] != verify_source_manifest()
+    ):
+        raise ValueError("saved exposure provenance differs from the installed source manifest")
+    core = certificate["core_certificate"]
+    if not isinstance(core, dict) or "certificate_kind" in core:
+        raise ValueError("exposure extension requires an ordinary core certificate")
+    summary(core, verified=verified)
+    coordinate = validate_saved_exposure(certificate)
+    extension = certificate["extension"]
+    common = extension["stages"]["counts"]
+    params = extension["parameters"]
+    position = certificate["scenario"] == "position_uncertainty"
+    heading = (
+        f"PASS: homometric-motion {__version__} linear-exposure count extension"
+        if verified
+        else "UNVERIFIED DISPLAY: saved certificate claims (not recomputed)"
+    )
+    qualifier = "" if verified else "Recorded claim - "
+    return "\n".join(
+        [
+            heading,
+            f"{qualifier}scenario: {certificate['scenario']}",
+            f"{qualifier}extension mathematical checks: {certificate['checks']['count']}",
+            f"{qualifier}new common-tolerance sufficient windows: {common['sufficient_observation_windows']:,}",
+            f"{qualifier}new coordinate-tolerance sufficient windows: {coordinate['sufficient_observation_windows']:,}",
+            f"{qualifier}risk bound: at most 5% in either class under the extension's declared model.",
+            f"{qualifier}domain: beta in [B/2,B], fixed frequency error <= {float(Fraction(params['frequency_error_cap_exact'])):.0e},",
+            "spring weights within 1 +/- 1/100001, exposure <= 1e-5, start lag >= 1000,",
+            "fixed integrated normalized gain in [0.9,1.1], Poisson background in [0,1].",
+            (
+                "Fixed position errors <= 1e-14; homometry applies to nominal templates only."
+                if position
+                else "Exact mean geometry is assumed."
+            ),
+            "Stationary compatible weighted Gaussian OU motion is assumed.",
+            "Exposure, strength, frequency, springs, positions and channel parameters stay fixed during acquisition.",
+            "The embedded 1e-20 core is a reference; these are newly computed bounds and a new classifier threshold.",
+            (
+                "The reference core and full exposure/count chain were freshly recomputed."
+                if verified
+                else "Saved-input consistency checks do not authenticate or recompute the reference motion model."
+            ),
+            "The coordinate allocation is an exact feasible witness, not a global optimum.",
+            "No physical validation, necessary count or practical feasibility is claimed.",
+        ]
+    )
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(prog="homometric-motion")
     parser.add_argument("--version", action="version", version=__version__)
@@ -230,6 +287,16 @@ def main(argv=None) -> int:
         type=Path,
         help="new extension JSON file; existing files are never overwritten",
     )
+    exposure = commands.add_parser(
+        "exposure-count", help="freshly recompute the separate linear-exposure count proof"
+    )
+    exposure.add_argument("--scenario", choices=SCENARIOS, default="exact_geometry")
+    exposure.add_argument(
+        "--output",
+        required=True,
+        type=Path,
+        help="new exposure extension JSON file; existing files are never overwritten",
+    )
     show = commands.add_parser("summary", help="display a saved certificate")
     show.add_argument("path", type=Path)
     args = parser.parse_args(argv)
@@ -241,11 +308,12 @@ def main(argv=None) -> int:
         if args.output.exists():
             raise FileExistsError("output exists; choose a new path")
         provenance = verify_source_manifest()
-        certificate = (
-            build_coordinate_certificate(scenario=args.scenario)
-            if args.command == "coordinate-count"
-            else build_certificate(scenario=args.scenario)
-        )
+        builders = {
+            "verify": build_certificate,
+            "coordinate-count": build_coordinate_certificate,
+            "exposure-count": build_exposure_certificate,
+        }
+        certificate = builders[args.command](scenario=args.scenario)
         certificate["source_revision"] = provenance
         encoded = json.dumps(certificate, indent=2, sort_keys=True, allow_nan=False) + "\n"
         with args.output.open("x", encoding="utf-8", newline="\n") as stream:

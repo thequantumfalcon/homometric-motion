@@ -14,14 +14,18 @@ Read the proofs in this order:
 4. [Coordinate-count extension](coordinate-counts.md) reduces the sufficient
    count by allocating separate error tolerances to the estimated moments,
    with the classifier and physical assumptions unchanged.
-5. [Scope and related work](scope-and-related-work.md) states the essential
+5. [Linear exposure extension](linear-exposure.md) allows longer exposures by
+   bounding averaged quadratic moments directly, retaining finite-motion
+   parity errors and recomputing nuisance and count bounds.
+6. [Scope and related work](scope-and-related-work.md) states the essential
    strength floor, unresolved directions, finite-error limitations and close
    prior work.
-6. [Formal checkpoints](formal/README.md) distinguishes six mapped finite
+7. [Formal checkpoints](formal/README.md) distinguishes six mapped finite
    arithmetic statements, six universal polynomial identities and general
    analytic variance-stability lemmas from the full probabilistic theorem.
 
-The package recomputes two explicitly named parameter chains from its own mathematical
-resources. Its exact rational outputs and integer interval checks support the
+The package recomputes two geometry/calibration scenarios with explicitly named
+count and exposure methods from its own mathematical resources.
+Its exact rational outputs and integer interval checks support the
 stated conditional inequalities. They are not physical measurements,
 independent human peer review or a formalization of the full theorem.

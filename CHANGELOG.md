@@ -15,6 +15,10 @@ the 0.x certificate schema and Python API remain experimental.
 
 ### Added
 
+- An additive `exposure-count` command and API with a linear exposure-moment
+  bound and Gaussian parity transfer. Both scenarios permit normalized exposure
+  up to 10⁻⁵, with freshly recomputed sufficient counts and classifiers.
+  The original commands and parameter contracts remain available.
 - An optional `coordinate-count` command and API that recompute the full
   core and a separate exact coordinate-tolerance witness. Sufficient counts
   fall to 26,814,048,499,063,502 and 26,808,243,624,540,316 for the two

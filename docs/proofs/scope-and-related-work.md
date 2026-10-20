@@ -5,7 +5,8 @@ an executable certificate. It is not an empirical discovery about an
 identified material or apparatus. No independent human peer review,
 optimality or literature-priority claim is made. The complete theorem is
 not formalized. The [Lean checkpoints](formal/README.md) cover only specified
-finite arithmetic statements and universal polynomial identities.
+finite arithmetic statements, universal polynomial identities and general
+variance-stability lemmas.
 Repeating a computation and checking its source bindings are different
 from measuring whether a physical model holds.
 
@@ -27,7 +28,10 @@ imperfect specimen.
 Frequency uncertainty requires $B/2\le\beta_G\le B$. The underlying
 exact-null moment theorem covers $0<\beta_G\le B$, but that larger
 domain must not be silently attached to the detuned result. The public
-implementation computes these two selected chains. It does not reproduce every
+implementation computes both scenarios under named count/exposure methods.
+The [linear exposure method](linear-exposure.md) has its own wider exposure
+cap and recomputed classifier; the earlier commands retain their domains.
+The package does not reproduce every
 previously examined grid or demonstrate a sharp tolerance. Larger covariance
 or exposure bounds that overlapped in earlier calculations were unresolved,
 not proofs of equality or impossibility.

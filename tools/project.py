@@ -22,7 +22,7 @@ COMMANDS = {
     "manifest": "explicitly record the current package source revision",
     "build": "check the manifest and build an sdist and wheel",
     "test": "build, install and test a wheel with a coverage gate",
-    "verify": "build and replay both scenarios and count methods twice, then check demo data",
+    "verify": "build and replay both scenarios and all three methods twice, then check demo data",
     "prototype": "build and replay the optional instrument from the source archive",
     "release": "run lint, installed tests and artifact verification; publish nothing",
     "hooks": "run the pinned pre-commit checks on all tracked files",
@@ -153,6 +153,7 @@ def verify(wheel: Path) -> None:
     directory, executable, _ = installed(wheel)
     scenarios = []
     extensions = []
+    exposure_extensions = []
     for scenario, expected_count in (
         ("exact_geometry", 975281623024726766278),
         ("position_uncertainty", 975028627229038193209),
@@ -255,12 +256,67 @@ def verify(wheel: Path) -> None:
                 "embedded_core_matches_original_method": True,
             }
         )
+        exposure_outputs = [
+            directory / f"{scenario}-exposure-{name}.json" for name in ("first", "second")
+        ]
+        for output in exposure_outputs:
+            run(
+                executable,
+                "-I",
+                "-m",
+                "homometric_motion",
+                "exposure-count",
+                "--scenario",
+                scenario,
+                "--output",
+                output,
+                cwd=directory,
+            )
+        if exposure_outputs[0].read_bytes() != exposure_outputs[1].read_bytes():
+            raise RuntimeError(f"{scenario}: exposure certificates differ")
+        exposure_extension = json.loads(exposure_outputs[0].read_text("utf-8"))
+        if (
+            exposure_extension["status"] != "PASS"
+            or exposure_extension["certificate_kind"] != "linear_exposure_count_extension"
+            or exposure_extension["core_certificate"] != core
+            or exposure_extension["source_revision"] != provenance
+            or exposure_extension["extension"]["parameters"]["exposure_cap_exact"] != "1/100000"
+        ):
+            raise RuntimeError(f"{scenario}: exposure extension changed its reference or contract")
+        exposure_count = exposure_extension["coordinate_counts"]["sufficient_observation_windows"]
+        expected_exposure = {
+            "exact_geometry": 26815183544609917,
+            "position_uncertainty": 26809378397093764,
+        }[scenario]
+        if exposure_count != expected_exposure:
+            raise RuntimeError(f"{scenario}: exposure count changed; review scientific revision")
+        run(
+            executable,
+            "-I",
+            "-m",
+            "homometric_motion",
+            "summary",
+            exposure_outputs[0],
+            cwd=directory,
+        )
+        exposure_extensions.append(
+            {
+                "scenario": scenario,
+                "certificate_sha256": hashlib.sha256(exposure_outputs[0].read_bytes()).hexdigest(),
+                "deterministic_cli_runs": 2,
+                "extension_checks": exposure_extension["checks"]["count"],
+                "sufficient_observation_windows": exposure_count,
+                "exposure_cap_exact": "1/100000",
+                "reference_core_matches_original_method": True,
+            }
+        )
     receipt = {
         "status": "PASS",
         "wheel": wheel.name,
         "wheel_sha256": hashlib.sha256(wheel.read_bytes()).hexdigest(),
         "scenarios": scenarios,
         "coordinate_extensions": extensions,
+        "exposure_extensions": exposure_extensions,
         "demo_data_matches_exact_geometry": True,
     }
     (directory / "verification.json").write_text(

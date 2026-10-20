@@ -1,6 +1,7 @@
 # A separate certificate for fixed mean-position errors
 
-The `position_uncertainty` scenario keeps the same nominal templates,
+For the original `verify` and `coordinate-count` methods, the
+`position_uncertainty` scenario keeps the same nominal templates,
 motion-strength band $B/2\le\beta_G\le B$, covariance radius $10^{-5}$,
 spring-weight radius $1/100001$, exposure cap $10^{-20}$, minimum start
 lag $1000$, integrated normalized gain range $[0.9,1.1]$, and integrated
@@ -8,6 +9,9 @@ Poisson background range $[0,1]$. It changes the frequency cap to
 $d=10^{-16}$ and allows fixed mean offsets
 $x_i'=x_i+\Delta x_i$ with $|\Delta x_i|\le\rho=10^{-14}$.
 The two classes may use different fixed admissible settings.
+The [linear exposure extension](linear-exposure.md) reuses the perturbation
+inequalities below with its own newly bounded exposure baseline and recomputes
+the finite-window guarantee at exposure cap $10^{-5}$.
 
 These values were selected after earlier bounds were examined. This is a
 new release calculation at declared parameters, not prospective validation.

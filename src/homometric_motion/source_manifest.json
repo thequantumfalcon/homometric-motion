@@ -2,7 +2,7 @@
   "files": [
     {
       "path": "__init__.py",
-      "sha256": "2c615a842ebd23eb603f2f14e1a90e377e75d6f67c39036d681df0387465a39f"
+      "sha256": "e4f929d91baba72e2c91dc2403c091eb1d586ec44fa957c473d3128e8135fe60"
     },
     {
       "path": "__main__.py",
@@ -18,7 +18,7 @@
     },
     {
       "path": "cli.py",
-      "sha256": "1bf94a7d9ee2783e156e68ef5e9f85f8601111705fef9a05de82eb1de4b5add1"
+      "sha256": "52eee038ff0d09f8fa9842af96f2240431cf21eb70beae0c7f51b5968fd0b437"
     },
     {
       "path": "coordinate.py",
@@ -27,6 +27,10 @@
     {
       "path": "counts.py",
       "sha256": "6e9e21baf4da7076149bb8ec0ca2a663c7623dbbcc3217f6db2ce189d0a54ede"
+    },
+    {
+      "path": "exposure.py",
+      "sha256": "61516504c2eb3886d94c543e72bfbf2d645b3a2399d61504f1a716cb476ed016"
     },
     {
       "path": "geometry.py",

@@ -4,6 +4,9 @@ The construction and instantaneous moment proof are in
 [geometry and motion](geometry-and-motion.md). This document derives the
 additional steps used by the package's fixed parameter chain. All quantities
 are dimensionless unless a physical conversion is explicitly supplied.
+The exposure cap here belongs to the original `verify` and `coordinate-count`
+methods. The additive [linear exposure extension](linear-exposure.md) derives
+a wider domain and recomputes the subsequent nuisance and count stages.
 
 ## Covariance uncertainty and compatible dynamics
 

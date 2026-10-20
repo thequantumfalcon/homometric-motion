@@ -223,9 +223,9 @@
   "scenario": "exact_geometry",
   "schema_version": 1,
   "source": {
-    "certificate_sha256": "df15ba5242ce70fe4b0f0b25b45808d48c39f1b89507f6c8559bbc4548c47dd1",
+    "certificate_sha256": "da5309a1a6597d155d3202aace241bc41a0654fd607209a1508f5dec3c1374ce",
     "mathematical_checks": 359,
-    "package_manifest_sha256": "d88cca903fc3bea9ede87594b17f3067776c49e41b22ff3beb967850d80cb47a",
+    "package_manifest_sha256": "22d83ca6544f9537864ac8f5f08ebf0df639ebfeff9f80a970fbb9cf16a6d497",
     "revision_kind": "release_adaptation"
   },
   "title": "Homometric motion: an offline explorer"
