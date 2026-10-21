@@ -1,0 +1,9 @@
+{
+  "status": "PASS_LOCAL_SAGE_NOTEBOOK",
+  "source_sha256": "0abbbc6ab9cc1030a413067a2bfb576553ccfa38879755ad7f5281ebf4893a86",
+  "script_sha256": "c04b5566e207e20eda1362b5e4ca1d6cf3b31b0f4a71753b25995d7521ecda66",
+  "elapsed_seconds": 9.421999999991385,
+  "computation_ast_matches_script": true,
+  "output": "{\"status\": \"PASS\", \"sage_version\": \"10.8\", \"degrees\": [80, 320, 720], \"bezout\": \"PASS\"}\n",
+  "executed_sha256": "f5cb895edbe6743d66f0c203503a4f9f9a254d5fa0ef5fc975424bdd84d985a2"
+}

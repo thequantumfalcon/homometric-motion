@@ -1,0 +1,41 @@
+{
+  "status": "PASS_LOCAL_COMPARISONS",
+  "same_author": true,
+  "all_six_sage_polynomials_match_fresh_installed_PR13": true,
+  "both_sage_covariances_match": true,
+  "both_arb_runs_inside_previous_affinity_gain_eigenvalue_enclosures": true,
+  "prior_likelihood_certificate_sha256": "e9c0458826b8e37ba5bd19a667ba71c97f32f273fa7b8daaed8a99292685eb25",
+  "prior_selected_affinity": {
+    "lower": "0.99999991332600147302768463384336737139642472244666262451338859198821149069434817",
+    "upper": "0.99999991332600147302768463384336738133609239810942003881410995494965223870237158",
+    "width": "9.93966767566275741430072136296144074800802341E-36"
+  },
+  "prior_common_gain": {
+    "lower": "18.920283855754167791615325618497288520331004586555189814301121791671170963229671",
+    "upper": "18.920283855754167791615325618497288520331004586555189814301121791671422396324164",
+    "width": "2.51433094493E-67"
+  },
+  "purpose": "Comparison only, not a runtime calculation input",
+  "runs": {
+    "sage.json": {
+      "source_sha256": "c04b5566e207e20eda1362b5e4ca1d6cf3b31b0f4a71753b25995d7521ecda66",
+      "result_sha256": "03d3ea78aaf0aff2cb42823a926f61ab0196f4ce77f4fef4261cacb5fe418d1c",
+      "elapsed_seconds": 9.655999999988126,
+      "raw_execution_result_sha256": "03d3ea78aaf0aff2cb42823a926f61ab0196f4ce77f4fef4261cacb5fe418d1c"
+    },
+    "arb_384.json": {
+      "source_sha256": "93b28b31a3452a75cdf22bd703ed2fa0c6fa530b4a9e31a9070a6d1c9931b89a",
+      "result_sha256": "3cdf60b9d257687bead2401cbb6c3d8da7e4eaf14cc6db129150c9e150b4a73f",
+      "elapsed_seconds": 2.0940000000118744,
+      "raw_execution_result_sha256": "2e8d0a0b7c2b82a7fe8cfdb48a11ae27e31c9780f19accfcf8a95c9de5d19ce8"
+    },
+    "arb_512.json": {
+      "source_sha256": "93b28b31a3452a75cdf22bd703ed2fa0c6fa530b4a9e31a9070a6d1c9931b89a",
+      "result_sha256": "443b040d989f37b3acfd8374638666b6455329c4d63d75952e22299d1b9c0cdc",
+      "elapsed_seconds": 2.375,
+      "raw_execution_result_sha256": "2258a310f610740b2ee10955cb24029df1548a8ca30a71b7ae2b08134d491a33"
+    }
+  },
+  "edition": "Repository publication revision; fresh execution after import ordering/formatting",
+  "recorded_output_encoding": "UTF-8 with LF newlines; exact scientific JSON values preserved"
+}

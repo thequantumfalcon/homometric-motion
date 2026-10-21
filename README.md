@@ -9,6 +9,27 @@ established novelty claim or practical acquisition recommendation. The sufficien
 sample bound is enormous; this is evidence of existence under the assumptions,
 not an efficient measurement proposal.
 
+## Research provenance and limitations
+
+This project grew out of AI-assisted exploration. AI systems proposed and
+developed substantial portions of the mathematical arguments, code, and
+documentation. My role was to direct the investigation, ask for repeated
+challenges and validation, and decide what to document and share. I did not
+independently derive or manually verify every mathematical step.
+
+The repository records the resulting arguments and computational checks,
+along with their assumptions, limitations, and negative findings. The checks
+described here were conducted within the same AI-assisted workflow.
+Alternative implementations and successful reproductions provide useful
+evidence, but they do not amount to independent human review.
+
+I am sharing this work so others can inspect, reproduce, challenge, and improve
+it. The results concern the stated mathematical models; physical applicability
+and scientific novelty remain open. Corrections, counterexamples, and
+independent mathematical review are welcome.
+
+## Explore the work
+
 The [interactive demo](demo/index.html) shows the two configurations, their
 coincident clean diffraction curves and the certified statistical intervals.
 Open `demo/index.html` from a local checkout in a browser; it works offline.
@@ -20,6 +41,14 @@ uses a separate NumPy/SciPy environment, and retains the full simulated motion
 for inspection. It does not implement or validate the final count theorem.
 Its reference remains bound to the explicitly hashed earlier core certificate;
 it does not automatically track new package revisions.
+
+A compact [reviewer kit](review/README.md) provides an exact SageMath
+reconstruction of the nine-point moments, a separate Arb calculation for one
+63-point calibrated-iid channel, and a claim-to-assumption review packet.
+Its optional dependencies are separate from the package runtime. The recorded
+checks are same-author reproductions; external mathematical review and physical
+validation remain open. The calibrated-iid channel has different assumptions
+from the robust windowed certificate below.
 
 A separate [nine-point construction](docs/proofs/nine-point-moments.md)
 studies exact instantaneous intensity without a detector channel. Its leading

@@ -1,0 +1,5 @@
+name: homometric-review
+channels:
+  - conda-forge
+dependencies:
+  - sage=10.8

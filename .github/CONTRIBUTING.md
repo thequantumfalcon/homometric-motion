@@ -35,6 +35,12 @@ bounded documentation-artifact check alone. Its finite algebra checks support
 the separate analytic path-law proof; they add no package API or count claim.
 `release` runs the local lint, tests and artifact checks; it publishes nothing.
 
+`python tools/project.py reviewer-kit` checks the optional reviewer kit from
+the built source archive: inventory, saved exact witnesses and eight witness
+tests. This task is included in `release` and CI. It uses the standard library
+and does not rerun SageMath or Arb. The separate fresh calculation commands and
+dependency records are in [review/README.md](../review/README.md).
+
 The optional instrument has separate dependencies. In an environment with the
 development lock and `prototype/requirements.txt` installed, run
 `python tools/project.py prototype`. It builds the source archive, copies only
@@ -50,7 +56,9 @@ unexplained mismatch. Include proof changes and parameter-selection disclosures.
 Contributors are responsible for understanding and validating every submitted
 line, regardless of which tools they use. Explain the mathematics, cite sources,
 provide reproducible evidence and avoid unverified generated output. Do not add
-generator-credit banners or coauthor trailers. Never describe computation as
+generator-credit banners or coauthor trailers. Preserve the factual
+[research-process disclosure](../review/PROVENANCE.md), including its
+description of AI assistance. Never describe computation as
 an experiment or as independent human peer review.
 
 Use Conventional Commit subjects, for example `fix: bound negative endpoints`.

@@ -25,6 +25,7 @@ COMMANDS = {
     "test": "build, install and test a wheel with a coverage gate",
     "verify": "replay both scenarios/all method profiles and the fixed nine-point model twice",
     "phase-permutation": "build and replay the complete-graph documentation checker from the sdist",
+    "reviewer-kit": "build and check the reviewer kit's saved witnesses from the sdist",
     "prototype": "build and replay the optional instrument from the source archive",
     "release": "run lint, installed tests and artifact verification; publish nothing",
     "hooks": "run the pinned pre-commit checks on all tracked files",
@@ -646,6 +647,88 @@ def prototype() -> None:
     print(f"PASS: two matching synthetic artifact runs, {len(inventories[0])} files each")
 
 
+def reviewer_kit() -> None:
+    """Check the optional review artifact with only the standard library.
+
+    This checks saved witnesses, not fresh Sage/Arb calculations. Those use
+    separate optional environments and the commands in review/README.md.
+    """
+    source = ROOT / "review"
+    manifest = json.loads((source / "SOURCE_MANIFEST.json").read_text("utf-8"))
+    expected = set(manifest["files"]) | {"SOURCE_MANIFEST.json"}
+    for name in expected:
+        relative = PurePosixPath(name)
+        if relative.is_absolute() or ".." in relative.parts or ":" in name or "\\" in name:
+            raise RuntimeError("invalid reviewer manifest path")
+    distributions = list((ROOT / "dist").glob("homometric_motion-*.tar.gz"))
+    if len(distributions) != 1:
+        raise RuntimeError("dist must contain exactly one source distribution")
+    BUILD.mkdir(exist_ok=True)
+    directory = Path(tempfile.mkdtemp(prefix="reviewer-", dir=BUILD))
+    package = directory / "review"
+    package.mkdir()
+    found = set()
+    with tarfile.open(distributions[0], "r:gz") as archive:
+        for member in archive.getmembers():
+            parts = PurePosixPath(member.name).parts
+            if len(parts) < 3 or parts[1] != "review" or member.isdir():
+                continue
+            name = "/".join(parts[2:])
+            if name not in expected or name in found or not member.isfile():
+                raise RuntimeError("unexpected reviewer archive entry")
+            if member.size > 1_000_000:
+                raise RuntimeError("oversized reviewer archive entry")
+            stream = archive.extractfile(member)
+            if stream is None:
+                raise RuntimeError("unreadable reviewer archive entry")
+            raw = stream.read()
+            if raw != (source / name).read_bytes():
+                raise RuntimeError("reviewer archive differs from source")
+            destination = package / name
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            with destination.open("xb") as output:
+                output.write(raw)
+            found.add(name)
+    if found != expected:
+        raise RuntimeError("incomplete reviewer source archive")
+    commands = [
+        ["-I", "-S", "-B", package / "verify_manifest.py"],
+        [
+            "-I",
+            "-S",
+            "-B",
+            package / "verify_results.py",
+            "--sage",
+            package / "results/sage.json",
+            "--arb",
+            package / "results/arb_384.json",
+            package / "results/arb_512.json",
+        ],
+        # The test module imports its sibling validator from this isolated copy.
+        ["-E", "-s", "-S", "-B", package / "test_witnesses.py"],
+    ]
+    for args in commands:
+        subprocess.run([sys.executable, *map(str, args)], cwd=directory, check=True, timeout=60)
+    for name in expected:
+        if (package / name).read_bytes() != (source / name).read_bytes():
+            raise RuntimeError("reviewer source changed during artifact check")
+    receipt = {
+        "status": "PASS",
+        "scope": "Saved reviewer witnesses and mutation controls; not a fresh Sage/Arb run",
+        "sdist_sha256": hashlib.sha256(distributions[0].read_bytes()).hexdigest(),
+        "manifest_sha256": hashlib.sha256(
+            (package / "SOURCE_MANIFEST.json").read_bytes()
+        ).hexdigest(),
+        "files": len(found),
+        "commands": len(commands),
+        "site_imports_disabled": True,
+    }
+    (directory / "verification.json").write_text(
+        json.dumps(receipt, indent=2) + "\n", encoding="utf-8", newline="\n"
+    )
+    print(json.dumps(receipt))
+
+
 def lint() -> None:
     run(sys.executable, "-m", "ruff", "check", ".")
     run(sys.executable, "-m", "ruff", "format", "--check", ".")
@@ -692,6 +775,8 @@ def main() -> None:
             prototype()
         if command == "phase-permutation":
             phase_permutation()
+        if command in {"reviewer-kit", "release"}:
+            reviewer_kit()
 
 
 if __name__ == "__main__":

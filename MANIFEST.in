@@ -9,4 +9,5 @@ recursive-include tools *.py
 recursive-include docs *.md *.lean *.py *.json *.toml lean-toolchain .gitignore
 recursive-include demo *.html *.css *.js *.json *.md
 recursive-include prototype *.py *.json *.md *.txt .gitignore
+recursive-include review *.py *.ipynb *.json *.md *.txt *.yml
 global-exclude __pycache__ *.py[cod]

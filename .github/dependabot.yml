@@ -17,3 +17,10 @@ updates:
       development-tools:
         applies-to: version-updates
         update-types: [minor, patch]
+  - package-ecosystem: pip
+    directory: /review
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+      semver-major-days: 14

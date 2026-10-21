@@ -15,6 +15,15 @@ the 0.x certificate schema and Python API remain experimental.
 
 ### Added
 
+- An optional reviewer kit with SageMath nine-point moment reconstruction,
+  a separate Arb calculation for one calibrated-iid 63-point channel, and
+  explicit analytic dependencies and review boundaries. The `reviewer-kit`
+  task checks saved witnesses and mutation controls from the built source
+  archive; `release` and CI run that bounded task. Fresh Sage/Arb calculation
+  commands use separate optional environments. The certificate runtime is
+  unchanged. A maintainer-approved research provenance statement describes
+  the substantial AI assistance and the limits of the automated checks.
+
 - Four optional applied-Gaussian formal modules: seven physical-parameter
   statements, five integer-charge histogram statements and forty-nine
   covariance statements across two files. The analytic project now contains
