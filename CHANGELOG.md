@@ -15,6 +15,13 @@ the 0.x certificate schema and Python API remain experimental.
 
 ### Added
 
+- A separately labelled finite-motion numerical study in `studies/finite-motion/`.
+  A transfer matrix along the spring path evaluates the instantaneous intensity
+  moments at any motion strength. The skewness gap grows from 0.0023 in the
+  certified small-strength regime to about 0.012 near `beta = 0.1`, and the
+  normal-approximation window count falls from about 3.2e8 to 1.1e7. It uses
+  multiprecision floating point and normal approximations; it is not a
+  certificate and does not change the package or its count theorems.
 - An optional reviewer kit with SageMath nine-point moment reconstruction,
   a separate Arb calculation for one calibrated-iid 63-point channel, and
   explicit analytic dependencies and review boundaries. The `reviewer-kit`
