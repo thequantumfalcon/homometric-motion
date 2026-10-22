@@ -74,6 +74,26 @@ Two derived estimates, also not certificates:
 - At `beta = 0.1`, 20 to 100 signal counts per window give 8.9e6 to 8.3e6
   windows; 1 count with background 0.1 gives 3.8e7.
 
+## Related work checked
+
+A bounded literature check found the ingredients but not this combination.
+It is not a novelty or priority determination.
+
+- Mean thermal diffuse scattering is established to all multiphonon orders in
+  the harmonic approximation; see
+  [Fahl et al., *X-ray thermal diffuse scattering from real-space displacement correlations*](https://arxiv.org/abs/2608.05051).
+  The direct mean formula used in validation is that average for this finite
+  cluster. The two classes' mean intensities differ by about 0.08% at
+  `beta = 0.1`, so the mean alone separates them only with gain, strength and
+  background calibrated well below that level. The skewness statistic's role
+  is calibration independence.
+- [Ravy, *Homometry in the light of coherent beams*](https://arxiv.org/abs/1303.3792)
+  shows that coherent speckle statistics can distinguish diffuse-scattering
+  homometry, for static substitutional disorder, not thermal motion.
+- Fluctuation electron microscopy and fluctuation X-ray scattering use
+  intensity fluctuations to reach correlations beyond pair functions, from
+  spatial or orientational sampling rather than thermal motion.
+
 ## Selection disclosure and limits
 
 The beta grid, photon budget and a pass line of 1e7 windows were written down
@@ -83,8 +103,8 @@ afterwards and are exploratory.
 
 Open items before any broader claim:
 
-- comparison with thermal-diffuse-scattering and fluctuation-scattering
-  theory, which may already contain this observable;
+- an exhaustive comparison with thermal-diffuse-scattering, XPCS and
+  fluctuation-scattering theory beyond the bounded check above;
 - a three-dimensional or non-constructed pair, and other interaction rules
   (the complete-graph counterexample shows the result depends on them);
 - temporal dependence between windows (the package bound inflates variance
