@@ -74,6 +74,33 @@ Two derived estimates, also not certificates:
 - At `beta = 0.1`, 20 to 100 signal counts per window give 8.9e6 to 8.3e6
   windows; 1 count with background 0.1 gives 3.8e7.
 
+## Adding uncorrelated disorder
+
+Real displacements usually contain both correlated (spring-like) and
+uncorrelated (site-local) parts. The companion repository
+`homometric-photon-counts` studies this same pair with independent site
+phases only. `python finite_motion.py mixed` combines both: phase covariance
+`s I + beta w^2 D_G`, with total mean site variance `sigma2 = s + beta w^2` held
+fixed and uncorrelated fraction `f = s / sigma2`. The statistic and photon
+budget are the same as above.
+
+| sigma2 | f = 0 | 0.01 | 0.03 | 0.1 | 0.3 | 0.5 |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 0.0329 | 2.03e7 | 3.30e7 | 8.15e7 | 1.45e9 | 1.83e10 | 1.57e10 |
+| 0.1097 | 1.12e7 | 1.68e7 | 3.64e7 | 4.06e8 | 1.28e10 | 4.97e9 |
+
+Normal-approximation windows. With 10% of the variance uncorrelated, the cost
+rises 36 to 72 times; 3% already costs 3 to 4 times. The skewness gap changes
+sign between `f = 0.1` and `0.3`, so some mixture has no skewness gap at all.
+Independent phases add incoherent intensity of the same law for both classes
+and dilute the correlated-motion signal; with independent phases alone the
+first moment gap is at fourth order. A pass line of at most 3x at `f = 0.1` and
+the prediction that it would fail were written down before the run.
+
+This makes the finite-motion result conditional on displacement disorder
+being dominated by correlated modes. A statistic chosen for mixed disorder
+(for example a likelihood test on the full count law) was not studied.
+
 ## Related work checked
 
 A bounded literature check found the ingredients but not this combination.

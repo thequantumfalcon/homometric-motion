@@ -16,6 +16,7 @@ precision.
 Commands:
     sweep --output FILE      skewness gap and normal-approximation window counts over beta
     validate                 direct-mean and Monte Carlo checks of the transfer matrix
+    mixed                    add independent site phases at fixed total variance
 """
 
 import argparse
@@ -72,16 +73,21 @@ def build(shifts: tuple[int, int, int]) -> dict:
     }
 
 
-def moments(graph: dict, beta, kmax: int) -> list:
-    """Raw moments E[I^k], k = 1..kmax, by the transfer matrix."""
+def moments(graph: dict, beta, kmax: int, iid_variance=0) -> list:
+    """Raw moments E[I^k], k = 1..kmax, by the transfer matrix.
+
+    `iid_variance` adds independent site phases of that variance on top of the spring-graph
+    motion; each charge c at a site then gains the factor exp(-iid_variance c^2 / 2).
+    """
     z, n, r = graph["z"], graph["n"], graph["r"]
     mu = W**2 * beta * graph["scale"] / 2
     out = []
     for k in range(1, kmax + 1):
         inv_fact = [mp.mpf(1) / factorial(i) for i in range(k + 1)]
+        site = {c: mp.exp(-iid_variance * c * c / 2) for c in range(-k, k + 1)}
         state = {(0, 0, None): mp.mpc(1)}
         for j in range(n):
-            powers = {c: z[j] ** c for c in range(-k, k + 1)}
+            powers = {c: z[j] ** c * site[c] for c in range(-k, k + 1)}
             nxt = {}
             for (sa, sb, fr), value in state.items():
                 for a in range(k - sa + 1):
@@ -234,15 +240,43 @@ def validate() -> None:
         )
 
 
+def mixed() -> None:
+    """Spring-correlated motion plus independent site phases at fixed total phase variance."""
+    a, b = build((0, 31, 63)), build((0, 32, 63))
+    print("check: iid only (t = 1/2) gives D_1..D_3 = 0 and D_4 = 162.45375...")
+    ia = moments(a, 0, 4, 2 * mp.log(2))
+    ib = moments(b, 0, 4, 2 * mp.log(2))
+    print("   ", [mp.nstr(x - y, 8) for x, y in zip(ia, ib)])
+    print("sigma2  uncorrelated  mean I (A)  skewness gap  windows  vs f=0")
+    for sigma2 in (mp.mpf("0.0329"), mp.mpf("0.1097")):
+        base = None
+        for text in ("0", "0.01", "0.03", "0.1", "0.3", "0.5"):
+            f = mp.mpf(text)
+            beta = (1 - f) * sigma2 / W**2
+            ma = moments(a, beta, 6, f * sigma2)
+            mb = moments(b, beta, 6, f * sigma2)
+            n_win = windows(ma, mb)
+            base = n_win if base is None else base
+            print(
+                f"{mp.nstr(sigma2, 4):>6} {text:>12} {mp.nstr(ma[0], 6):>11} "
+                f"{mp.nstr(skewness(mb) - skewness(ma), 5):>13} {mp.nstr(n_win, 3):>8} "
+                f"{mp.nstr(n_win / base, 3):>7}",
+                flush=True,
+            )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     sub = parser.add_subparsers(dest="command", required=True)
     run = sub.add_parser("sweep")
     run.add_argument("--output", type=Path, required=True)
     sub.add_parser("validate")
+    sub.add_parser("mixed")
     args = parser.parse_args()
     if args.command == "sweep":
         sweep(args.output)
+    elif args.command == "mixed":
+        mixed()
     else:
         validate()
 
