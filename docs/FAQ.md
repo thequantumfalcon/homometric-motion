@@ -85,22 +85,14 @@ coincide or that other analyses cannot distinguish them.
 
 ## What does Lean check?
 
-The optional sources check six finite integer statements mapped to the
-original `verify` position certificate, six universal factorial-product
-identities, nine analytic variance declarations, four deterministic
-cumulant-sensitivity statements, five explicit nine-point polynomial
-statements, thirteen Gaussian phase, integrability and first-intensity
-declarations, nine natural-moment, seven physical-parameter, five
-charge-histogram and forty-nine concrete covariance declarations.
-The analytic project has 101 proved declarations in nine files.
-Generic Gaussian formulas retain full PSD covariance and singular cases;
-the physical unit-phase specialization has exact mathematical charge
-multiplicities. The two literal nine-point covariance matrices have
-formal threshold, centered-inverse, PSD, trace and zero-COM support
-proofs. Executable convolution/polynomial identification, temporal
-concentration, the classifier and physical validation remain outside
-these statements. See
-[formal scope](proofs/formal/README.md).
+Lean checks standard-deviation perturbation bounds, factorial-product and
+cumulant identities, Gaussian intensity-moment formulas, and specific
+nine-point polynomial and covariance witnesses; the
+[formal scope](proofs/formal/README.md) gives the exact statements, hypotheses,
+pinned Lean/mathlib dependencies and separate arithmetic checks for the
+original `verify` position certificate. These are component proofs: the link
+to executable moment tables, exposure and concentration estimates, and the
+final classifier remains outside Lean, as does physical validation.
 
 ## Does a saved summary verify a certificate?
 
@@ -122,3 +114,13 @@ assumptions and bounded computational evidence. Related work already
 studies homometry, fluctuation statistics and factorial cumulants.
 Novelty, experimental adequacy, practical advantage and independent
 human peer review remain unestablished.
+
+## What interface is public?
+
+The Python API exports `build_certificate()`, `build_coordinate_certificate()`,
+`build_exposure_certificate()`,
+`build_count_certificate(*, profile, scenario="exact_geometry")` and the
+parameter-free `build_small_pair_certificate()`. The CLI commands are `verify`,
+`coordinate-count`, `exposure-count`, `count`, `small-pair` and `summary`.
+These interfaces and their versioned JSON schemas remain experimental during
+0.x. Cite the exact commit when reporting a result.

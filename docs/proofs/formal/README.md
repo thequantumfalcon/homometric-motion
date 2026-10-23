@@ -1,45 +1,41 @@
 # Bounded formal checkpoints
 
-These files cover ten bounded parts of the argument, including generic
-Gaussian moments, physical strength substitution, mathematical charge
-histograms and two concrete nine-point covariances. They do not
-formalize executable convolution/polynomial identification, exposure
-estimates, concentration, physical adequacy or the complete theorem.
-They are not experimental validation or independent human peer review.
+The substantive checkpoints prove the statements below. They do not connect
+all of the executable moment tables, temporal model and classifier into a
+formal proof of the complete theorem. They are not physical validation or
+independent human review.
 
-| File | Statement scope | Proof dependencies |
-| --- | --- | --- |
-| `position_uncertainty/DiscoveryCheckpoint.lean` | Six closed integer inequalities mapped from the original `verify` position-uncertainty certificate: two gaps, both ceiling directions, risk bound and positive contact margin | `Init`, `decide +kernel`; inspect the six `#print axioms` outputs |
-| `FactorialIdentities.lean` | Six polynomial identities for falling-factorial products, for every integer | `Std`, `grind`; standard logical axioms may appear in `#print axioms` |
-| [Standard-deviation continuity](analytic/README.md) | Nine declarations proving standard-deviation continuity, centering contraction, the L3-to-L2 comparison and variance enclosures under explicit probability and finite-moment hypotheses | Lean 4.35.0 and pinned mathlib; `--trust=0` and explicit axiom inspection |
-| [Cumulant sensitivity](analytic/SCOPE.md#cumulant-sensitivity-statements) | Four real-variable declarations: a full cubic perturbation identity, a coefficient identity, a two-endpoint coefficient bound and a counterexample to dropping one branch | The same pinned analytic project and standard logical foundations; no probability interpretation is formalized |
-| [Nine-point polynomial witnesses](analytic/SCOPE.md#nine-point-polynomial-statements) | Five real-polynomial statements: a complete Bezout identity, no common zero, mean factorization, positive cofactor and noncoincidence on `0<t<1` | The same pinned project; complete coefficients mapped from a fresh installed certificate, with their identification as the complete modeled moment polynomials outside Lean |
-| [Gaussian first intensity moment](analytic/SCOPE.md#gaussian-first-intensity-moment) | Thirteen declarations: three Gaussian phase prerequisites and ten finite expansion, integrability and first-moment results under explicit full PSD covariance | The same pinned project; arbitrary finite fixed complex weights and real phase scale, with the graph/physical application outside this source |
-| [Every natural raw intensity moment](analytic/SCOPE.md#every-natural-raw-intensity-moment) | Nine proved declarations and two charge/weight definitions: ordered tuple expansion, genuine finite-measure integrability and the full-PSD Gaussian raw moment for every natural order | Imports the unchanged first-intensity module; executable graph/histogram/polynomial identification remains outside Lean |
+| Checkpoint | Mathematical statement and boundary |
+| --- | --- |
+| [Variance continuity](analytic/SCOPE.md#standard-deviation-continuity) | On a common probability space with explicit finite moments, `abs_sqrt_variance_sub_le_l2` bounds the change in standard deviation by the L2 norm of a coupled perturbation; L3 variants give variance enclosures. Constructing the coupling and its numerical error budget remains separate. |
+| [Gaussian intensity moments](analytic/SCOPE.md#every-natural-raw-intensity-moment) | `finite_gaussian_intensity_moment` gives every natural raw moment of the squared modulus of a finite complex phase sum under a centered joint Gaussian law with full PSD covariance, including integrability. Physical-parameter substitution and exact mathematical charge histograms are also covered; executable histogram and polynomial identification remain outside Lean. |
+| [Nine-point polynomial noncoincidence](analytic/SCOPE.md#nine-point-polynomial-statements) | An explicit Bezout identity proves no common zero for two supplied polynomials; `joint_moment_noncoincidence` concludes that the supplied moment differences cannot both vanish on `0<t<1`. Identifying those complete polynomials with the modeled intensity is an executable check outside Lean. |
+| [Concrete nine-point covariance](analytic/SCOPE.md#concrete-nine-point-covariance) | For the two literal matrices, exact threshold, Gram and centered-inverse identities establish PSD and trace normalization, with almost-sure zero center of mass for centered Gaussian laws having those covariances. This is not a generic graph theorem or a proof of physical covariance or OU preparation. |
 
-| Additional file group | Statement scope | Proof dependencies |
-| --- | --- | --- |
-| [Physical Gaussian parameters](analytic/SCOPE.md#physical-parameter-substitution) | Seven statements and a nominal-phase definition give every raw moment for positions, real frequency and nonnegative displacement strength | Imports the generic moment module; full PSD covariance and finite-measure integrability remain explicit |
-| [Integer-charge histogram](analytic/SCOPE.md#integer-charge-histogram) | Five statements and four definitions identify integer/real charges, conserve charge and regroup exact finite fibers with total mass `n^(2r)` | Imports the physical module; count-only fibers apply to nominal unit phases, not arbitrary weighted amplitudes |
-| [Concrete nine-point covariance](analytic/SCOPE.md#concrete-nine-point-covariance) | Forty-nine statements in two files prove literal threshold/Gram/centered-inverse identities, PSD, trace normalization and almost-sure zero COM | Exact rational kernel checks and real transport; no named library pseudoinverse equality, generic all-graph or physical-model theorem |
+These proofs use the [optional analytic project](analytic/README.md), with
+Lean 4.35.0 and pinned mathlib. Its [statement mapping and scope](analytic/SCOPE.md)
+record exact hypotheses, source dependencies and application limits.
+Replay uses `--trust=0` and explicit axiom inspection. The standard logical
+foundations are `propext`, `Classical.choice` and `Quot.sound`; no `sorry`,
+`native_decide` or custom axiom is added.
 
-There are 101 proved declarations across nine analytic-project source files,
-plus supporting charge, phase, finite-fiber and literal-matrix definitions.
-The nine original standard-deviation declarations are unchanged.
-The six factorial identities alone do not establish a covariance formula.
-Taking expectations and using the mixed-Poisson model are separate
-mathematical steps described in the count proof. The four sensitivity
-statements likewise do not prove the complete estimator-error or risk bound.
+Supporting algebra includes the [full cubic cumulant perturbation identity
+and coefficient bound](analytic/SCOPE.md#cumulant-sensitivity-statements) and
+[falling-factorial product identities](FactorialIdentities.lean). The latter
+use `Std` and `grind`. These identities do not themselves prove the
+mixed-Poisson interpretation, estimator-error bound or classifier risk.
 
-The six closed arithmetic statements alone do not establish that their
-numerical inputs bound the intended random variables. Their mapping remains
-bound to the original `verify` method: they do not certify
-`coordinate-count`, `exposure-count` or either `count` profile's values.
+The separate `position_uncertainty/DiscoveryCheckpoint.lean` checks mapped
+integer gaps, ceiling directions, risk and contact-margin inequalities using
+`Init` and `decide +kernel`. Its closed statements are expected to report no
+axioms. Their inputs are bound to the original `verify` position certificate,
+not the later count methods or profiles. Checking these integers does not
+prove that they bound the intended random variables.
 
-The analytic project's [scope](analytic/SCOPE.md) separates its statements
-from construction of the modeled random variables, the derivation of
-numerical perturbation budgets and the final classifier. It has its own
-pinned optional dependencies and replay instructions.
+Exposure estimates, concentration and the complete probabilistic classifier
+remain outside the formalization. Detailed declarations and reproduction
+mappings are retained for inspection rather than counted as a measure of
+proof coverage.
 
 ## Reproduce the finite arithmetic mapping
 

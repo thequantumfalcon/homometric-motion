@@ -46,8 +46,7 @@ pair under specified stochastic motion and observation models.
 - Do not add coauthor trailers, generator credits or automated attribution
   banners to source, commits, documentation or releases.
 - Keep the research-process disclosure in `review/PROVENANCE.md` accurate
-  and visible. Factual disclosure of AI assistance is permitted by this
-  policy; the user explicitly requested and approved that statement.
+  and visible, including its factual account of AI assistance.
 - Keep workflows pinned to reviewed commit hashes, with read-only default
   permissions, timeouts and checkout credentials disabled.
 - Never execute untrusted pull-request code with privileged credentials.

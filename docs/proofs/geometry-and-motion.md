@@ -6,6 +6,16 @@ an apparatus, establish novelty or constitute proof-assistant verification.
 The complete observation claim additionally uses the assumptions and bounds
 in [robustness and counts](robustness-and-counts.md).
 
+The certified observation domain covers **very small motion**. In its strength
+band $B/2\le\beta\le B$, the nominal equilibrium RMS displacement, averaged
+over sites, is $\sqrt\beta$: about **2.64 to 3.74 millionths of the unshifted
+motif's short spacing** (one coordinate unit). With the allowed covariance
+uncertainty it is $\sqrt{\beta\operatorname{tr}D'/n}<4\times10^{-6}$ in the
+same units. This is an RMS scale, not a bound on individual Gaussian
+displacements. The result establishes conditional existence at very small
+motion; the separate numerical study at larger strengths does not extend
+this certified range.
+
 ## Explicit clean-homometric configurations
 
 Set $n=63$, $\omega=\pi/3$,

@@ -27,12 +27,13 @@ the 0.x certificate schema and Python API remain experimental.
   covariance; they do not certify the classifier, supply experimental evidence
   or change the scientific runtime contract.
 
-- Lead the README with the conditional 63-point result, distinguish the
-  calibrated iid count bounds from the robust windowed theorem, and state the
-  nominal RMS motion scale. Add classical homometry and diffuse-scattering
-  context, label review materials as internal cross-checks, and remove
-  irrelevant private-work notes. Preserve the research provenance disclosure
-  and detailed formal proof dependencies.
+- Shorten the README around the conditional 63-point result and reproduction.
+  State the tiny RMS motion scale and existence-result scope prominently in
+  the README and proof write-up. Keep the calibrated iid channel separate,
+  retain classical homometry and diffuse-scattering context, and label review
+  materials as internal cross-checks. Replace Lean declaration counts in the
+  overview with substantive statements while preserving the detailed mappings,
+  proof dependencies and research provenance disclosure.
 
 - Use standard requirements filenames so dependency monitors can discover the
   development and optional prototype pins. Updates still require explicit

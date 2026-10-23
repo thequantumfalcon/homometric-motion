@@ -26,14 +26,12 @@ Read the proofs in this order:
 8. [Scope and related work](scope-and-related-work.md) states the essential
    strength floor, unresolved directions, finite-error limitations and close
    prior work.
-9. [Formal checkpoints](formal/README.md) distinguishes six mapped finite
-   arithmetic statements, six universal factorial identities, nine analytic
-   variance declarations, four deterministic sensitivity statements, five
-   explicit nine-point polynomial statements and thirteen generic Gaussian
-   phase, integrability and first-intensity declarations, plus nine
-   natural-moment declarations, seven physical-parameter statements,
-   five charge-histogram statements and forty-nine concrete covariance
-   statements, from the full probabilistic theorem.
+9. [Formal checkpoints](formal/README.md) records component proofs of
+   variance bounds, factorial-product and cumulant identities, Gaussian
+   moment formulas, and nine-point polynomial and covariance witnesses,
+   with their exact hypotheses and Lean/mathlib dependencies. The executable
+   moment-table identification, exposure and concentration estimates, and
+   full classifier theorem remain outside these proofs.
 
 The separate [nine-point moment construction](nine-point-moments.md) uses
 exact instantaneous intensity with fixed nominal covariance and frequency.

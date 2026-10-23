@@ -1,282 +1,108 @@
 # Homometric motion
 
-**Conditional result.** Let A = U + {0,31,63} and B = U + {0,32,63}, with
-U the [specified 21-point motif](docs/proofs/geometry-and-motion.md#explicit-clean-homometric-configurations).
-These noncongruent 63-point sets have identical clean diffraction intensity
-at every real frequency. Under the permanent-spring Gaussian
-Ornstein-Uhlenbeck motion, fixed parameter bounds and conditional Poisson
-observation model stated below, their intensity skewness intervals are
-disjoint. A classifier using empirical second and third factorial cumulants
-has error at most **5% in either class** with **36,938,105,282,195 observation
-windows** for `long-exposure-v1` / `exact_geometry`, allowing normalized
-exposure up to 0.001.
+An explicit pair of noncongruent 63-point configurations has identical clean
+diffraction intensity at every real frequency, but distinguishable intensity
+statistics under a specified stochastic motion model. The
+[proofs](docs/proofs/README.md) and exact-arithmetic certificate establish a
+conditional finite-sample classification bound.
 
-The [proof chain](docs/proofs/README.md) and exact-arithmetic certificate
-establish this conditional bound. The clean pair uses the classical
-convolution/reflection construction; [related work](docs/proofs/scope-and-related-work.md#established-ingredients-and-close-precedents)
-explains the established ingredients and the additional motion and count bounds.
+**This is an existence result under restrictive assumptions.** The certified
+motion is tiny: the nominal site-averaged RMS displacement is **2.64–3.74
+millionths of the unshifted motif's short spacing**, and remains below four
+millionths with the allowed covariance uncertainty. This is an RMS measure,
+not a maximum displacement; Gaussian displacements are unbounded.
+The sufficient observation count is enormous. No physical experiment,
+practical acquisition scheme or established novelty is claimed.
 
-The construction is conditional mathematics. It has no experimental dataset,
-established novelty claim or practical acquisition recommendation. The sufficient
-sample bound is enormous; this is evidence of existence under the assumptions,
-not an efficient measurement proposal. The [research provenance and limitations](review/PROVENANCE.md)
-disclose how the work was developed and the limits of its verification.
+## The certified result
 
-## What is certified
+For `long-exposure-v1` / `exact_geometry`, a classifier based on empirical
+second and third factorial cumulants has error at most **5% in either class**
+with **36,938,105,282,195 observation windows**, allowing normalized exposure
+up to **0.001**.
 
-The package reconstructs a noncongruent pair of 63-point configurations,
-their permanent spring graphs, Gaussian intensity moments and outward rational
-bounds. For each stated fixed parameter contract, standardized third cumulants
-occupy disjoint intervals after covariance uncertainty, positive exposure and
-small frequency error. A count-based classifier has a conservative error bound
-of at most **5% in either class** after the sufficient count associated with
-that contract. The new `count` command requires an explicit profile; the three
-earlier commands preserve their previous results.
+The model fixes the [constructed pair and permanent spring graphs](docs/proofs/geometry-and-motion.md)
+and assumes stationary centered Gaussian Ornstein–Uhlenbeck motion and conditionally
+independent Poisson counts given the full trajectory. Its exact-geometry domain is:
 
-| Profile | Scenario | Normalized exposure cap | Sufficient observation windows |
-| --- | --- | ---: | ---: |
-| `short-exposure-v1` | `exact_geometry` | 10⁻⁵ | 69,803,163,290,068 |
-| `short-exposure-v1` | `position_uncertainty` | 10⁻⁵ | 5,362,340,030,851 |
-| `long-exposure-v1` | `exact_geometry` | 0.001 | 36,938,105,282,195 |
-| `long-exposure-v1` | `position_uncertainty` | 0.01 | 16,852,383,428,868 |
-
-The [profile proof](docs/proofs/profiled-counts.md) derives fresh error
-allowances, thresholds and counts. The short profile uses linear exposure
-moments; the long profile uses [signed kernel bounds](docs/proofs/signed-kernel-exposure.md)
-with all 512 time cells and independent class-wise unions.
-
-The following assumptions describe the exact-geometry contracts; exposure is
-selected by method or profile. The position scenario has the additional
-calibration restrictions described below.
-
-| Assumption | Certified domain |
+| Parameter | Certified restriction |
 | --- | --- |
-| Mean positions | Exact, fixed configurations defined by the construction |
-| Motion strength | Each normalized strength β lies in [B/2, B], B ≈ 1.3986078635588654 × 10⁻¹¹ |
-| Springs | Permanent graph; each fixed edge weight lies in 1 ± 1/100001 |
-| Dynamics | Stationary centered Gaussian weighted-spring Ornstein–Uhlenbeck process |
+| Motion strength | β ∈ [B/2, B], with exact rational B ≈ 1.3986078635588654 × 10⁻¹¹ |
+| Spring weights | Each fixed weight lies in 1 ± 1/100001 |
 | Frequency | Fixed error from π/3 at most 10⁻¹⁴ |
-| Exposure | Positive fixed rectangular duration within the selected method or profile cap |
-| Window spacing | Start-to-start normalized time at least 1000 |
-| Observation | Conditionally independent Poisson counts given the full trajectory |
-| Channel | Fixed integrated normalized gain in [0.9, 1.1]; background in [0, 1] |
+| Exposure and spacing | Positive fixed rectangular exposure within the profile cap; normalized start spacing at least 1000 |
+| Detector channel | Fixed integrated normalized gain in [0.9, 1.1] and Poisson background in [0, 1] |
 
-For nominal covariance, the RMS displacement averaged over sites is
-sqrt(β), about **2.64 to 3.74 millionths of a coordinate unit** over this
-strength band; that unit is the unshifted motif's short spacing. Individual
-site variances differ and Gaussian displacements are unbounded. The allowed
-spring uncertainty changes the site-averaged variance by at most 10⁻⁵
-relative to nominal; see the [motion model](docs/proofs/robustness-and-counts.md#covariance-uncertainty-and-compatible-dynamics).
+All nuisance parameters stay fixed during an acquisition. Window dependence
+is bounded through the OU model; unconditional independence is not assumed.
+The count is sufficient, not necessary or optimal, and supplies no physical
+time, flux or dose without additional calibration.
 
-B is an exact rational in the packaged inputs; its displayed decimal is not a
-replacement. Frequency error requires the positive strength floor. The model
-handles dependence between observation windows through an OU covariance bound;
-the windows are not assumed unconditionally independent.
-
-Every stated OU-window count is **sufficient**, not necessary or optimal.
-The retained `exposure-count` result has a frequency-robust skewness gap greater
-than 0.0004893221118044 before its estimator allowance; the new profiles
-recompute their own shape bounds and thresholds. Parameter choices and
-allocation searches are informed by earlier bounds, not blind selection or
-preregistration.
-
-Read the [proofs and assumptions](docs/proofs/README.md) before applying a result.
-Known failure regimes and prior literature are part of the proof documentation.
-The [claim ledger](docs/claims.md) separates assertions, evidence and open questions.
-
-The optional `position_uncertainty` scenario also permits fixed mean-position
-errors of at most **10⁻¹⁴** per coordinate, with a tighter frequency-error limit
-of **10⁻¹⁶**. These geometry scenarios are not nested: adding a position-error
-allowance also imposes a 100-fold tighter frequency tolerance. Their count
-comparison does not show that position error improves discrimination.
-The ideal configurations remain homometric; perturbed specimens need not be.
-See the [position-uncertainty proof](docs/proofs/position-uncertainty.md).
-
-The `exposure-count` method bounds the leading Gaussian moment changes linearly
-in exposure and retains the finite-motion errors through Gaussian sign symmetry.
-It allows a cap 10¹⁵ times larger than the original proof, then recomputes the
-classification threshold, dependence allowance and sufficient count. All three
-earlier commands and both new profiles rely on the stated motion and
-observation assumptions. The retained method results are:
-
-| Method | Exposure cap | Exact-geometry sufficient windows | Position-uncertainty sufficient windows |
-| --- | ---: | ---: | ---: |
-| `verify` | 10⁻²⁰ | 975,281,623,024,726,766,278 | 975,028,627,229,038,193,209 |
-| `coordinate-count` | 10⁻²⁰ | 26,814,048,499,063,502 | 26,808,243,624,540,316 |
-| `exposure-count` | 10⁻⁵ | 26,815,183,544,609,917 | 26,809,378,397,093,764 |
-
-The coordinate proof allocates separate error tolerances to three estimated
-factorial moments. The exposure extension applies it to a newly computed
-classifier. The new profiles refine the sensitivity bound and use separate
-actual variance and standardized third-cumulant errors, including every
-nonlinear term. They require new thresholds; no earlier threshold or count
-is transferred.
-
-Exact geometry at exposure cap `0.01` remains unresolved and has no allocated
-count. A separately evaluated position domain at cap `0.001` gives
-4,404,373,875,964 sufficient windows; it is a stricter domain than the
-selected long position profile, not an automatically selected optimum.
-The [offline explorer](demo/index.html) displays `long-exposure-v1` for exact
-geometry and retains the original `verify` method as a separate selectable view.
-
-All settings, including exposure and channel values, are fixed during an
-acquisition. Allowed values may differ by class; arbitrary mixtures or drift
-are not covered. The integrated gain/background range does not establish a
-fixed physical rate or dose. No global optimum or practical feasibility is
-claimed. See the [FAQ](docs/FAQ.md) and
-[profile decision record](docs/decisions/0003-explicit-count-profiles.md).
-
-## Separate calibrated iid count bound
-
-For the same 63-point geometry in a narrower model, **at least 9,188,577 iid
-observations are necessary, and 35,943,631 are sufficient**, to make both
-class errors at most 5%. This result assumes exact geometry and covariance,
-exact frequency π/3, instantaneous independent Gaussian snapshots,
-0 < β ≤ 10⁻¹⁶, known shared gain calibrated to a mean-100 quadratic reference,
-zero background, and independent conditional Poisson counts of
-I/(βω²). It uses a product-likelihood rule and affinity bounds; its count
-does not transfer to the OU-window classifier above.
-
-The [derivation](review/MATHEMATICS.md#selected-63-point-channel) and
-[internal cross-checks](review/README.md) provide the finite-motion transfer,
-outward Arb enclosures and exact rational testing gates. The bounds leave
-the optimal count undetermined. Maintaining this normalized gain as β
-changes changes the raw-intensity gain, so the observation count supplies
-no physical acquisition time, flux or dose.
+Other [profiles and their counts](docs/proofs/profiled-counts.md) have different
+contracts. In particular, `position_uncertainty` allows coordinate errors up to
+10⁻¹⁴ only with a tighter frequency tolerance of 10⁻¹⁶; its count does not show
+that position error improves discrimination. **Exact geometry at exposure
+0.01 remains unresolved.** Earlier methods retain their own results; see the
+[command guide and FAQ](docs/FAQ.md), [claim ledger](docs/claims.md) and
+[scope and related work](docs/proofs/scope-and-related-work.md).
 
 ## Reproduce
 
-Python 3.11 or later is required. The scientific runtime has **no third-party
-dependencies**, makes no network requests and needs no private research files.
-In a fresh virtual environment, from this repository:
+Use Python 3.11 or later in a fresh virtual environment:
 
 ```sh
 python -m pip install .
-python -I -m homometric_motion count --profile short-exposure-v1 --scenario exact_geometry --output short.json
-python -I -m homometric_motion count --profile long-exposure-v1 --scenario position_uncertainty --output long-position.json
-python -I -m homometric_motion summary long-position.json
-python -I -m homometric_motion exposure-count --output certificate.json
-python -I -m homometric_motion exposure-count --scenario position_uncertainty --output position-exposure.json
-python -I -m homometric_motion coordinate-count --output coordinate.json
-python -I -m homometric_motion coordinate-count --scenario position_uncertainty --output position-coordinate.json
-python -I -m homometric_motion verify --output original-certificate.json
-python -I -m homometric_motion verify --scenario position_uncertainty --output position.json
+python -I -m homometric_motion count --profile long-exposure-v1 --scenario exact_geometry --output certificate.json
+python -I -m homometric_motion summary certificate.json
 ```
 
-Installation downloads the pinned build tools unless they are already available.
-The installed verification itself runs offline. All computing commands refuse to overwrite
-an existing output: choose a new filename for another run. The JSON contains
-exact fractions and check labels; decimal output is for reading only.
-`summary` does not authenticate a saved file or its provenance. For a nine-point
-record it additionally reconstructs and compares all fixed scientific values
-using the installed model. Earlier certificate summaries retain their stated
-consistency checks without recomputing the reference motion model.
+The scientific runtime uses only the Python standard library and runs offline.
+Installation may download pinned build tools. Computing commands refuse to
+overwrite existing output. Certificate assertions use exact rational or outward
+interval arithmetic; displayed decimals are for reading only. `summary` inspects
+a saved record but does not authenticate it or replace fresh computation.
 
-To test the artifact, contributors and CI run these commands from a Git checkout:
+Contributors and CI use the same artifact verification:
 
 ```sh
 python tools/project.py setup
 python tools/project.py release
 ```
 
-Use an isolated development environment. `release` builds an sdist and wheel,
-tests the installed package, checks coverage, executes each scenario and
-each of the three earlier methods plus both explicit profiles twice in a fresh
-environment, and compares the results. It separately replays `small-pair` twice
-and reconstructs its saved record. It also checks that the committed
-demo data match newly computed original `verify` and `long-exposure-v1`
-exact-geometry certificates. It does not publish anything.
-See [contribution instructions](.github/CONTRIBUTING.md).
+`release` builds the source archive and wheel, tests the installed package,
+and reproduces all package CLI certificate contracts twice in clean directories.
+It also checks the demo data and packaged review witnesses; it publishes
+nothing. See the [contribution instructions](.github/CONTRIBUTING.md) and
+`python tools/project.py --help` for the full command catalog.
 
-Optional [Lean checkpoints](docs/proofs/formal/README.md) prove specified
-finite inequalities, factorial and polynomial identities, variance and
-cumulant sensitivity bounds, Gaussian moment formulas and concrete nine-point
-covariance properties, with their exact statements and dependencies listed
-in the [formal scope and mappings](docs/proofs/formal/README.md).
-These are partial formalizations: connecting the executable moment tables,
-dynamics and full classifier remains outside the formal proof, and Lean is
-not required to run the package.
+## Explore and inspect
 
-## Explore the work
+- **[Offline explorer](demo/index.html):** open locally to compare clean
+  diffraction, spring graphs and the original and long-exposure certificates.
+  Floating-point motion snapshots are illustrations, separate from exact data.
+- **[Synthetic instrument](prototype/README.md):** simulated motion and photon
+  counts, including deliberate model failures, in a separate NumPy/SciPy
+  environment. It does not validate the count theorem.
+- **[Finite-motion study](studies/finite-motion/README.md):** numerical moments
+  at larger motion, with separately locked dependencies. The selected grid
+  misses its window target and independent site disorder worsens the statistic.
+  It does not extend the certified motion range or supply a finite-sample bound.
+- **[Nine-point construction](docs/proofs/nine-point-moments.md):** exact
+  instantaneous-intensity results with no detector/count guarantee. A separate
+  [complete-graph counterexample](docs/proofs/phase-permutation.md) shows why
+  the interaction rule matters.
+- **[Reviewer kit](review/README.md):** SageMath/Arb cross-checks and a separate
+  calibrated iid channel whose assumptions and counts do not transfer to the
+  robust OU-window result.
+- **[Lean checkpoints](docs/proofs/formal/README.md):** variance continuity,
+  Gaussian moment formulas and specified nine-point polynomial/covariance
+  results. These are partial proofs with explicit dependencies, not a
+  formalization of the full classifier.
 
-The [interactive demo](demo/index.html) follows the result from coincident clean
-diffraction through distinct permanent spring graphs to separated statistical
-intervals. Explore frequency, draw a magnified nominal Gaussian snapshot, and
-switch between the long-exposure profile and the original certificate with their
-own counts and assumptions. Open `demo/index.html` from a local checkout in a
-browser; it works offline. Its seeded floating-point snapshots illustrate the
-one-time covariance, not OU trajectories or experimental observations; exact
-certificate data are separate from the graphics. See the
-[demo guide](demo/README.md) for scope and reproduction.
-
-An optional [virtual instrument](prototype/README.md) generates synthetic motion
-and photon-count records with deliberate model failures. It runs on the CPU,
-uses a separate NumPy/SciPy environment, and retains the full simulated motion
-for inspection. It does not implement or validate the final count theorem.
-Its reference remains bound to the explicitly hashed earlier core certificate;
-it does not automatically track new package revisions.
-
-A separate [finite-motion numerical study](studies/finite-motion/README.md)
-evaluates instantaneous intensity moments above the certified strength cap.
-It uses a separately locked multiprecision environment and normal-approximation
-window estimates. Its selected grid misses the stated window target, and
-adding independent site disorder substantially worsens the selected statistic.
-The study supplies no finite-sample guarantee or physical validation.
-
-A compact [reviewer kit](review/README.md) provides an exact SageMath
-reconstruction of the nine-point moments, a separate Arb calculation for one
-63-point calibrated-iid channel, and a claim-to-assumption review packet.
-Its optional dependencies are separate from the package runtime. The recorded
-checks are same-author reproductions; external mathematical review and physical
-validation remain open. The calibrated-iid channel has different assumptions
-from the robust windowed certificate above.
-
-A separate [nine-point construction](docs/proofs/nine-point-moments.md)
-studies exact instantaneous intensity without a detector channel. Its leading
-intensity laws under Gaussian motion agree, yet its exact first two moments cannot both
-agree at any shared finite positive motion strength. A further local bound
-separates independently uncertain fixed strengths using calibrated raw
-intensity. Neither result carries the 63-point photon-count guarantee.
-
-After installation, reproduce this separate fixed model with:
-
-```sh
-python -m homometric_motion small-pair --output nine-point.json
-python -m homometric_motion summary nine-point.json
-```
-
-The command reconstructs all polynomial witnesses from the fixed inputs.
-The mean crosses once and skewness crosses at least twice, so neither
-statistic has a single global ordering. Wider unresolved parameter bands
-remain in the output. Saved-record inspection performs a fresh scientific
-reconstruction; it does not authenticate the supplied record or validate
-physical assumptions.
-
-## What remains open
-
-The [research roadmap](docs/research-roadmap.md) sets evidence requirements
-for broader uniqueness theorems, better estimators, motion-informed imaging
-and physical feasibility. These are open directions, not established applications.
-
-Physical covariance, stationarity, calibration, permanent connectivity and
-conditional detector independence need validation against an actual system.
-The finite-count theorems do not cover drifting parameters, arbitrary detector
-noise or position errors beyond their stated domains. Separate research
-extensions are not automatically part of this package's certificate.
-
-Computation and independent alternative arithmetic checks reduce the chance of
-an error. They are not independent human peer review or formal verification of
-the full theorem. Related work already studies homometry, fluctuation statistics and
-factorial cumulants; this repository does not establish scientific priority.
-
-The public interface comprises `build_certificate()`,
-`build_coordinate_certificate()`, `build_exposure_certificate()` and
-`build_count_certificate(*, profile, scenario="exact_geometry")` and the
-parameter-free `build_small_pair_certificate()`,
-the `verify`, `coordinate-count`, `exposure-count`, `count`, `small-pair` and `summary`
-CLI commands, and their versioned JSON schemas. All are experimental during 0.x.
-The CLI binds its output to the packaged source manifest; hashes do not make an
-untrusted source authentic. Cite the exact Git commit using [CITATION.cff](CITATION.cff).
+The [research roadmap](docs/research-roadmap.md) records open work. Physical
+model validation, broader parameter domains and independent mathematical review
+remain open. The existing results do not cover arbitrary drift, detector noise
+or motion laws.
 
 ## Research provenance and limitations
 
@@ -295,13 +121,14 @@ evidence, but they do not amount to independent human review.
 I am sharing this work so others can inspect, reproduce, challenge, and improve
 it. The results concern the stated mathematical models; physical applicability
 and scientific novelty remain open. Corrections, counterexamples, and
-independent mathematical review are welcome.
+independent mathematical review are welcome. The full disclosure is also in
+[PROVENANCE.md](review/PROVENANCE.md).
 
 Maintained by [The Quantum Falcon](https://github.com/thequantumfalcon).
 Use [Discussions](https://github.com/thequantumfalcon/homometric-motion/discussions)
 for questions and [Issues](https://github.com/thequantumfalcon/homometric-motion/issues)
-for reproducible defects or proof gaps.
+for defects or proof gaps. Cite the exact commit using [CITATION.cff](CITATION.cff);
+the APIs and versioned JSON schemas remain experimental during 0.x.
 
 Code and original documentation are [MIT licensed](LICENSE.txt).
-The adapted Contributor Covenant has its own CC BY-SA 4.0 attribution.
-Repository maintenance decisions are recorded in [the ADRs](docs/decisions/0002-maintenance-and-security.md).
+The adapted Contributor Covenant retains its CC BY-SA 4.0 attribution.
