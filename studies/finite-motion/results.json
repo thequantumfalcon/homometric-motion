@@ -1,0 +1,101 @@
+{
+ "kind": "numerical study (multiprecision floating point), not a certificate",
+ "precision_digits": 110,
+ "photon_budget": "class-A mean 6 signal counts per window, Poisson background 1",
+ "trace_L_plus": {
+  "A": "642.783068783069",
+  "B": "643.227513227513"
+ },
+ "rows": [
+  {
+   "beta": "1e-8",
+   "mean_intensity_A": "5.79801926446e-8",
+   "mean_intensity_B": "5.79401306533e-8",
+   "skewness_A": "2.22475944756",
+   "skewness_B": "2.22710451217",
+   "skewness_gap": "0.0023450646",
+   "normal_approx_windows": "3.209e+8"
+  },
+  {
+   "beta": "1e-6",
+   "mean_intensity_A": "5.79801900243e-6",
+   "mean_intensity_B": "5.79401279526e-6",
+   "skewness_A": "2.2247585411",
+   "skewness_B": "2.22710393322",
+   "skewness_gap": "0.0023453921",
+   "normal_approx_windows": "3.208e+8"
+  },
+  {
+   "beta": "1e-4",
+   "mean_intensity_A": "0.0005797992784",
+   "mean_intensity_B": "0.000579398577309",
+   "skewness_A": "2.22466798637",
+   "skewness_B": "2.22704608832",
+   "skewness_gap": "0.002378102",
+   "normal_approx_windows": "3.12e+8"
+  },
+  {
+   "beta": "1e-3",
+   "mean_intensity_A": "0.00579775300623",
+   "mean_intensity_B": "0.005793738719",
+   "skewness_A": "2.22385303294",
+   "skewness_B": "2.2265247383",
+   "skewness_gap": "0.0026717054",
+   "normal_approx_windows": "2.47e+8"
+  },
+  {
+   "beta": "3e-3",
+   "mean_intensity_A": "0.0173916329585",
+   "mean_intensity_B": "0.0173795421741",
+   "skewness_A": "2.22209488902",
+   "skewness_B": "2.2253952778",
+   "skewness_gap": "0.0033003888",
+   "normal_approx_windows": "1.615e+8"
+  },
+  {
+   "beta": "1e-2",
+   "mean_intensity_A": "0.0579521540172",
+   "mean_intensity_B": "0.057911313251",
+   "skewness_A": "2.21649735372",
+   "skewness_B": "2.22175641556",
+   "skewness_gap": "0.0052590618",
+   "normal_approx_windows": "6.303e+7"
+  },
+  {
+   "beta": "3e-2",
+   "mean_intensity_A": "0.173660968419",
+   "mean_intensity_B": "0.173534351559",
+   "skewness_A": "2.20478733535",
+   "skewness_B": "2.21393613306",
+   "skewness_gap": "0.0091487977",
+   "normal_approx_windows": "2.034e+7"
+  },
+  {
+   "beta": "1e-1",
+   "mean_intensity_A": "0.575746152104",
+   "mean_intensity_B": "0.575294016897",
+   "skewness_A": "2.19568047111",
+   "skewness_B": "2.20806337791",
+   "skewness_gap": "0.012382907",
+   "normal_approx_windows": "1.117e+7"
+  },
+  {
+   "beta": "0.3",
+   "mean_intensity_A": "1.68548413294",
+   "mean_intensity_B": "1.68417460655",
+   "skewness_A": "2.20508550466",
+   "skewness_B": "2.2155727642",
+   "skewness_gap": "0.01048726",
+   "normal_approx_windows": "1.665e+7"
+  },
+  {
+   "beta": "1",
+   "mean_intensity_A": "4.99979131952",
+   "mean_intensity_B": "4.99841194348",
+   "skewness_A": "2.09378922215",
+   "skewness_B": "2.10419392423",
+   "skewness_gap": "0.010404702",
+   "normal_approx_windows": "1.288e+7"
+  }
+ ]
+}

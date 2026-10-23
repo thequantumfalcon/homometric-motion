@@ -1,0 +1,105 @@
+{
+ "kind": "numerical study (multiprecision floating point), not a certificate",
+ "precision_digits": 110,
+ "photon_budget": "class-A mean 6 signal counts per window, Poisson background 1",
+ "iid_first_three_raw_moments_agree_numerically": true,
+ "iid_fourth_raw_moment_A_minus_B": "162.453750229",
+ "rows": [
+  {
+   "mean_site_phase_variance": "0.0329",
+   "uncorrelated_fraction": "0",
+   "mean_intensity_A": "0.173667916386",
+   "skewness_gap": "0.009148969",
+   "normal_approx_windows": "2.034e+7",
+   "relative_to_correlated_only": "1.0"
+  },
+  {
+   "mean_site_phase_variance": "0.0329",
+   "uncorrelated_fraction": "0.01",
+   "mean_intensity_A": "0.192601430422",
+   "skewness_gap": "0.0071435287",
+   "normal_approx_windows": "3.305e+7",
+   "relative_to_correlated_only": "1.625"
+  },
+  {
+   "mean_site_phase_variance": "0.0329",
+   "uncorrelated_fraction": "0.03",
+   "mean_intensity_A": "0.230451272335",
+   "skewness_gap": "0.0045261508",
+   "normal_approx_windows": "8.15e+7",
+   "relative_to_correlated_only": "4.006"
+  },
+  {
+   "mean_site_phase_variance": "0.0329",
+   "uncorrelated_fraction": "0.1",
+   "mean_intensity_A": "0.362745470724",
+   "skewness_gap": "0.0010689274",
+   "normal_approx_windows": "1.454e+9",
+   "relative_to_correlated_only": "71.48"
+  },
+  {
+   "mean_site_phase_variance": "0.0329",
+   "uncorrelated_fraction": "0.3",
+   "mean_intensity_A": "0.739189028767",
+   "skewness_gap": "-0.0003025648",
+   "normal_approx_windows": "1.833e+10",
+   "relative_to_correlated_only": "900.9"
+  },
+  {
+   "mean_site_phase_variance": "0.0329",
+   "uncorrelated_fraction": "0.5",
+   "mean_intensity_A": "1.11336355908",
+   "skewness_gap": "-0.00032756863",
+   "normal_approx_windows": "1.573e+10",
+   "relative_to_correlated_only": "773.0"
+  },
+  {
+   "mean_site_phase_variance": "0.1097",
+   "uncorrelated_fraction": "0",
+   "mean_intensity_A": "0.575942412546",
+   "skewness_gap": "0.012382682",
+   "normal_approx_windows": "1.117e+7",
+   "relative_to_correlated_only": "1.0"
+  },
+  {
+   "mean_site_phase_variance": "0.1097",
+   "uncorrelated_fraction": "0.01",
+   "mean_intensity_A": "0.638683254745",
+   "skewness_gap": "0.0099403845",
+   "normal_approx_windows": "1.684e+7",
+   "relative_to_correlated_only": "1.507"
+  },
+  {
+   "mean_site_phase_variance": "0.1097",
+   "uncorrelated_fraction": "0.03",
+   "mean_intensity_A": "0.763973589464",
+   "skewness_gap": "0.006652036",
+   "normal_approx_windows": "3.638e+7",
+   "relative_to_correlated_only": "3.256"
+  },
+  {
+   "mean_site_phase_variance": "0.1097",
+   "uncorrelated_fraction": "0.1",
+   "mean_intensity_A": "1.20048808902",
+   "skewness_gap": "0.0019677481",
+   "normal_approx_windows": "4.056e+8",
+   "relative_to_correlated_only": "36.3"
+  },
+  {
+   "mean_site_phase_variance": "0.1097",
+   "uncorrelated_fraction": "0.3",
+   "mean_intensity_A": "2.43070040986",
+   "skewness_gap": "-0.00035240856",
+   "normal_approx_windows": "1.279e+10",
+   "relative_to_correlated_only": "1145.0"
+  },
+  {
+   "mean_site_phase_variance": "0.1097",
+   "uncorrelated_fraction": "0.5",
+   "mean_intensity_A": "3.63620918534",
+   "skewness_gap": "-0.00056789085",
+   "normal_approx_windows": "4.97e+9",
+   "relative_to_correlated_only": "444.8"
+  }
+ ]
+}

@@ -48,6 +48,14 @@ the manifest-listed prototype files into a fresh directory, runs and inspects
 two synthetic datasets, and compares all output hashes. CI runs this separate
 task on Windows and Linux. It is not included in the dependency-free core tests.
 
+The separate numerical study uses the development lock and
+`studies/finite-motion/requirements.txt`. Run
+`python tools/project.py finite-motion` to check its source manifest, replay
+the packaged study twice in clean directories and compare its numerical
+reference records. CI runs this task on Windows and Linux. These are
+multiprecision floating-point checks, not certificate assertions or physical
+validation; see [the study](../studies/finite-motion/README.md).
+
 After an intentional package source or input change, run
 `python tools/project.py manifest`, then run `release` again. Manifest
 regeneration acknowledges a new source revision; it is never a fix for an

@@ -28,6 +28,7 @@ COMMANDS = {
     "phase-permutation": "build and replay the complete-graph documentation checker from the sdist",
     "reviewer-kit": "build and check the reviewer kit's saved witnesses from the sdist",
     "prototype": "build and replay the optional instrument from the source archive",
+    "finite-motion": "build and replay the separate numerical study from the source archive",
     "release": "run lint, installed tests and artifact verification; publish nothing",
     "hooks": "run the pinned pre-commit checks on all tracked files",
     "demo-browser": "audit the offline demo with optional Playwright and Chromium",
@@ -782,6 +783,23 @@ def reviewer_kit() -> None:
     print(json.dumps(receipt))
 
 
+def finite_motion() -> None:
+    """Replay the optional numerical study in its separate dependency environment."""
+    distributions = list((ROOT / "dist").glob("homometric_motion-*.tar.gz"))
+    if len(distributions) != 1:
+        raise RuntimeError("dist must contain exactly one source distribution")
+    BUILD.mkdir(exist_ok=True)
+    directory = Path(tempfile.mkdtemp(prefix="finite-motion-", dir=BUILD))
+    verifier = runpy.run_path(str(ROOT / "tools" / "verify_finite_motion.py"))
+    receipt = verifier["verify_archive"](
+        distributions[0], ROOT / "studies" / "finite-motion", directory / "replay"
+    )
+    (directory / "verification.json").write_text(
+        json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n"
+    )
+    print(json.dumps(receipt, indent=2, sort_keys=True))
+
+
 def lint() -> None:
     run(sys.executable, "-m", "ruff", "check", ".")
     run(sys.executable, "-m", "ruff", "format", "--check", ".")
@@ -828,6 +846,8 @@ def main() -> None:
             verify(wheel)
         if command == "prototype":
             prototype()
+        if command == "finite-motion":
+            finite_motion()
         if command == "phase-permutation":
             phase_permutation()
         if command in {"reviewer-kit", "release"}:

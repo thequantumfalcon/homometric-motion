@@ -24,3 +24,10 @@ updates:
     cooldown:
       default-days: 7
       semver-major-days: 14
+  - package-ecosystem: pip
+    directory: /studies/finite-motion
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+      semver-major-days: 14

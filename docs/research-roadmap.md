@@ -40,6 +40,13 @@ measurement observable, an independently calibrated covariance and time
 scale, and a reconstruction or discrimination statement for that observable.
 Resolving this pair does not solve the general crystallographic phase problem.
 
+A separate [finite-motion numerical study](../studies/finite-motion/README.md)
+evaluates instantaneous iid snapshots above the certified strength cap. Its
+selected grid misses the stated normal-approximation window target, and adding
+independent site disorder substantially worsens the selected statistic. The
+study does not supply a finite-sample bound or physical feasibility evidence;
+its comparison with thermal-diffuse-scattering theory remains open.
+
 Structural biology is a possible future setting, with no biological conclusion
 established here. A connection would require new analysis for three-dimensional
 geometry, heterogeneous scattering strengths, realistic interactions, sample

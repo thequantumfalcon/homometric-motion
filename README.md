@@ -216,6 +216,13 @@ for inspection. It does not implement or validate the final count theorem.
 Its reference remains bound to the explicitly hashed earlier core certificate;
 it does not automatically track new package revisions.
 
+A separate [finite-motion numerical study](studies/finite-motion/README.md)
+evaluates instantaneous intensity moments above the certified strength cap.
+It uses a separately locked multiprecision environment and normal-approximation
+window estimates. Its selected grid misses the stated window target, and
+adding independent site disorder substantially worsens the selected statistic.
+The study supplies no finite-sample guarantee or physical validation.
+
 A compact [reviewer kit](review/README.md) provides an exact SageMath
 reconstruction of the nine-point moments, a separate Arb calculation for one
 63-point calibrated-iid channel, and a claim-to-assumption review packet.

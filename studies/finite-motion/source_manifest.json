@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "kind": "numerical-study-source",
+  "revision": "finite-motion-reviewed-v2",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "4ce0bf84728d9e6045114090c3a6c9f74be549aa7d27add0c29a221c868858dc"
+    },
+    {
+      "path": "finite_motion.py",
+      "sha256": "4f198401f328308c46349652dd26e4b51a19ffb45f7e3556e21ba1fa3fc104d1"
+    },
+    {
+      "path": "mixed-results.json",
+      "sha256": "39c2bc26b5c03c120be3f2c780ae7a0276a067383c9f553c4041c862654a7602"
+    },
+    {
+      "path": "requirements.txt",
+      "sha256": "12782570b7fdde99cf55dc3331790e4cc54128df7e51f37537bbb98d51008aed"
+    },
+    {
+      "path": "results.json",
+      "sha256": "73bd32bab6dcb85cd92855b16a3b9eb55ca12fd342578a5e6942ebf3e2b0cff7"
+    }
+  ]
+}

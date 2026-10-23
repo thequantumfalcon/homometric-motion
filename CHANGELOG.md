@@ -36,6 +36,13 @@ the 0.x certificate schema and Python API remain experimental.
 
 ### Added
 
+- A separate finite-motion numerical study with a hash-locked multiprecision
+  environment, source manifest, asserted numerical cross-checks and two
+  packaged replays on Windows and Linux. The selected strength grid misses
+  its normal-approximation window target; independent site disorder greatly
+  increases the estimated count. These numerical records do not extend the
+  exact-arithmetic certificate or establish a finite-sample guarantee.
+
 - An optional reviewer kit with SageMath nine-point moment reconstruction,
   a separate Arb calculation for one calibrated-iid 63-point channel, and
   explicit analytic dependencies and review boundaries. The `reviewer-kit`
