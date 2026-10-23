@@ -9,6 +9,13 @@ the 0.x certificate schema and Python API remain experimental.
 
 ### Changed
 
+- Lead the README with the conditional 63-point result, distinguish the
+  calibrated iid count bounds from the robust windowed theorem, and state the
+  nominal RMS motion scale. Add classical homometry and diffuse-scattering
+  context, label review materials as internal cross-checks, and remove
+  irrelevant private-work notes. Preserve the research provenance disclosure
+  and detailed formal proof dependencies.
+
 - Use standard requirements filenames so dependency monitors can discover the
   development and optional prototype pins. Updates still require explicit
   source-manifest review and fresh artifact verification.

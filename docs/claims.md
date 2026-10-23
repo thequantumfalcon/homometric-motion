@@ -2,7 +2,8 @@
 
 This ledger describes the 63-point `exact_geometry` and `position_uncertainty`
 scenarios, the separately identified nine-point instantaneous-intensity model,
-and a complete-graph counterexample with a different interaction rule.
+a separate calibrated iid count channel, and a complete-graph counterexample
+with a different interaction rule.
 A successful
 test or repository score does not establish a broader claim. See the
 [proof index](proofs/README.md) for definitions and derivations.
@@ -64,6 +65,24 @@ test or repository score does not establish a broader claim. See the
   scores measure selected maintenance signals, not scientific truth.
 - Development and demonstration results apply to the exact revision and model
   they identify. An extension is not covered merely because an earlier theorem passed.
+
+## Separate calibrated iid channel
+
+The [calibrated count derivation](../review/MATHEMATICS.md#selected-63-point-channel)
+uses the 63-point geometry with exact covariance and frequency, instantaneous
+iid snapshots, 0 < β ≤ 10⁻¹⁶, known shared mean-100 reference calibration,
+zero background and independent conditional Poisson observations of I/(βω²).
+These assumptions differ from the robust OU-window contracts above.
+
+| Claim | Evidence and scope | What this does not establish |
+| --- | --- | --- |
+| At least 9,188,577 observations are necessary for both class errors at most 5%. | Outward affinity enclosure, analytic finite-motion transfer, product-law total-variation bound and exact rational exclusion gate through N = 9,188,576. | Achievability at the lower bound, an optimal count or a lower bound for the robust OU-window contracts. |
+| 35,943,631 observations suffice for both class errors at most 5%. | The fixed product-surrogate-likelihood rule, affinity upper bound, finite-motion transfer and exact rational risk gate. | A numerical classifier implementation, finite-exposure or temporal-dependence robustness, unknown calibration, practical acquisition budget or experimental validation. |
+
+The [internal cross-check kit](../review/README.md) contains the separate Arb
+calculation and saved-witness validator. Changing β at fixed normalized gain
+changes the raw-intensity gain. All counts remain conditional on the stated
+model and analytic dependencies.
 
 ## Separate nine-point model
 

@@ -1,75 +1,26 @@
 # Homometric motion
 
-An exact-arithmetic certificate showing that **one explicit pair with identical
-clean diffraction intensities can be distinguished under a specified model of
-motion and photon counting**.
+**Conditional result.** Let A = U + {0,31,63} and B = U + {0,32,63}, with
+U the [specified 21-point motif](docs/proofs/geometry-and-motion.md#explicit-clean-homometric-configurations).
+These noncongruent 63-point sets have identical clean diffraction intensity
+at every real frequency. Under the permanent-spring Gaussian
+Ornstein-Uhlenbeck motion, fixed parameter bounds and conditional Poisson
+observation model stated below, their intensity skewness intervals are
+disjoint. A classifier using empirical second and third factorial cumulants
+has error at most **5% in either class** with **36,938,105,282,195 observation
+windows** for `long-exposure-v1` / `exact_geometry`, allowing normalized
+exposure up to 0.001.
+
+The [proof chain](docs/proofs/README.md) and exact-arithmetic certificate
+establish this conditional bound. The clean pair uses the classical
+convolution/reflection construction; [related work](docs/proofs/scope-and-related-work.md#established-ingredients-and-close-precedents)
+explains the established ingredients and the additional motion and count bounds.
 
 The construction is conditional mathematics. It has no experimental dataset,
 established novelty claim or practical acquisition recommendation. The sufficient
 sample bound is enormous; this is evidence of existence under the assumptions,
-not an efficient measurement proposal.
-
-## Research provenance and limitations
-
-This project grew out of AI-assisted exploration. AI systems proposed and
-developed substantial portions of the mathematical arguments, code, and
-documentation. My role was to direct the investigation, ask for repeated
-challenges and validation, and decide what to document and share. I did not
-independently derive or manually verify every mathematical step.
-
-The repository records the resulting arguments and computational checks,
-along with their assumptions, limitations, and negative findings. The checks
-described here were conducted within the same AI-assisted workflow.
-Alternative implementations and successful reproductions provide useful
-evidence, but they do not amount to independent human review.
-
-I am sharing this work so others can inspect, reproduce, challenge, and improve
-it. The results concern the stated mathematical models; physical applicability
-and scientific novelty remain open. Corrections, counterexamples, and
-independent mathematical review are welcome.
-
-## Explore the work
-
-The [interactive demo](demo/index.html) shows the two configurations, their
-coincident clean diffraction curves and the certified statistical intervals.
-Open `demo/index.html` from a local checkout in a browser; it works offline.
-Its graphics are illustrations, not experimental observations or a proof engine.
-
-An optional [virtual instrument](prototype/README.md) generates synthetic motion
-and photon-count records with deliberate model failures. It runs on the CPU,
-uses a separate NumPy/SciPy environment, and retains the full simulated motion
-for inspection. It does not implement or validate the final count theorem.
-Its reference remains bound to the explicitly hashed earlier core certificate;
-it does not automatically track new package revisions.
-
-A compact [reviewer kit](review/README.md) provides an exact SageMath
-reconstruction of the nine-point moments, a separate Arb calculation for one
-63-point calibrated-iid channel, and a claim-to-assumption review packet.
-Its optional dependencies are separate from the package runtime. The recorded
-checks are same-author reproductions; external mathematical review and physical
-validation remain open. The calibrated-iid channel has different assumptions
-from the robust windowed certificate below.
-
-A separate [nine-point construction](docs/proofs/nine-point-moments.md)
-studies exact instantaneous intensity without a detector channel. Its leading
-intensity laws under Gaussian motion agree, yet its exact first two moments cannot both
-agree at any shared finite positive motion strength. A further local bound
-separates independently uncertain fixed strengths using calibrated raw
-intensity. Neither result carries the 63-point photon-count guarantee.
-
-After installation, reproduce this separate fixed model with:
-
-```sh
-python -m homometric_motion small-pair --output nine-point.json
-python -m homometric_motion summary nine-point.json
-```
-
-The command reconstructs all polynomial witnesses from the fixed inputs.
-The mean crosses once and skewness crosses at least twice, so neither
-statistic has a single global ordering. Wider unresolved parameter bands
-remain in the output. Saved-record inspection performs a fresh scientific
-reconstruction; it does not authenticate the supplied record or validate
-physical assumptions.
+not an efficient measurement proposal. The [research provenance and limitations](review/PROVENANCE.md)
+disclose how the work was developed and the limits of its verification.
 
 ## What is certified
 
@@ -110,12 +61,19 @@ calibration restrictions described below.
 | Observation | Conditionally independent Poisson counts given the full trajectory |
 | Channel | Fixed integrated normalized gain in [0.9, 1.1]; background in [0, 1] |
 
+For nominal covariance, the RMS displacement averaged over sites is
+sqrt(β), about **2.64 to 3.74 millionths of a coordinate unit** over this
+strength band; that unit is the unshifted motif's short spacing. Individual
+site variances differ and Gaussian displacements are unbounded. The allowed
+spring uncertainty changes the site-averaged variance by at most 10⁻⁵
+relative to nominal; see the [motion model](docs/proofs/robustness-and-counts.md#covariance-uncertainty-and-compatible-dynamics).
+
 B is an exact rational in the packaged inputs; its displayed decimal is not a
 replacement. Frequency error requires the positive strength floor. The model
 handles dependence between observation windows through an OU covariance bound;
 the windows are not assumed unconditionally independent.
 
-Every stated window count is **sufficient**, not necessary or optimal.
+Every stated OU-window count is **sufficient**, not necessary or optimal.
 The retained `exposure-count` result has a frequency-robust skewness gap greater
 than 0.0004893221118044 before its estimator allowance; the new profiles
 recompute their own shape bounds and thresholds. Parameter choices and
@@ -167,6 +125,24 @@ fixed physical rate or dose. No global optimum or practical feasibility is
 claimed. See the [FAQ](docs/FAQ.md) and
 [profile decision record](docs/decisions/0003-explicit-count-profiles.md).
 
+## Separate calibrated iid count bound
+
+For the same 63-point geometry in a narrower model, **at least 9,188,577 iid
+observations are necessary, and 35,943,631 are sufficient**, to make both
+class errors at most 5%. This result assumes exact geometry and covariance,
+exact frequency π/3, instantaneous independent Gaussian snapshots,
+0 < β ≤ 10⁻¹⁶, known shared gain calibrated to a mean-100 quadratic reference,
+zero background, and independent conditional Poisson counts of
+I/(βω²). It uses a product-likelihood rule and affinity bounds; its count
+does not transfer to the OU-window classifier above.
+
+The [derivation](review/MATHEMATICS.md#selected-63-point-channel) and
+[internal cross-checks](review/README.md) provide the finite-motion transfer,
+outward Arb enclosures and exact rational testing gates. The bounds leave
+the optimal count undetermined. Maintaining this normalized gain as β
+changes changes the raw-intensity gain, so the observation count supplies
+no physical acquisition time, flux or dose.
+
 ## Reproduce
 
 Python 3.11 or later is required. The scientific runtime has **no third-party
@@ -210,26 +186,57 @@ and reconstructs its saved record. It also checks that the committed
 demo data match a newly computed original `verify` certificate. It does not publish anything.
 See [contribution instructions](.github/CONTRIBUTING.md).
 
-Optional [Lean checkpoints](docs/proofs/formal/README.md) verify six finite
-arithmetic statements, six general falling-factorial identities, nine
-analytic variance declarations, four deterministic cumulant-sensitivity
-statements, five explicit nine-point polynomial statements and thirteen
-Gaussian phase, integrability and first-intensity-moment declarations,
-plus nine natural-moment, seven physical-parameter, five charge-histogram
-and forty-nine concrete covariance declarations. The 101 proved
-analytic-project declarations occupy nine source files; the earlier
-forty and the runtime package are unchanged. The finite arithmetic mapping remains bound
-to the original `verify` position-uncertainty certificate, not to the new
-profile counts. The separate nine-point mapping rebuilds its installed model
-and binds every coefficient of the two-moment noncoincidence checkpoint.
-The generic Gaussian identities cover every natural raw intensity moment,
-physical strength substitution and exact mathematical charge fibers.
-Separate concrete nine-point proofs establish threshold-Laplacian,
-centered-inverse, PSD, trace and almost-sure zero-COM identities. Their
-combined identification with executable histogram enumeration and the
-complete polynomial tables remains open.
-These bounded proofs do not formalize the complete theorem,
-and Lean is not required to run the package.
+Optional [Lean checkpoints](docs/proofs/formal/README.md) prove specified
+finite inequalities, factorial and polynomial identities, variance and
+cumulant sensitivity bounds, Gaussian moment formulas and concrete nine-point
+covariance properties, with their exact statements and dependencies listed
+in the [formal scope and mappings](docs/proofs/formal/README.md).
+These are partial formalizations: connecting the executable moment tables,
+dynamics and full classifier remains outside the formal proof, and Lean is
+not required to run the package.
+
+## Explore the work
+
+The [interactive demo](demo/index.html) shows the two configurations, their
+coincident clean diffraction curves and the certified statistical intervals.
+Open `demo/index.html` from a local checkout in a browser; it works offline.
+Its graphics are illustrations, not experimental observations or a proof engine.
+
+An optional [virtual instrument](prototype/README.md) generates synthetic motion
+and photon-count records with deliberate model failures. It runs on the CPU,
+uses a separate NumPy/SciPy environment, and retains the full simulated motion
+for inspection. It does not implement or validate the final count theorem.
+Its reference remains bound to the explicitly hashed earlier core certificate;
+it does not automatically track new package revisions.
+
+A compact [reviewer kit](review/README.md) provides an exact SageMath
+reconstruction of the nine-point moments, a separate Arb calculation for one
+63-point calibrated-iid channel, and a claim-to-assumption review packet.
+Its optional dependencies are separate from the package runtime. The recorded
+checks are same-author reproductions; external mathematical review and physical
+validation remain open. The calibrated-iid channel has different assumptions
+from the robust windowed certificate above.
+
+A separate [nine-point construction](docs/proofs/nine-point-moments.md)
+studies exact instantaneous intensity without a detector channel. Its leading
+intensity laws under Gaussian motion agree, yet its exact first two moments cannot both
+agree at any shared finite positive motion strength. A further local bound
+separates independently uncertain fixed strengths using calibrated raw
+intensity. Neither result carries the 63-point photon-count guarantee.
+
+After installation, reproduce this separate fixed model with:
+
+```sh
+python -m homometric_motion small-pair --output nine-point.json
+python -m homometric_motion summary nine-point.json
+```
+
+The command reconstructs all polynomial witnesses from the fixed inputs.
+The mean crosses once and skewness crosses at least twice, so neither
+statistic has a single global ordering. Wider unresolved parameter bands
+remain in the output. Saved-record inspection performs a fresh scientific
+reconstruction; it does not authenticate the supplied record or validate
+physical assumptions.
 
 ## What remains open
 
@@ -256,6 +263,25 @@ the `verify`, `coordinate-count`, `exposure-count`, `count`, `small-pair` and `s
 CLI commands, and their versioned JSON schemas. All are experimental during 0.x.
 The CLI binds its output to the packaged source manifest; hashes do not make an
 untrusted source authentic. Cite the exact Git commit using [CITATION.cff](CITATION.cff).
+
+## Research provenance and limitations
+
+This project grew out of AI-assisted exploration. AI systems proposed and
+developed substantial portions of the mathematical arguments, code, and
+documentation. My role was to direct the investigation, ask for repeated
+challenges and validation, and decide what to document and share. I did not
+independently derive or manually verify every mathematical step.
+
+The repository records the resulting arguments and computational checks,
+along with their assumptions, limitations, and negative findings. The checks
+described here were conducted within the same AI-assisted workflow.
+Alternative implementations and successful reproductions provide useful
+evidence, but they do not amount to independent human review.
+
+I am sharing this work so others can inspect, reproduce, challenge, and improve
+it. The results concern the stated mathematical models; physical applicability
+and scientific novelty remain open. Corrections, counterexamples, and
+independent mathematical review are welcome.
 
 Maintained by [The Quantum Falcon](https://github.com/thequantumfalcon).
 Use [Discussions](https://github.com/thequantumfalcon/homometric-motion/discussions)

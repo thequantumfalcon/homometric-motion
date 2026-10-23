@@ -1,10 +1,10 @@
-# Reviewer packet
+# Internal cross-checks for external review
 
-**Review status: local reproductions; external mathematical review pending.**
+**Review status: internal cross-checks; external mathematical review pending.**
 Publication of this packet implies no endorsement. The results concern
 specified stochastic models. Scientific novelty and physical realizability
 remain open. The [research provenance statement](PROVENANCE.md) explains
-the substantial AI assistance and the maintainer's role.
+how the work was developed and the limits of its verification.
 
 ## The questions
 
@@ -54,11 +54,6 @@ are checked as fixed witnesses; no global optimization claim is made.
   while beta decreases changes the corresponding gain on raw intensity.
 - No acquisition time, photon dose, apparatus feasibility, optimal estimator,
   universal uniqueness theorem or established novelty follows.
-- An unfinished likelihood-package adaptation previously rejected its own
-  saved display floats. It remains unpublished. These standalone scripts do
-  not import it; no repair or acceptance of that adaptation is implied.
-- New private formal work remains outside the pinned public revision and
-  awaits separate review. This packet does not count it as externally verified.
 
 ## Focused review requests
 

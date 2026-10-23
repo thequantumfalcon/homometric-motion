@@ -1,10 +1,10 @@
-# Homometric motion: reviewer kit
+# Homometric motion: internal cross-check kit
 
-Prepared for mathematical review. Start with
+Internal cross-checks prepared for external mathematical review. Start with
 [REVIEWER_PACKET.md](REVIEWER_PACKET.md). Execution results and their limits are
 in [VALIDATION.md](VALIDATION.md). Read the
 [research provenance](PROVENANCE.md) for how the work was developed and
-the limits of its AI-assisted validation.
+the limits of its verification.
 
 This kit contains two distinct reproductions:
 

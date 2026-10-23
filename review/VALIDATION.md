@@ -1,10 +1,11 @@
-# Local validation record
+# Internal cross-check execution record
 
 The source calculations, notebook and witness tests below were executed
 locally. This is a preparation for external review, not an external review
 report. The initial kit was prepared and tested locally. Repository publication
 does not imply endorsement, external review or hosted mathematical computation.
-See [research provenance](PROVENANCE.md) for the role of AI assistance.
+See [research provenance](PROVENANCE.md) for the development process and
+verification limits.
 
 ## Actual executions
 

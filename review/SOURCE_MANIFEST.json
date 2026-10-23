@@ -16,16 +16,16 @@
       "sha256": "c77a745914406d3084b525b9358a1a918f88c51e7ed8e605f707d211091e843b"
     },
     "README.md": {
-      "bytes": 4607,
-      "sha256": "c961c0af0d587e4842616c340325524f5eb98f3fd17a8236ff48c4606bfe95aa"
+      "bytes": 4640,
+      "sha256": "ba9b7861ece438a3e85763cd858aecc4de5768b5854856ccc51613bbe5b4974d"
     },
     "REVIEWER_PACKET.md": {
-      "bytes": 6918,
-      "sha256": "a816bd4ab69d50a9a1dd3059a999aa90f13d9b1355bf02cc986877b83530eb58"
+      "bytes": 6577,
+      "sha256": "d2aa477e6f0e235747fb5c749d0e92c7e81cbcda7127dd2a9b0afb4a6ebeeb76"
     },
     "VALIDATION.md": {
-      "bytes": 5934,
-      "sha256": "76d87ead4fd56e0d658468681a26cf47b0cd461a62194e713353c9425b73e40e"
+      "bytes": 5970,
+      "sha256": "9ddab8cbfff573ae31ff6a31527a1cf8efee7742de023d89926bcb3fe78f979f"
     },
     "arb_reproduction.py": {
       "bytes": 11502,

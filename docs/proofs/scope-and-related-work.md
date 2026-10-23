@@ -112,12 +112,25 @@ bounds explicitly.
 
 ## Established ingredients and close precedents
 
-Homometry and information beyond ordinary diffraction intensity are
-established subjects. Ravy examines how coherent measurements and
-higher-order speckle statistics can distinguish some forms of homometry,
-while other clean finite-basis homometries remain unresolved by coherence
-alone. This is close conceptual precedent, not this graph-Gaussian
-construction or its quantitative robustness certificate.
+Patterson's diffraction analysis relates measured Fourier intensities to
+interatomic difference vectors. Homometry belongs to this established
+autocorrelation framework.
+[Patterson, "A Fourier Series Method for the Determination of the Components
+of Interatomic Distances in Crystals" (1934)](https://doi.org/10.1103/PhysRev.46.372).
+
+The clean pair uses the classical convolution/reflection mechanism studied by
+Rosenblatt and Seymour: a counting measure of the form $C*D$ has the same
+autocorrelation as $C*D^*$, where $D^*(x)=D(-x)$. Here the unique sums
+$A=U+V$ and $B=U+(63-V)$ realize that mechanism, followed by a translation.
+The homometric construction itself is an established ingredient.
+[Rosenblatt and Seymour, "The Structure of Homometric Sets" (1982)](https://doi.org/10.1137/0603035).
+
+Diffuse scattering and coherent speckle statistics also have an established
+role in studying correlations beyond average Bragg structure. Ravy distinguishes
+Bragg, diffuse-scattering and coherent-diffraction homometry, and demonstrates
+how higher-order speckle statistics can distinguish specific diffuse-homometric
+examples. Coherence alone does not resolve an exactly homometric finite basis.
+This is close conceptual precedent for statistical discrimination.
 [Ravy, “Homometry in the light of coherent beams”](https://arxiv.org/pdf/1303.3792).
 
 Photon-count factorial cumulants, their relation to integrated random
@@ -140,11 +153,13 @@ measurement setting.
 The linked article has a
 [published correction](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0320511).
 
-These targeted comparisons are not an exhaustive search for the exact
-combined claim. The warranted framing is a concrete construction with a
-conditional quantitative certificate built from established ingredients,
-not an assertion that fluctuation-based disambiguation or cumulant
-invariants are new.
+This repository combines an explicit finite pair with a specified permanent-spring
+Gaussian motion model and outward-arithmetic bounds for finite motion,
+declared parameter uncertainty and a conditional photon-count classifier.
+These targeted comparisons are not an exhaustive search for that combination.
+The result is a conditional quantitative certificate built from established
+ingredients; it establishes no novelty or priority for homometry,
+fluctuation-based discrimination or cumulant invariants.
 
 ## Release revision and reproducibility
 

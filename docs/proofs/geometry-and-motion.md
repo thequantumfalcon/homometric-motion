@@ -29,6 +29,9 @@ second translation set is $63-V$. Therefore
 ```
 and $|F_A(t)|^2=|F_B(t)|^2$ for every real $t$.
 Clean homometry refers to this common-frequency identity.
+This is the established convolution/reflection construction of
+[Rosenblatt and Seymour (1982)](https://doi.org/10.1137/0603035),
+specialized to unique point sums and a translated reflected factor.
 
 Connect fixed mean positions at distance at most $5/2$. The inequality
 $\arcsin s\le s/\sqrt{1-s^2}$ and $\omega>1$ bound the shifts
