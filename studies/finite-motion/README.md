@@ -58,6 +58,10 @@ error is bounded.
 
 ## Reproduction and numerical checks
 
+The numerical environment pins [mpmath 1.4.1](https://pypi.org/project/mpmath/1.4.1/)
+and uses 110 decimal digits. The saved numerical reference summaries remain
+comparison targets for each fresh source revision.
+
 From the repository root in an isolated environment:
 
 ```sh

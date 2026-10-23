@@ -1,11 +1,11 @@
 {
   "schema": 1,
   "kind": "numerical-study-source",
-  "revision": "finite-motion-reviewed-v2",
+  "revision": "finite-motion-reviewed-v3",
   "files": [
     {
       "path": "README.md",
-      "sha256": "4ce0bf84728d9e6045114090c3a6c9f74be549aa7d27add0c29a221c868858dc"
+      "sha256": "2b1714268c2371d064dbb7cae44bc4b86c5eaa7d4e6c9d3c021d56cf0cc7f9d4"
     },
     {
       "path": "finite_motion.py",
@@ -17,7 +17,7 @@
     },
     {
       "path": "requirements.txt",
-      "sha256": "12782570b7fdde99cf55dc3331790e4cc54128df7e51f37537bbb98d51008aed"
+      "sha256": "978a37610c7e3a28fb75877e078f313f022c12a8e296637cc6ab6c564f39ba62"
     },
     {
       "path": "results.json",

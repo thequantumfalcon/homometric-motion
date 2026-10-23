@@ -104,7 +104,7 @@ def verify_archive(archive: Path, reviewed_source: Path, destination: Path) -> d
         timeout=30,
         check=False,
     )
-    if dependency.returncode or dependency.stdout.strip() != "1.3.0":
+    if dependency.returncode or dependency.stdout.strip() != "1.4.1":
         raise RuntimeError("install the finite-motion hash-locked requirements before this task")
     destination.mkdir(parents=True, exist_ok=False)
     controls = runpy.run_path(Path(__file__).with_name("check_finite_motion_controls.py"))[
@@ -155,7 +155,7 @@ def verify_archive(archive: Path, reviewed_source: Path, destination: Path) -> d
         "source_archive_sha256": hashlib.sha256(archive.read_bytes()).hexdigest(),
         "source_manifest_sha256": hashlib.sha256(files[MANIFEST]).hexdigest(),
         "repeated_output_sha256": hashlib.sha256(receipts[0]).hexdigest(),
-        "dependency": "mpmath==1.3.0",
+        "dependency": "mpmath==1.4.1",
         "repeated_runs": 2,
         "overwrite_refusal": True,
         "source_output_isolation": True,

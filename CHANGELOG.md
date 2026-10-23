@@ -9,6 +9,10 @@ the 0.x certificate schema and Python API remain experimental.
 
 ### Changed
 
+- Update the separate finite-motion study to hash-locked mpmath 1.4.1 and
+  record a fresh study source manifest. Both packaged replays preserve all
+  numerical reference rows and pass the numerical and artifact controls.
+
 - Update the optional prototype to NumPy 2.4.6 and SciPy 1.17.1, align its
   runtime checks and dependency documentation, and record a fresh source
   manifest. Reproduce and inspect two matching packaged synthetic runs in
