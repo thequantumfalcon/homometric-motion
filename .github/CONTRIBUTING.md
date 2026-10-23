@@ -73,7 +73,8 @@ Use Conventional Commit subjects, for example `fix: bound negative endpoints`.
 Sign off contributions with `git commit -s` to certify the
 [Developer Certificate of Origin 1.1](https://developercertificate.org/).
 Use an email you are willing to publish; GitHub's noreply identity is suitable.
-The maintainer signs and creates merge commits locally using the project persona.
+The maintainer signs and creates merge commits locally using the configured
+repository signing identity.
 Web/API merges and automatic merges are not used.
 
 Run `python tools/project.py hooks` to check all files with the pinned hooks.

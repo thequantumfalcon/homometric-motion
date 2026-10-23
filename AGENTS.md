@@ -38,9 +38,9 @@ pair under specified stochastic motion and observation models.
 
 ## Repository and security
 
-- Public maintainer identity is The Quantum Falcon. Commits are signed
-  locally using the configured repository identity. Do not create web/API
-  merge commits.
+- Public maintainer credit is Thomas Albrecht (@thequantumfalcon). Commits
+  are signed locally using the configured repository identity. Do not create
+  web/API merge commits.
 - Do not include machine paths, private receipts, credentials, supplied
   attachments, unrelated research archives or tool bundles.
 - Do not add coauthor trailers, generator credits or automated attribution

@@ -9,6 +9,13 @@ the 0.x certificate schema and Python API remain experimental.
 
 ### Changed
 
+- Credit Thomas Albrecht in public author, maintainer and copyright fields.
+  Name the classical thermal diffuse scattering connection and add primary
+  references, while distinguishing the specific conditional certificate from
+  a novelty or practical-advantage claim. State the one-dimensional geometry
+  and scalar motion explicitly, and distinguish pseudoinverse traces from
+  normalized covariance traces.
+
 - Update the separate finite-motion study to hash-locked mpmath 1.4.1 and
   record a fresh study source manifest. Both packaged replays preserve all
   numerical reference rows and pass the numerical and artifact controls.

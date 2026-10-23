@@ -4,15 +4,17 @@ The release presents an explicit conditional mathematical construction and
 an executable certificate. It is not an empirical discovery about an
 identified material or apparatus. No independent human peer review,
 optimality or literature-priority claim is made. The complete theorem is
-not formalized. The [Lean checkpoints](formal/README.md) cover only specified
-finite arithmetic statements, universal polynomial identities and general
-variance-stability lemmas.
+not formalized. The [Lean checkpoints](formal/README.md) cover specified
+Gaussian-moment, variance, polynomial and covariance statements, with their
+exact hypotheses and proof dependencies recorded separately.
 Repeating a computation and checking its source bindings are different
 from measuring whether a physical model holds.
 
 ## Parameter domain and unresolved directions
 
-The default `exact_geometry` count certificate requires fixed exact mean geometry,
+The model is one-dimensional: mean positions and scalar displacements lie on
+the same real line. The `exact_geometry` count certificate requires fixed exact
+mean geometry,
 permanent positive spring links in the declared interval, centered Gaussian
 stationary weighted OU motion, a positive nominal motion-strength band,
 bounded fixed frequency error, rectangular exposure, and the specified
@@ -115,15 +117,56 @@ bounds explicitly.
 Patterson's diffraction analysis relates measured Fourier intensities to
 interatomic difference vectors. Homometry belongs to this established
 autocorrelation framework.
-[Patterson, "A Fourier Series Method for the Determination of the Components
-of Interatomic Distances in Crystals" (1934)](https://doi.org/10.1103/PhysRev.46.372).
+[A. L. Patterson, "A Fourier Series Method for the Determination of the Components
+of Interatomic Distances in Crystals," *Physical Review* **46**, 372–376 (1934)](https://doi.org/10.1103/PhysRev.46.372).
+Patterson later treated the structural ambiguity directly in
+["Ambiguities in the X-Ray Analysis of Crystal Structures," *Physical Review*
+**65**, 195–201 (1944)](https://doi.org/10.1103/PhysRev.65.195).
 
 The clean pair uses the classical convolution/reflection mechanism studied by
 Rosenblatt and Seymour: a counting measure of the form $C*D$ has the same
 autocorrelation as $C*D^*$, where $D^*(x)=D(-x)$. Here the unique sums
 $A=U+V$ and $B=U+(63-V)$ realize that mechanism, followed by a translation.
 The homometric construction itself is an established ingredient.
-[Rosenblatt and Seymour, "The Structure of Homometric Sets" (1982)](https://doi.org/10.1137/0603035).
+[J. Rosenblatt and P. D. Seymour, "The Structure of Homometric Sets,"
+*SIAM Journal on Algebraic Discrete Methods* **3**(3), 343–350 (1982)](https://doi.org/10.1137/0603035).
+
+### Thermal diffuse scattering
+
+Thermal diffuse scattering (TDS) already uses information carried by atomic
+displacements and their correlations. The influence of thermal motion on
+diffraction is classical: Debye and Waller developed the temperature-factor
+theory, and Born explicitly connected diffuse scattering to thermal vibrations.
+Relevant primary references are:
+
+- P. Debye, ["Interferenz von Röntgenstrahlen und Wärmebewegung,"
+  *Annalen der Physik* **348**(1), 49–92 (1913)](https://doi.org/10.1002/andp.19133480105).
+- I. Waller, ["Zur Frage der Einwirkung der Wärmebewegung auf die Interferenz
+  von Röntgenstrahlen," *Zeitschrift für Physik* **17**, 398–408 (1923)](https://doi.org/10.1007/BF01328696).
+- M. Born, ["Diffuse Reflexion of X-Rays," *Nature* **147**, 674 (1941)](https://doi.org/10.1038/147674a0).
+
+For this finite scalar model the connection is explicit. Put
+$F(q)=\sum_j e^{iq(x_j+u_j)}$, where $q\in\mathbb R$ and the centered Gaussian
+displacements have covariance $\Sigma$. Applying the Gaussian characteristic
+function to each difference $u_j-u_k$ gives
+```math
+ \mathbb E|F(q)|^2
+ =\sum_{j,k}e^{iq(x_j-x_k)}
+   \exp\!\left[-\frac{q^2}{2}
+   (\Sigma_{jj}+\Sigma_{kk}-2\Sigma_{jk})\right].
+```
+The diffuse component is $\mathbb E|F|^2-|\mathbb EF|^2$; it depends on
+displacement correlations. Clean homometry equates the unweighted difference
+sum, not the sum with these covariance-dependent factors. Thus clean homometry
+does not imply equal motion-averaged diffraction for the two graph covariances.
+
+Here $\Sigma=\beta D$, with $D=nL^+/\operatorname{tr}L^+$ and the center-of-mass
+mode removed. This trace normalization and the overdamped OU time law are
+stipulated model choices requiring physical calibration. The normalized
+strength $\beta$ is not a calibrated temperature. The construction is not a
+three-dimensional lattice-dynamical model of an identified material.
+
+### Related statistical methods
 
 Diffuse scattering and coherent speckle statistics also have an established
 role in studying correlations beyond average Bragg structure. Ravy distinguishes
@@ -153,9 +196,13 @@ measurement setting.
 The linked article has a
 [published correction](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0320511).
 
-This repository combines an explicit finite pair with a specified permanent-spring
-Gaussian motion model and outward-arithmetic bounds for finite motion,
-declared parameter uncertainty and a conditional photon-count classifier.
+The additional deliverable here is a conditional quantitative certificate for
+an explicit one-dimensional finite pair with a permanent-spring Gaussian model.
+Outward-arithmetic bounds carry population separation through finite motion,
+declared parameter uncertainty, finite exposure and OU window dependence to a
+conditionally Poisson finite-sample classification guarantee. The result does
+not establish that higher-order statistics are necessary for this pair or
+that this classifier improves on conventional mean-TDS analysis.
 These targeted comparisons are not an exhaustive search for that combination.
 The result is a conditional quantitative certificate built from established
 ingredients; it establishes no novelty or priority for homometry,

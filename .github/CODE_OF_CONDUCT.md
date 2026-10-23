@@ -44,7 +44,7 @@ We agree to restrict the following behaviors in our community. Instances, threat
 
 ## Reporting an Issue
 
-The maintainer and community moderator is [The Quantum Falcon](https://github.com/thequantumfalcon).
+The maintainer and community moderator is [Thomas Albrecht](https://github.com/thequantumfalcon).
 For a non-sensitive concern, open a [public issue](https://github.com/thequantumfalcon/homometric-motion/issues/new?title=Conduct%20concern)
 and mention @thequantumfalcon. Include only information you are comfortable making public.
 Do not post another person's private information.

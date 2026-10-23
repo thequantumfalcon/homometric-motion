@@ -3,13 +3,14 @@ message: "Please cite the exact commit you used; this repository is a conditiona
 title: "Homometric motion: an exact-arithmetic conditional certificate"
 type: software
 authors:
-  - name: "The Quantum Falcon"
+  - given-names: "Thomas"
+    family-names: "Albrecht"
 repository-code: "https://github.com/thequantumfalcon/homometric-motion"
 url: "https://github.com/thequantumfalcon/homometric-motion"
 license: MIT
 abstract: >-
-  A reproducible certificate for an explicit clean-homometric pair under
-  specified harmonic Gaussian motion and observation assumptions. The
+  A reproducible certificate for an explicit one-dimensional clean-homometric
+  pair under specified harmonic Gaussian motion and observation assumptions. The
   construction includes covariance, exposure and frequency uncertainty and
   a conservative finite-count risk bound. It does not establish physical
   validation, novelty or practical feasibility.

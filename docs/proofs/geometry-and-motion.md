@@ -18,6 +18,9 @@ this certified range.
 
 ## Explicit clean-homometric configurations
 
+The spatial geometry is one-dimensional: all mean positions lie on the real
+line, and each site's random displacement is a scalar along that same line.
+
 Set $n=63$, $\omega=\pi/3$,
 $\theta=\arcsin(1/(5\sqrt3))$ and
 $\phi=-\arcsin(1/(8\sqrt3))$. Begin with
@@ -94,7 +97,9 @@ Laplacian pseudoinverse. The nominal covariance is
 ```math
  D=nL^+/\operatorname{tr}L^+,\qquad \operatorname{tr}D=n.
 ```
-The exact traces are $121486/189$ for A and $121570/189$ for B.
+The pseudoinverse traces are $\operatorname{tr}L_A^+=121486/189$ and
+$\operatorname{tr}L_B^+=121570/189$. The normalized covariances instead satisfy
+$\operatorname{tr}D_A=\operatorname{tr}D_B=63$.
 
 Let $Y\sim N(0,D)$, $z_i=e^{i\omega x_i}$, and
 ```math

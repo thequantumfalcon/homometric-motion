@@ -1,8 +1,8 @@
 # Homometric motion
 
-An explicit pair of noncongruent 63-point configurations has identical clean
-diffraction intensity at every real frequency, but distinguishable intensity
-statistics under a specified stochastic motion model. The
+An explicit pair of noncongruent one-dimensional 63-point configurations has
+identical clean diffraction intensity at every real frequency, but distinguishable
+intensity statistics under a specified scalar stochastic motion model. The
 [proofs](docs/proofs/README.md) and exact-arithmetic certificate establish a
 conditional finite-sample classification bound.
 
@@ -13,6 +13,14 @@ millionths with the allowed covariance uncertainty. This is an RMS measure,
 not a maximum displacement; Gaussian displacements are unbounded.
 The sufficient observation count is enormous. No physical experiment,
 practical acquisition scheme or established novelty is claimed.
+
+**Relation to established scattering theory.** Thermal diffuse scattering
+already probes atomic displacement correlations. This repository adds a
+specific quantitative certificate for a constructed pair: population separation
+carried through finite exposure, stated parameter uncertainty and a Poisson
+observation model to a finite-sample risk bound. It does not establish a new
+scattering mechanism or an advantage over conventional TDS analysis. See the
+[classical references and comparison](docs/proofs/scope-and-related-work.md#thermal-diffuse-scattering).
 
 ## The certified result
 
@@ -124,7 +132,7 @@ and scientific novelty remain open. Corrections, counterexamples, and
 independent mathematical review are welcome. The full disclosure is also in
 [PROVENANCE.md](review/PROVENANCE.md).
 
-Maintained by [The Quantum Falcon](https://github.com/thequantumfalcon).
+Maintained by [Thomas Albrecht](https://github.com/thequantumfalcon).
 Use [Discussions](https://github.com/thequantumfalcon/homometric-motion/discussions)
 for questions and [Issues](https://github.com/thequantumfalcon/homometric-motion/issues)
 for defects or proof gaps. Cite the exact commit using [CITATION.cff](CITATION.cff);

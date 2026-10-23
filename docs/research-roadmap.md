@@ -27,6 +27,9 @@ lower bounds on what any method must require.
 A useful question is whether a calibrated motion model supplies information
 that resolves a specified clean-homometric ambiguity in a real scattering
 experiment. This is a possible connection to established methods.
+Classical [thermal diffuse scattering](proofs/scope-and-related-work.md#thermal-diffuse-scattering)
+already uses displacement correlations; clean homometry alone does not imply
+equality of thermally averaged diffraction.
 X-ray photon correlation spectroscopy (XPCS) already measures structural
 fluctuations driven by thermal motion or external stimuli; see the
 [Advanced Photon Source XPCS beamline description](https://www.aps.anl.gov/Beamlines/Beamline-Directory/243).
@@ -44,8 +47,9 @@ A separate [finite-motion numerical study](../studies/finite-motion/README.md)
 evaluates instantaneous iid snapshots above the certified strength cap. Its
 selected grid misses the stated normal-approximation window target, and adding
 independent site disorder substantially worsens the selected statistic. The
-study does not supply a finite-sample bound or physical feasibility evidence;
-its comparison with thermal-diffuse-scattering theory remains open.
+study does not supply a finite-sample bound or physical feasibility evidence.
+A quantitative comparison with conventional mean-TDS observables and their
+finite-sample performance remains open.
 
 Structural biology is a possible future setting, with no biological conclusion
 established here. A connection would require new analysis for three-dimensional

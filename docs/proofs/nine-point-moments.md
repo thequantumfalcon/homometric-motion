@@ -7,6 +7,9 @@ value in the two classes.
 
 ## Geometry and stochastic model
 
+The geometry and displacements are one-dimensional: the sites lie on the
+real line and each site's random displacement is a scalar along that line.
+
 Let
 
 ```math
@@ -38,9 +41,12 @@ Y\sim N(0,D),\qquad
 ```
 
 The finite connected graphs and covariance identities are reconstructed
-exactly. Both traces are 79/12, giving the same factor 108/79 multiplying
-their respective pseudoinverses. D has full support on the zero-sum subspace.
-It is singular only in the translation direction.
+exactly. Both pseudoinverse traces satisfy
+$\operatorname{tr}L_A^+=\operatorname{tr}L_B^+=79/12$, giving the same factor
+$108/79$ multiplying their respective pseudoinverses. The normalized
+covariances satisfy $\operatorname{tr}D_A=\operatorname{tr}D_B=9$.
+D has full support on the zero-sum subspace and is singular only in the
+translation direction.
 
 The observable is the instantaneous intensity
 
