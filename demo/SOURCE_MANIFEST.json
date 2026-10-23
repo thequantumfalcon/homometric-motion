@@ -1,0 +1,36 @@
+{
+  "certificate_sources": {
+    "long-exposure-v1": "47bf2dd491e5f7a8de8c1bb4713574700900e725a3750d2c57682c1133484cd9",
+    "original-verify": "0310369cf2e91c435f3bdb5b0e3fd2bad99dbe832c8dcc80fd7187df63e2b977",
+    "package_manifest_sha256": "26c42f27cc8c0f609f037be5c2f89fb8d7f1cf49688856193caaeaa8b7c3a55c"
+  },
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "db9537def7453a48d40a5897671d8efe512819dda69f6ba66ef25c9b270b5a38"
+    },
+    {
+      "path": "app.js",
+      "sha256": "d9e23ff0adad471160d0f6dbcd4247042636d1659f83c0f62d3005ff3bd71984"
+    },
+    {
+      "path": "data.js",
+      "sha256": "7ca3d3ca2ee14fbba2b93ca925f1d7689c1e58137f489d47f56a4c3b89e26338"
+    },
+    {
+      "path": "data.json",
+      "sha256": "fdbcc93ee02e86ba4ddec2fcc0ed4e4b387dd55f149df0530897d6708f99bfc5"
+    },
+    {
+      "path": "index.html",
+      "sha256": "9825d394a56f09dd146ee0e2c10a2475c49fec4ce8ae7f0da7a7582b9f8557af"
+    },
+    {
+      "path": "style.css",
+      "sha256": "5270cfeabac1ac2104649195e71f46fa418f0f65ff97d1e7256c1264efe69250"
+    }
+  ],
+  "revision_kind": "offline_display_revision",
+  "schema_version": 1,
+  "scope": "Source hashes for the offline demonstration, not a mathematical certificate."
+}

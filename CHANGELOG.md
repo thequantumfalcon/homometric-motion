@@ -9,6 +9,15 @@ the 0.x certificate schema and Python API remain experimental.
 
 ### Changed
 
+- Extend the offline explorer with a guided geometry, nominal Gaussian snapshot
+  and certificate presentation. Display the `long-exposure-v1` exact-geometry
+  result alongside a selectable original `verify` view, keeping each view's
+  intervals, threshold, sufficient count and assumptions together. Check both
+  display records against freshly reproduced installed-package certificates.
+  The seeded floating-point snapshots are magnified illustrations of one-time
+  covariance; they do not certify the classifier, supply experimental evidence
+  or change the scientific runtime contract.
+
 - Lead the README with the conditional 63-point result, distinguish the
   calibrated iid count bounds from the robust windowed theorem, and state the
   nominal RMS motion scale. Add classical homometry and diffuse-scattering

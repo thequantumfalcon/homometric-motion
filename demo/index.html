@@ -1,103 +1,522 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light">
-  <meta name="description" content="Explore an explicit homometric pair and its conditional motion certificate, entirely offline.">
-  <title>Homometric motion · Offline explorer</title>
-  <link rel="stylesheet" href="style.css">
-  <script defer src="data.js"></script>
-  <script defer src="app.js"></script>
-</head>
-<body>
-  <a class="skip" href="#explorer">Skip to the explorer</a>
-  <header class="masthead">
-    <a class="wordmark" href="#top" aria-label="Homometric motion home"><span class="mark" aria-hidden="true">∿</span> homometric<span class="wordmark-light"> / motion</span></a>
-    <nav aria-label="Page sections"><a href="#explorer">Explore</a><a href="#certificate">Certificate</a><a href="#assumptions">Assumptions</a></nav>
-    <span class="offline"><span aria-hidden="true">●</span> Works offline</span>
-  </header>
-  <main id="top">
-    <section class="hero" aria-labelledby="hero-title">
-      <div>
-        <p class="eyebrow">An explicit construction · 63 points per class</p>
-        <h1 id="hero-title">Equal clean diffraction.<br><span>Distinct modelled motion.</span></h1>
-        <p class="lead">Move through frequency to explore two different point configurations with identical clean intensity. Then inspect the separated statistical bounds under a precisely specified motion and photon-counting model.</p>
-        <div class="hero-links"><a class="primary-link" href="#explorer">Explore the pair <span aria-hidden="true">↘</span></a><a href="../docs/proofs/README.md">Read the mathematical proof ↗</a></div>
-      </div>
-      <aside class="hero-note" aria-label="What this page shows">
-        <span class="note-number">01 / 02</span>
-        <h2>Explore the geometry.<br>Inspect the certificate.</h2>
-        <p>The plots are illustrations. The bound comes from a separately recomputed exact-arithmetic certificate.</p>
-        <div class="note-footer">Conditional mathematics<br>No experimental observations supplied</div>
-      </aside>
-    </section>
-    <section class="panel explorer" id="explorer" aria-labelledby="explorer-title">
-      <div class="section-heading"><div><p class="eyebrow">01 · Clean geometry explorer</p><h2 id="explorer-title">One intensity curve, two configurations</h2></div><span class="display-label">Floating-point illustration</span></div>
-      <div class="explorer-grid">
-        <div class="spectrum-area">
-          <div class="legend"><span><i class="key key-a"></i> Configuration A</span><span><i class="key key-b"></i> Configuration B · dashed</span><label class="scale-control"><input id="log-scale" type="checkbox" checked> Log display</label></div>
-          <svg id="spectrum" role="img" aria-labelledby="spectrum-title spectrum-description" viewBox="0 0 920 310">
-            <title id="spectrum-title">Clean normalized diffraction intensity</title>
-            <desc id="spectrum-description">The two plotted curves overlap. Their equality for every common frequency follows from the exact construction, not from this floating-point plot.</desc>
-          </svg>
-          <div class="frequency-control">
-            <label for="frequency">Frequency <em>t</em> <output id="frequency-value" for="frequency">π / 3</output></label>
-            <input id="frequency" type="range" min="0" max="6.283185307179586" step="any" aria-describedby="frequency-scope">
-            <div class="range-labels"><span>0</span><span>π</span><span>2π</span></div>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <meta
+      name="description"
+      content="Two different structures. Identical clean diffraction. Explore how a specified motion model makes their statistics distinguishable, with exact certificate data."
+    />
+    <title>Homometric motion · An interactive explanation</title>
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="data.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <a class="skip" href="#explorer" tabindex="0"
+      >Skip to the interactive explanation</a
+    >
+    <header class="masthead">
+      <a class="wordmark" href="#top" aria-label="Homometric motion home"
+        ><svg aria-hidden="true" viewBox="0 0 36 32">
+          <path d="M3 9h30M3 23h30M10 9Q18-4 26 9M16 23Q24 10 32 23" />
+          <circle cx="10" cy="9" r="3" />
+          <circle cx="26" cy="9" r="3" />
+          <circle cx="16" cy="23" r="3" />
+          <circle cx="32" cy="23" r="3" /></svg
+        ><span>homometric<span class="wordmark-light"> / motion</span></span></a
+      >
+      <nav aria-label="Page sections">
+        <a href="#explorer">The pair</a><a href="#diffraction">Diffraction</a
+        ><a href="#certificate">The result</a>
+      </nav>
+      <span class="offline"
+        ><span aria-hidden="true">●</span> Offline explorer</span
+      >
+    </header>
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div>
+          <p class="eyebrow">
+            A mathematical construction · An interactive explanation
+          </p>
+          <h1 id="hero-title">
+            Identical diffraction.<br />Distinguishable<br /><em>in motion.</em>
+          </h1>
+        </div>
+        <div class="hero-copy">
+          <span class="small-rule" aria-hidden="true"></span>
+          <p>
+            Two different structures can cast the same diffraction pattern.
+            Under a specified spring-motion model, their fluctuations carry
+            information that the clean pattern hides.
+          </p>
+          <p class="hero-scope">
+            Explore the pair, then inspect the conditional mathematical bound.
+            No experimental measurements are used here.
+          </p>
+          <a class="primary-link" href="#explorer"
+            >See how it works <span aria-hidden="true">↓</span></a
+          >
+        </div>
+      </section>
+      <section
+        id="explorer"
+        class="geometry-section"
+        aria-labelledby="geometry-heading"
+      >
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">01 / The structures</p>
+            <h2 id="geometry-heading">
+              Different shapes. Different spring graphs.
+            </h2>
           </div>
-          <div class="button-row"><button id="null-frequency" type="button">Go to the exact null: π/3</button><button id="sweep" type="button" aria-pressed="false">Sweep frequency <span aria-hidden="true">▶</span></button></div>
-          <p id="frequency-scope" class="caption">The slider explores clean diffraction across a wide range. The fixed certificate below applies only within 10⁻¹⁴ of π/3 and does not change with this control.</p>
+          <span class="section-number" aria-hidden="true">01</span>
         </div>
-        <aside class="phase-area">
-          <p class="eyebrow">Phases at the selected frequency</p>
-          <svg id="phases" viewBox="0 0 260 260" role="img" aria-label="The 63 unit phases of each configuration on a circle"></svg>
-          <div class="readout"><span>A · clean intensity / 63²</span><strong id="intensity-a">—</strong></div>
-          <div class="readout"><span>B · clean intensity / 63²</span><strong id="intensity-b">—</strong></div>
-          <p class="caption">Phase locations are displayed numerically. At π/3, the symbolic phase sum is exactly zero for both classes.</p>
-        </aside>
-      </div>
-      <div class="geometry-section">
-        <div class="subheading"><h3>Different permanent contact graphs</h3><span>Links connect mean positions at distance ≤ 2.5</span></div>
-        <svg id="geometry" viewBox="0 0 1080 210" role="img" aria-labelledby="geometry-title geometry-description">
-          <title id="geometry-title">Point configurations and their permanent contact graphs</title>
-          <desc id="geometry-description">Each graph is a 63-vertex path with one extra chord. Class A has chord 20 to 22; class B has chord 41 to 43, using zero-based labels.</desc>
-        </svg>
-        <div class="geometry-explanation"><p><b class="a-text">A</b> Triangle tails: 20 and 40 links</p><p><b class="b-text">B</b> Triangle tails: 19 and 41 links</p><p>The graphs are nonisomorphic, so the mean configurations are noncongruent.</p></div>
-      </div>
-    </section>
-    <section id="certificate" class="certificate-section" aria-labelledby="certificate-title">
-      <div class="section-heading"><div><p class="eyebrow">02 · Exact-geometry certificate</p><h2 id="certificate-title">Separated standardized third cumulants</h2></div><span class="certificate-label"><span id="check-count">—</span> checks recomputed</span></div>
-      <p class="section-intro">Under the assumptions below, the two exposure-intensity laws have disjoint skewness intervals. Fixed positive gain and fixed Poisson background cancel from the corresponding photon-count factorial-cumulant ratio.</p>
-      <div class="certificate-grid">
-        <div class="panel bound-panel">
-          <fieldset class="segmented"><legend class="sr-only">Interval display</legend><label><input type="radio" name="bound-mode" value="latent" checked><span>Exposure skewness</span></label><label><input type="radio" name="bound-mode" value="expanded"><span>With estimator allowance</span></label></fieldset>
-          <svg id="bounds" viewBox="0 0 760 270" role="img" aria-labelledby="bounds-title bounds-description"><title id="bounds-title">Certified skewness interval display</title><desc id="bounds-description">Class A and class B intervals are disjoint. The exact rational endpoints are stored in the downloadable demonstration data.</desc></svg>
-          <div class="bound-values"><div><span class="a-text">A</span><output id="bound-a">—</output></div><div><span class="b-text">B</span><output id="bound-b">—</output></div></div>
-          <p id="bound-caption" class="caption"></p>
+        <p class="section-intro">
+          Each configuration has 63 points on a line. Connect mean positions
+          within 2.5 coordinate units: both graphs form a path with one extra
+          link, but that link sits in a different place.
+        </p>
+        <div class="geometry-panel">
+          <div class="geometry-toolbar">
+            <div class="legend">
+              <span><i class="dot dot-a"></i> Configuration A</span
+              ><span><i class="dot dot-b"></i> Configuration B</span>
+            </div>
+            <fieldset class="segmented dark">
+              <legend class="sr-only">Geometry view</legend>
+              <label
+                ><input
+                  type="radio"
+                  name="geometry-view"
+                  value="full"
+                  checked
+                /><span>Full pair</span></label
+              ><label
+                ><input type="radio" name="geometry-view" value="detail" /><span
+                  >Local links</span
+                ></label
+              >
+            </fieldset>
+          </div>
+          <svg
+            id="geometry"
+            role="img"
+            aria-labelledby="geometry-title geometry-description"
+          >
+            <title id="geometry-title">The two permanent spring graphs</title>
+            <desc id="geometry-description">
+              A has an extra link between vertices 20 and 22; B between 41 and
+              43. Unequal tail lengths establish nonisomorphic graphs and
+              noncongruent configurations.
+            </desc>
+          </svg>
+          <div class="geometry-facts">
+            <p><b class="a-text">A</b> Tail lengths <strong>20 & 40</strong></p>
+            <p><b class="b-text">B</b> Tail lengths <strong>19 & 41</strong></p>
+            <span
+              >Mean configurations share pairwise distances, with
+              multiplicity.</span
+            >
+          </div>
+          <div class="motion-controls">
+            <div class="button-row">
+              <button id="sample-motion" type="button" class="light-button">
+                Draw a motion snapshot
+                <span aria-hidden="true">↗</span></button
+              ><button id="reset-motion" type="button" class="ghost-button">
+                Reset to mean positions
+              </button>
+            </div>
+            <div class="magnification-control">
+              <label for="magnification"
+                >Visual magnification
+                <output id="magnification-value" for="magnification"
+                  >300,000×</output
+                ></label
+              ><input
+                id="magnification"
+                type="range"
+                min="0"
+                max="300000"
+                step="1000"
+                value="300000"
+                aria-describedby="motion-scope"
+              />
+            </div>
+          </div>
+          <p id="motion-status" class="motion-status" role="status">
+            Mean positions · draw a snapshot to reveal the displacement.
+          </p>
+          <p id="motion-scope" class="dark-caption">
+            Snapshots are seeded, floating-point draws from the nominal centered
+            Gaussian model at β = B. Displacements are magnified; faint marks
+            retain the mean positions. These are individual snapshots, not an OU
+            time trajectory, detector simulation or experimental data. Spring
+            links remain fixed. The clean diffraction plot and certificate do
+            not change with these draws.
+          </p>
         </div>
-        <aside class="count-card">
-          <p class="eyebrow">Original common-tolerance bound</p>
-          <div id="window-count" class="big-count">—</div>
-          <p>observation windows</p>
-          <div class="risk"><strong>≤ 5%</strong><span>error probability<br>in either class</span></div>
-          <p class="count-caveat">An existence bound under the stated model. This is not a necessary count or a practical acquisition plan.</p>
-          <p class="caption">The optional coordinate-count proof gives a smaller sufficient bound under the same assumptions. This view retains the original certificate.</p>
-          <p class="caption">The 5% is classification risk, not a confidence score for the proof. Finite-count zero-error discrimination is not asserted.</p>
-        </aside>
-      </div>
-    </section>
-    <section id="assumptions" class="panel assumptions" aria-labelledby="assumptions-title">
-      <div class="section-heading"><div><p class="eyebrow">The boundary of the result</p><h2 id="assumptions-title">The assumptions travel with the bound</h2></div></div>
-      <div class="assumption-grid">
-        <div><h3>Geometry & motion</h3><ul><li>Exact fixed 63-point mean configurations; permanent spring links.</li><li>Each edge weight lies in 1 ± 1/100001.</li><li>Stationary centered Gaussian weighted-spring Ornstein–Uhlenbeck motion.</li><li>Each nominal strength β lies in [B/2, B], with B ≈ 1.3986078635588654 × 10⁻¹¹.</li></ul></div>
-        <div><h3>Exposure & observation</h3><ul><li>Fixed frequency error from π/3 at most 10⁻¹⁴.</li><li>Positive rectangular exposure duration ≤ 10⁻²⁰; window-start lag ≥ 1000, both dimensionless.</li><li>Counts are conditionally independent Poisson observations given the full trajectory.</li><li>Fixed integrated normalized gain in [0.9, 1.1] and background in [0, 1].</li></ul></div>
-      </div>
-      <p class="assumption-note">The model bounds dependence between windows; it does not assume they are marginally independent. Maintaining the integrated signal at such short exposures may demand enormous photon rates. Position errors, drift, nonstationary preparation and non-Poisson response are outside this displayed exact-geometry certificate.</p>
-      <p class="caption">The frequency tolerance was selected after earlier bounds were inspected. This page makes no novelty, empirical-validation or optimality claim. The full analytic theorem has not been verified in a proof assistant.</p>
-    </section>
-    <footer class="footer"><div><strong>Inspect the evidence</strong><p><a href="data.json">Exact display data</a> · <a href="../docs/proofs/README.md">Proofs & limitations</a> · <a href="../README.md">Reproduce the certificate</a></p><p class="caption">All curve and coordinate rendering uses floating point. Exact fractions remain the mathematical source for the certified interval panel.</p></div><details><summary>Data provenance</summary><p class="caption">SHA-256 of the saved installed-package certificate:</p><code id="certificate-hash"></code><p class="caption">This identifies the input used to build this page; it is not external authentication.</p></details></footer>
-  </main>
-  <noscript><p class="noscript">JavaScript is required for the interactive plots. The exact data and proof documents remain available through the links above.</p></noscript>
-</body>
+        <div class="insight">
+          <span aria-hidden="true">↳</span>
+          <p>
+            <strong>The physical scale is tiny.</strong> At nominal spring
+            weights, the site-averaged RMS displacement is about 2.64–3.74
+            millionths of a coordinate unit across the certified strength range.
+            Individual displacements are not bounded by this RMS.
+          </p>
+        </div>
+      </section>
+      <section
+        id="diffraction"
+        class="diffraction-section"
+        aria-labelledby="diffraction-heading"
+      >
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">02 / The ambiguity</p>
+            <h2 id="diffraction-heading">
+              One clean intensity curve. Two answers.
+            </h2>
+          </div>
+          <span class="section-number" aria-hidden="true">02</span>
+        </div>
+        <p class="section-intro">
+          Sweep the frequency. The two clean diffraction intensities coincide at
+          every frequency, even though the structures differ. This equality
+          follows from the exact construction; the plot is a numerical
+          illustration.
+        </p>
+        <div class="explorer-grid panel">
+          <div class="spectrum-area">
+            <div class="legend spectrum-legend">
+              <label
+                ><input id="show-a" type="checkbox" checked /><i
+                  class="key key-a"
+                ></i>
+                A</label
+              ><label
+                ><input id="show-b" type="checkbox" checked /><i
+                  class="key key-b"
+                ></i>
+                B · dashed</label
+              ><label class="scale-control"
+                ><input id="log-scale" type="checkbox" checked /> Log
+                display</label
+              >
+            </div>
+            <svg
+              id="spectrum"
+              role="img"
+              aria-labelledby="spectrum-title spectrum-description"
+            >
+              <title id="spectrum-title">
+                Clean normalized diffraction intensity
+              </title>
+              <desc id="spectrum-description">
+                Both curves overlap. Toggle either curve to inspect the other.
+                The vertical marker follows the frequency control.
+              </desc>
+            </svg>
+            <div class="frequency-control">
+              <label for="frequency"
+                >Frequency
+                <span
+                  ><em>t</em> =
+                  <output id="frequency-value" for="frequency" aria-live="off"
+                    >π / 3</output
+                  ></span
+                ></label
+              ><input
+                id="frequency"
+                type="range"
+                min="0"
+                max="6.283185307179586"
+                step="any"
+                value="1.0471975511965976"
+                aria-describedby="frequency-scope"
+              />
+              <div class="range-labels">
+                <span>0</span><span>π</span><span>2π</span>
+              </div>
+            </div>
+            <div class="button-row">
+              <button id="null-frequency" type="button">
+                Return to the null: π/3</button
+              ><button id="sweep" type="button" aria-pressed="false">
+                Sweep frequency <span aria-hidden="true">▶</span>
+              </button>
+            </div>
+            <p id="frequency-scope" class="caption">
+              The certificate below is fixed within 10⁻¹⁴ of π/3. Moving this
+              slider explores clean diffraction; it does not recalculate or
+              extend the certificate.
+            </p>
+          </div>
+          <aside class="phase-area">
+            <p class="eyebrow">The phase view</p>
+            <svg
+              id="phases"
+              viewBox="0 0 260 240"
+              role="img"
+              aria-label="Unit phases of the 63 points in each configuration; lines show the mean phasors"
+            ></svg>
+            <div class="phase-readouts">
+              <div class="readout">
+                <span><b class="a-text">A</b> Clean intensity / 63²</span
+                ><output id="intensity-a" aria-live="off">—</output>
+              </div>
+              <div class="readout">
+                <span><b class="b-text">B</b> Clean intensity / 63²</span
+                ><output id="intensity-b" aria-live="off">—</output>
+              </div>
+            </div>
+            <p class="caption">
+              Each dot is a unit phase. At π/3, both symbolic phase sums are
+              exactly zero.
+            </p>
+          </aside>
+        </div>
+      </section>
+      <section
+        id="certificate"
+        class="certificate-section"
+        aria-labelledby="certificate-title"
+      >
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">03 / The distinction</p>
+            <h2 id="certificate-title">
+              Motion changes the statistical picture.
+            </h2>
+          </div>
+          <span class="section-number" aria-hidden="true">03</span>
+        </div>
+        <p class="section-intro">
+          The spring graph determines correlated motion. Under the stated model,
+          the resulting intensity laws have disjoint skewness bounds. That
+          separation supports a photon-count classifier with a conditional error
+          guarantee.
+        </p>
+        <div class="model-flow" role="group" aria-label="The proof chain">
+          <span>Permanent springs</span><i aria-hidden="true">→</i
+          ><span>Gaussian motion</span><i aria-hidden="true">→</i
+          ><span>Intensity statistics</span><i aria-hidden="true">→</i
+          ><span>Count classifier</span>
+        </div>
+        <div class="profile-bar">
+          <div>
+            <label for="profile">Choose the certificate</label
+            ><select id="profile" aria-describedby="profile-summary">
+              <option value="long-exposure-v1">Long exposure · v1</option>
+              <option value="original-verify">Original · verify</option>
+            </select>
+          </div>
+          <p>
+            <strong>Exact geometry</strong
+            ><span id="profile-summary">Loading the selected contract…</span>
+          </p>
+          <a href="#assumptions"
+            >View the assumptions <span aria-hidden="true">↓</span></a
+          >
+        </div>
+        <div class="certificate-grid">
+          <div class="panel bound-panel">
+            <div class="bound-heading">
+              <div>
+                <h3>Skewness intervals</h3>
+                <span class="caption">Standardized third cumulant</span>
+              </div>
+              <span class="separation-badge"
+                ><span aria-hidden="true">✓</span> Disjoint bounds</span
+              >
+            </div>
+            <fieldset class="segmented">
+              <legend class="sr-only">Interval display</legend>
+              <label
+                ><input
+                  type="radio"
+                  name="bound-mode"
+                  value="latent"
+                  checked
+                /><span>Intensity law</span></label
+              ><label
+                ><input type="radio" name="bound-mode" value="expanded" /><span
+                  >With estimator allowance</span
+                ></label
+              >
+            </fieldset>
+            <svg
+              id="bounds"
+              role="img"
+              aria-labelledby="bounds-title bounds-description"
+            >
+              <title id="bounds-title">Certified skewness intervals</title>
+              <desc id="bounds-description">
+                The interval for A lies strictly below B. Exact rational
+                endpoints accompany the rounded labels in the downloadable data.
+              </desc>
+            </svg>
+            <div class="bound-values">
+              <div><b class="a-text">A</b><output id="bound-a">—</output></div>
+              <div><b class="b-text">B</b><output id="bound-b">—</output></div>
+            </div>
+            <p id="bound-caption" class="caption"></p>
+            <details class="explanation">
+              <summary>What does skewness tell us?</summary>
+              <p>
+                Skewness describes the asymmetry of a distribution through its
+                third central moment divided by its variance to the power 3/2.
+                Here, even after the specified uncertainties, the admissible
+                ranges for the two intensity laws do not overlap.
+              </p>
+              <p>
+                For the conditional Poisson model, the corresponding
+                factorial-cumulant ratio removes fixed positive gain and fixed
+                Poisson background. The intervals show mathematical bounds, not
+                measured samples or a confidence level for the proof.
+              </p>
+            </details>
+          </div>
+          <aside
+            class="count-card"
+            aria-label="Selected certificate sufficient observation count"
+          >
+            <p class="eyebrow">A conditional sufficient bound</p>
+            <p id="count-short" class="count-short">—</p>
+            <p class="count-unit">observation windows</p>
+            <div id="window-count" class="exact-count">—</div>
+            <p class="exact-label">Exact integer count</p>
+            <div class="risk">
+              <strong>≤ 5%</strong
+              ><span>classification error<br />in either class</span>
+            </div>
+            <p class="count-caveat">
+              An existence result under the selected assumptions. The count is
+              enormous; it is not a practical acquisition budget, a necessary
+              count or an optimum.
+            </p>
+            <p id="count-profile" class="count-profile">—</p>
+          </aside>
+        </div>
+      </section>
+      <section
+        id="assumptions"
+        class="assumptions"
+        aria-labelledby="assumptions-title"
+      >
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">The boundary of the result</p>
+            <h2 id="assumptions-title">
+              The assumptions travel with the bound.
+            </h2>
+          </div>
+        </div>
+        <div class="assumption-grid">
+          <div>
+            <h3>Geometry & motion</h3>
+            <ul>
+              <li>
+                Exact fixed 63-point mean configurations and permanent spring
+                links.
+              </li>
+              <li>Each fixed edge weight lies in 1 ± 1/100001.</li>
+              <li>
+                Stationary centered Gaussian weighted-spring Ornstein–Uhlenbeck
+                motion.
+              </li>
+              <li>
+                Each strength β lies in [B/2, B], with B ≈ 1.3986078635588654 ×
+                10⁻¹¹.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3>Exposure & observation</h3>
+            <ul>
+              <li>Fixed frequency error from π/3 at most 10⁻¹⁴.</li>
+              <li>
+                Positive rectangular exposure
+                <strong id="exposure-cap">≤ 0.001</strong>; window-start lag ≥
+                1000, both dimensionless.
+              </li>
+              <li>
+                Counts conditionally independent given the full trajectory, with
+                a Poisson response.
+              </li>
+              <li>
+                Fixed integrated normalized gain in [0.9, 1.1] and background in
+                [0, 1].
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="limitations">
+          <p>
+            <strong>What remains open.</strong> Physical feasibility and
+            empirical validation are not established. Position errors, drift,
+            nonstationary preparation and non-Poisson response are outside these
+            displayed exact-geometry contracts. The exposure cap 0.01 remains
+            unresolved for exact geometry and has no allocated count.
+          </p>
+          <p>
+            The proof bounds dependence between windows; it does not assume
+            marginal independence. Fixed integrated gain supplies no physical
+            rate, time or dose. The separate, narrower calibrated iid count
+            result uses a different model and is not displayed here.
+          </p>
+        </div>
+        <p class="caption">
+          Parameter choices were informed by earlier bounds. No novelty,
+          optimality or full-theorem proof-assistant verification is claimed.
+          The displayed decimals are approximate; the certificate uses exact
+          rational and outward interval arithmetic.
+        </p>
+      </section>
+      <footer class="footer">
+        <div class="footer-intro">
+          <a class="wordmark" href="#top"
+            >homometric / motion <span aria-hidden="true">↑</span></a
+          >
+          <p>A mathematical construction by The Quantum Falcon.</p>
+          <a href="../review/PROVENANCE.md"
+            >Research-process disclosure & limitations</a
+          >
+        </div>
+        <div class="evidence">
+          <h2>Follow the evidence</h2>
+          <a href="data.json" download
+            >Exact display data <span aria-hidden="true">↗</span></a
+          ><a href="../docs/proofs/README.md"
+            >Proofs & model assumptions <span aria-hidden="true">↗</span></a
+          ><a href="../README.md"
+            >Reproduce the certificate <span aria-hidden="true">↗</span></a
+          >
+          <details>
+            <summary>Selected data provenance</summary>
+            <p class="caption">
+              SHA-256 of the saved installed-package certificate:
+            </p>
+            <code id="certificate-hash"></code>
+            <p class="caption">
+              <span id="check-count">—</span> certificate checks reported by
+              that computation. Hashes bind content; they do not authenticate
+              the mathematics or the physical model.
+            </p>
+          </details>
+        </div>
+      </footer>
+    </main>
+    <noscript
+      ><p class="noscript">
+        JavaScript is required for the interactive plots. Read the
+        <a href="../README.md">result and assumptions</a> or inspect the
+        <a href="data.json">exact display data</a>.
+      </p></noscript
+    >
+  </body>
 </html>

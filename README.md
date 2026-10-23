@@ -116,7 +116,8 @@ Exact geometry at exposure cap `0.01` remains unresolved and has no allocated
 count. A separately evaluated position domain at cap `0.001` gives
 4,404,373,875,964 sufficient windows; it is a stricter domain than the
 selected long position profile, not an automatically selected optimum.
-The demo still displays the original `verify` method.
+The [offline explorer](demo/index.html) displays `long-exposure-v1` for exact
+geometry and retains the original `verify` method as a separate selectable view.
 
 All settings, including exposure and channel values, are fixed during an
 acquisition. Allowed values may differ by class; arbitrary mixtures or drift
@@ -183,7 +184,8 @@ tests the installed package, checks coverage, executes each scenario and
 each of the three earlier methods plus both explicit profiles twice in a fresh
 environment, and compares the results. It separately replays `small-pair` twice
 and reconstructs its saved record. It also checks that the committed
-demo data match a newly computed original `verify` certificate. It does not publish anything.
+demo data match newly computed original `verify` and `long-exposure-v1`
+exact-geometry certificates. It does not publish anything.
 See [contribution instructions](.github/CONTRIBUTING.md).
 
 Optional [Lean checkpoints](docs/proofs/formal/README.md) prove specified
@@ -197,10 +199,15 @@ not required to run the package.
 
 ## Explore the work
 
-The [interactive demo](demo/index.html) shows the two configurations, their
-coincident clean diffraction curves and the certified statistical intervals.
-Open `demo/index.html` from a local checkout in a browser; it works offline.
-Its graphics are illustrations, not experimental observations or a proof engine.
+The [interactive demo](demo/index.html) follows the result from coincident clean
+diffraction through distinct permanent spring graphs to separated statistical
+intervals. Explore frequency, draw a magnified nominal Gaussian snapshot, and
+switch between the long-exposure profile and the original certificate with their
+own counts and assumptions. Open `demo/index.html` from a local checkout in a
+browser; it works offline. Its seeded floating-point snapshots illustrate the
+one-time covariance, not OU trajectories or experimental observations; exact
+certificate data are separate from the graphics. See the
+[demo guide](demo/README.md) for scope and reproduction.
 
 An optional [virtual instrument](prototype/README.md) generates synthetic motion
 and photon-count records with deliberate model failures. It runs on the CPU,

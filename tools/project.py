@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import json
 import os
+import runpy
 import subprocess
 import sys
 import tarfile
@@ -29,6 +30,7 @@ COMMANDS = {
     "prototype": "build and replay the optional instrument from the source archive",
     "release": "run lint, installed tests and artifact verification; publish nothing",
     "hooks": "run the pinned pre-commit checks on all tracked files",
+    "demo-browser": "audit the offline demo with optional Playwright and Chromium",
 }
 
 
@@ -52,6 +54,8 @@ def check_manifest() -> None:
     path = PACKAGE / "source_manifest.json"
     if not path.exists() or json.loads(path.read_text("utf-8")) != package_manifest():
         raise RuntimeError("source manifest is absent or stale; review changes, then run manifest")
+    check_display = runpy.run_path(str(ROOT / "tools" / "demo_manifest.py"))["check_manifest"]
+    check_display(ROOT / "demo")
 
 
 def text_hygiene() -> None:
@@ -155,6 +159,7 @@ def test(wheel: Path) -> None:
 def verify(wheel: Path) -> None:
     documentation_check = phase_permutation()
     directory, executable, _ = installed(wheel)
+    demo_directory, demo_archive = archived_demo(directory)
     scenarios = []
     extensions = []
     exposure_extensions = []
@@ -186,16 +191,6 @@ def verify(wheel: Path) -> None:
         if count != expected_count:
             raise RuntimeError(f"{scenario}: published count changed; review scientific revision")
         run(executable, "-I", "-m", "homometric_motion", "summary", outputs[0], cwd=directory)
-        if scenario == "exact_geometry":
-            run(
-                executable,
-                "-I",
-                ROOT / "tools/build_demo.py",
-                "--certificate",
-                outputs[0],
-                "--check",
-                cwd=directory,
-            )
         scenarios.append(
             {
                 "scenario": scenario,
@@ -369,6 +364,20 @@ def verify(wheel: Path) -> None:
                 profile_outputs[0],
                 cwd=directory,
             )
+            if scenario == "exact_geometry" and profile == "long-exposure-v1":
+                run(
+                    executable,
+                    "-I",
+                    ROOT / "tools/build_demo.py",
+                    "--certificate",
+                    outputs[0],
+                    "--profile-certificate",
+                    profile_outputs[0],
+                    "--output-dir",
+                    demo_directory,
+                    "--check",
+                    cwd=directory,
+                )
             profile_certificates.append(
                 {
                     "profile": profile,
@@ -439,12 +448,56 @@ def verify(wheel: Path) -> None:
         },
         "fresh_cli_calculations": 22,
         "demo_data_matches_exact_geometry": True,
+        "demo_data_matches_long_exposure_v1": True,
+        "demo_source_archive": demo_archive,
         "phase_permutation_documentation": documentation_check,
     }
     (directory / "verification.json").write_text(
         json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n"
     )
     print(json.dumps(receipt, indent=2))
+
+
+def archived_demo(directory: Path) -> tuple[Path, dict]:
+    """Verify and copy the complete shipped offline assets into the clean directory."""
+    distributions = list((ROOT / "dist").glob("homometric_motion-*.tar.gz"))
+    if len(distributions) != 1:
+        raise RuntimeError("dist must contain exactly one source distribution")
+    expected = {path.name for path in (ROOT / "demo").iterdir() if path.is_file()}
+    payload = {}
+    with tarfile.open(distributions[0], "r:gz") as archive:
+        for member in archive.getmembers():
+            path = PurePosixPath(member.name)
+            if path.is_absolute() or ".." in path.parts or "\\" in member.name:
+                raise RuntimeError("unsafe source-archive member path")
+            if len(path.parts) < 2 or path.parts[1] != "demo" or member.isdir():
+                continue
+            if (
+                len(path.parts) != 3
+                or path.name not in expected
+                or path.name in payload
+                or not member.isfile()
+                or member.size > 1_000_000
+            ):
+                raise RuntimeError("unexpected offline-demo archive member")
+            stream = archive.extractfile(member)
+            if stream is None:
+                raise RuntimeError("offline-demo source could not be read")
+            raw = stream.read()
+            if raw != (ROOT / "demo" / path.name).read_bytes():
+                raise RuntimeError("offline-demo archive differs from reviewed source")
+            payload[path.name] = raw
+    if set(payload) != expected:
+        raise RuntimeError("offline-demo source archive is incomplete")
+    target = directory / "demo"
+    target.mkdir()
+    for name, raw in payload.items():
+        (target / name).write_bytes(raw)
+    return target, {
+        "source_archive_sha256": hashlib.sha256(distributions[0].read_bytes()).hexdigest(),
+        "files": {name: hashlib.sha256(raw).hexdigest() for name, raw in sorted(payload.items())},
+        "matches_reviewed_source": True,
+    }
 
 
 def phase_permutation() -> dict:
@@ -763,6 +816,8 @@ def main() -> None:
         print("Recorded a new source revision. Run release to validate it.")
     elif command == "hooks":
         run(sys.executable, "-m", "pre_commit", "run", "--all-files")
+    elif command == "demo-browser":
+        run(sys.executable, ROOT / "tools/check_demo_browser.py")
     else:
         if command == "release":
             lint()

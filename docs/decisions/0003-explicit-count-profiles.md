@@ -40,8 +40,9 @@ Their physical models and finite-sample claims are described in the
 Preserve all three earlier computing commands and fresh APIs, including
 their defaults, parameters, numerical stages and classifier thresholds.
 A new release manifest may change provenance hashes; it does not change
-those earlier scientific outputs. The offline demo continues to display
-the original `verify` certificate.
+those earlier scientific outputs. The offline demo retains the original
+`verify` certificate. [ADR 5](0005-offline-explorer-profiles.md) subsequently
+adds an explicitly identified long-profile view without replacing it.
 
 ## Envelope and numerical contract
 
