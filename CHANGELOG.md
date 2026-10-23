@@ -9,6 +9,11 @@ the 0.x certificate schema and Python API remain experimental.
 
 ### Changed
 
+- Update the optional prototype to NumPy 2.4.6 and SciPy 1.17.1, align its
+  runtime checks and dependency documentation, and record a fresh source
+  manifest. Reproduce and inspect two matching packaged synthetic runs in
+  the updated numerical environment.
+
 - Extend the offline explorer with a guided geometry, nominal Gaussian snapshot
   and certificate presentation. Display the `long-exposure-v1` exact-geometry
   result alongside a selectable original `verify` view, keeping each view's

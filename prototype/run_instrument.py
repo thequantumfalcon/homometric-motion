@@ -240,7 +240,7 @@ def main(argv=None):
         14,
     ):
         raise ValueError("supported interpreter: conventional CPython >=3.11,<3.14")
-    if np.__version__ != "2.2.6" or scipy.__version__ != "1.16.3":
+    if np.__version__ != "2.4.6" or scipy.__version__ != "1.17.1":
         raise ValueError("install the pinned optional requirements.txt")
     CHECKS.clear()
     manifest = verify_manifest()

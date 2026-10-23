@@ -8,7 +8,7 @@ This source is a **portable release adaptation of previously explored scenarios*
 
 ## Install and run
 
-Supported: conventional **CPython 3.11-3.13** on platforms with compatible official NumPy/SciPy wheels. Local validation used Windows x64, CPython 3.11.9. CI runs the prototype separately from the core package on Windows and Linux with Python 3.11. Cross-platform bitwise equality is not required. Free-threaded builds, source builds and Python 3.14 or later are not supported by this lock.
+Supported: conventional **CPython 3.11-3.13** on platforms with compatible official NumPy/SciPy wheels. Local validation used Windows x64, CPython 3.11.9. CI runs the prototype separately from the core package on Windows and Linux with Python 3.11. Cross-platform bitwise equality is not required. Free-threaded builds, source builds and Python 3.14 or later are not supported by this prototype.
 
 From the repository root, create a separate optional environment:
 
@@ -23,7 +23,7 @@ python -m venv .prototype-venv
 
 The parent of the output directory must exist. The program exclusively creates the new output directory and refuses an existing path, even an empty directory. It first verifies the package's exact source manifest. Changing source, protocol or reference is a new revision requiring an intentional manifest update and fresh review/replay.
 
-The optional lock pins NumPy 2.2.6 and SciPy 1.16.3 to official binary-wheel SHA-256 values. No GPU, compiler, cloud service or change to the core package dependencies is required. [NumPy release](https://pypi.org/project/numpy/2.2.6/), [SciPy release](https://pypi.org/project/scipy/1.16.3/)
+The optional lock pins NumPy 2.4.6 and SciPy 1.17.1 using official PyPI release SHA-256 values. The installation command permits binary wheels only; the broader release hash inventory does not extend the supported interpreter range. No GPU, compiler, cloud service or change to the core package dependencies is required. [NumPy release](https://pypi.org/project/numpy/2.4.6/), [SciPy release](https://pypi.org/project/scipy/1.17.1/)
 
 ## Outputs and reproducibility
 
