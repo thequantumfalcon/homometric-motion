@@ -35,6 +35,12 @@ bounded documentation-artifact check alone. Its finite algebra checks support
 the separate analytic path-law proof; they add no package API or count claim.
 `release` runs the local lint, tests and artifact checks; it publishes nothing.
 
+`python tools/project.py fuzz` runs a separate 60-second Atheris campaign on
+Linux x86_64 with Python 3.12. It tests the installed wheel's rational parser
+and outward arithmetic against exact independent oracles. The fuzzer has its
+own hash-locked dependency; the scientific package and ordinary tests still
+use only the standard library. See [fuzzing scope and reproduction](../docs/fuzzing.md).
+
 `python tools/project.py reviewer-kit` checks the optional reviewer kit from
 the built source archive: inventory, saved exact witnesses and eight witness
 tests. This task is included in `release` and CI. It uses the standard library

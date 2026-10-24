@@ -1,5 +1,5 @@
 include LICENSE.txt README.md CHANGELOG.md CITATION.cff AGENTS.md
-include pyproject.toml requirements-dev.in requirements-dev.txt Makefile
+include pyproject.toml requirements-dev.in requirements-dev.txt requirements-fuzz.txt Makefile
 include .pre-commit-config.yaml .editorconfig .gitattributes .gitignore
 recursive-include .github *.md *.yml *.yaml CODEOWNERS
 recursive-include .githooks *

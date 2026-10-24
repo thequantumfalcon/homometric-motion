@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import json
 import os
+import platform
 import runpy
 import subprocess
 import sys
@@ -32,6 +33,7 @@ COMMANDS = {
     "release": "run lint, installed tests and artifact verification; publish nothing",
     "hooks": "run the pinned pre-commit checks on all tracked files",
     "demo-browser": "audit the offline demo with optional Playwright and Chromium",
+    "fuzz": "fuzz installed arithmetic and rational inputs for 60 seconds (Linux Python 3.12)",
 }
 
 
@@ -806,6 +808,40 @@ def lint() -> None:
     text_hygiene()
 
 
+def fuzz(wheel: Path) -> None:
+    """Run the optional coverage-guided fuzzer against an isolated installed wheel."""
+    if sys.platform != "linux" or sys.version_info[:2] != (3, 12) or platform.machine() != "x86_64":
+        raise RuntimeError("the pinned fuzzing wheel requires Linux x86_64 and Python 3.12")
+    directory, executable, _ = installed(wheel)
+    run(
+        executable,
+        "-I",
+        "-m",
+        "pip",
+        "install",
+        "--require-hashes",
+        "--only-binary=:all:",
+        "--no-deps",
+        "-r",
+        ROOT / "requirements-fuzz.txt",
+        cwd=directory,
+    )
+    for name in ("fuzz_arithmetic.py", "fuzz_invariants.py"):
+        (directory / name).write_bytes((ROOT / "tools" / name).read_bytes())
+    run(
+        executable,
+        "-I",
+        directory / "fuzz_arithmetic.py",
+        directory / "corpus",
+        "-max_total_time=60",
+        "-timeout=5",
+        "-rss_limit_mb=1024",
+        "-max_len=2048",
+        f"-artifact_prefix={directory.as_posix()}/",
+        cwd=directory,
+    )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("command", choices=COMMANDS, nargs="?", default="help")
@@ -848,6 +884,8 @@ def main() -> None:
             prototype()
         if command == "finite-motion":
             finite_motion()
+        if command == "fuzz":
+            fuzz(wheel)
         if command == "phase-permutation":
             phase_permutation()
         if command in {"reviewer-kit", "release"}:

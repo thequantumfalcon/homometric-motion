@@ -9,6 +9,11 @@ the 0.x certificate schema and Python API remain experimental.
 
 ### Changed
 
+- Add bounded, coverage-guided fuzzing of rational input parsing and outward
+  interval arithmetic against independent exact oracles. A separate Linux
+  Python 3.12 CI job tests the installed wheel with hash-locked Atheris;
+  the scientific runtime retains its standard-library-only dependency contract.
+
 - Update the development environment builder to hash-locked virtualenv
   21.14.13, fixing the Bash prompt command-injection regression tracked as
   [GHSA-cx6f-vjhg-g3cc](https://github.com/advisories/GHSA-cx6f-vjhg-g3cc).
