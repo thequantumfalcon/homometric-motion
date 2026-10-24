@@ -6,44 +6,44 @@
       "sha256": "38b1c59269dffef34920752fd8bd6e71322816e3b200b67c6dc48d3abaccf250"
     },
     {
-      "bytes": 13442,
+      "bytes": 13511,
       "path": "build_nine_point_checkpoint.py",
-      "sha256": "db3d07cbad11e8abe5ee56481fcd4b105479662aabbf8550d7f28958117e0cab"
+      "sha256": "3cbfd594c568e3b3c02038e34e7e1bcce8058e96866d5375f219f9ba85ccbc8d"
     },
     {
-      "bytes": 3501,
+      "bytes": 3563,
       "path": "ChargeHistogram.lean",
-      "sha256": "a6a79ea179673a19b8a276d35e63055ec97e5f0e2a8080e5c0258c8b04b5b277"
+      "sha256": "a868dbdd22b8ef8054c968aa231a2e8cf5c88db6d89b939d2e9cb856e8974498"
     },
     {
-      "bytes": 1857,
+      "bytes": 1912,
       "path": "CumulantSensitivity.lean",
-      "sha256": "52a89c385dfeb1a3f244bbbb4e901870f8d67dd3885b224cc167734e3de3a3aa"
+      "sha256": "2db6b7a179555d24eaddeabc29732d1724025316b0b000b64f35b2a95c73934c"
     },
     {
-      "bytes": 3658,
+      "bytes": 3724,
       "path": "GaussianChargeApplication.lean",
-      "sha256": "7a3e25bb09a618f5ac1c66294ae0694f888588bc8724abc0a76cfe37814915e4"
+      "sha256": "6f15eedf798fc936e5052c947d2fe9f3af76d26c8bc3f9f8398a0c263688694f"
     },
     {
-      "bytes": 9123,
+      "bytes": 9171,
       "path": "GaussianIntensity.lean",
-      "sha256": "8db20180970c90092fb930e9fb4a5f2d0e623f4e121a03d17d766e656f9f92ce"
+      "sha256": "8ba6033a43456dc803816f7285baa913f949088d65749ea7638633a06ffcc23f"
     },
     {
-      "bytes": 6035,
+      "bytes": 6076,
       "path": "GaussianMoments.lean",
-      "sha256": "1630a54e2c838d35c7c0dc19a3da8c6dbb39445eff402e9d9c8deede25ede1d6"
+      "sha256": "eab3083306ccc6fcde0d4d41a9bd3198b26c86c305eda250e36fede71513790f"
     },
     {
-      "bytes": 1979,
+      "bytes": 2100,
       "path": "GraphCommon.lean",
-      "sha256": "d0154d5e0ebb7930bcd06c09dfa9c1bbfe31e5972eac6b4f540080a4412cb9a4"
+      "sha256": "f5d93dcb2592e82cc84ec44fe0cbc3321314c04b0db55f6dc03421aba1648678"
     },
     {
-      "bytes": 17596,
+      "bytes": 17638,
       "path": "GraphCovariance.lean",
-      "sha256": "09d0222959c89770d59f8ebad16b4ee9c8a7517bcbaf3a345152ce7324cdf640"
+      "sha256": "18e6cec6064e582d24dec3d7486f453c8e6a764abc511df3e9e825dc3359d20a"
     },
     {
       "bytes": 3572,
@@ -63,17 +63,17 @@
     {
       "bytes": 47721,
       "path": "mapping.json",
-      "sha256": "759d6522018fbb9e4c4ca700f8643e4f433318333e85e707d8d39497c3186a2a"
+      "sha256": "2886c1e6fc2bfd35225fbf44e4d453f4c62d66485199f3427671c31b66dcc487"
     },
     {
-      "bytes": 44044,
+      "bytes": 44113,
       "path": "NinePointBezout.lean",
-      "sha256": "775de40ebd3c150142033d5bcf1e4bb7222bb5b2c6bf178ae775e76c343ef5ca"
+      "sha256": "4bdc04cf3ab781e8899e26b66e13e902a83679815cdee49dfdd2ea09046b0cbd"
     },
     {
-      "bytes": 12448,
+      "bytes": 13020,
       "path": "README.md",
-      "sha256": "6c9ab73ff2719a05b4fa01b4895c65ba9981e8d722d3fe59e53a3206be7694bd"
+      "sha256": "709ee948517a3dd9303b09ec73540486400372b4ad4fda99ca7dc086e5360e7a"
     },
     {
       "bytes": 23250,
@@ -81,11 +81,11 @@
       "sha256": "7e5fc64fa54e3f3520082e042dd75d2b77033bc9f1b50a59f92973c9dcd2c23b"
     },
     {
-      "bytes": 6649,
+      "bytes": 6560,
       "path": "StandardDeviationContinuity.lean",
-      "sha256": "07f7365e48bdeb2689f4777bb9c907efa4271abaae3e6462584790da76ae23d5"
+      "sha256": "93b4640d745f2c279784db0d52b266bc99c0532487cd62502b26bfad835d3425"
     }
   ],
-  "revision_kind": "analytic_applied_gaussian_covariance_public_v6_strict_threshold_r3",
+  "revision_kind": "analytic_applied_gaussian_covariance_public_v6_strict_threshold_r6",
   "schema_version": 1
 }

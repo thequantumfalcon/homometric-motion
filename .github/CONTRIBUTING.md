@@ -62,6 +62,15 @@ reference records. CI runs this task on Windows and Linux. These are
 multiprecision floating-point checks, not certificate assertions or physical
 validation; see [the study](../studies/finite-motion/README.md).
 
+Lean has a separate required CI job. On x64 Windows or Linux, run
+`python tools/project.py lean-setup` to install the checksum-pinned Lean/Lake
+toolchain under `.build`, then `python tools/project.py lean`. The latter builds
+and inspects the source archive, regenerates both coefficient/arithmetic
+mappings using an installed wheel, replays all eleven Lean files and checks
+113 named axiom reports. Initial dependency preparation needs network access.
+Lean remains separate from the standard-library certificate runtime and the
+`release` task. See the [formal replay scope](../docs/proofs/formal/README.md).
+
 After an intentional package source or input change, run
 `python tools/project.py manifest`, then run `release` again. Manifest
 regeneration acknowledges a new source revision; it is never a fix for an

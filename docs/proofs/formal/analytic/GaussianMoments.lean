@@ -1,4 +1,8 @@
-import GaussianIntensity
+module
+
+public import GaussianIntensity
+
+@[expose] public section
 
 open MeasureTheory ProbabilityTheory Matrix
 open scoped RealInnerProductSpace ComplexConjugate

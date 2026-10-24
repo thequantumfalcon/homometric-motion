@@ -5,11 +5,11 @@
     "strictly_positive_integer": "135147734408625306817943045175176527047139995323749401598773686862514284460152484875591995774"
   },
   "fresh_certificate_canonical_sha256": "27343881258d1868ee539af777f465a978c78dc0d37958a1b395e0ab52be4af2",
-  "generator_sha256": "db3d07cbad11e8abe5ee56481fcd4b105479662aabbf8550d7f28958117e0cab",
+  "generator_sha256": "3cbfd594c568e3b3c02038e34e7e1bcce8058e96866d5375f219f9ba85ccbc8d",
   "lean_source": {
-    "bytes": 44044,
+    "bytes": 44113,
     "path": "NinePointBezout.lean",
-    "sha256": "775de40ebd3c150142033d5bcf1e4bb7222bb5b2c6bf178ae775e76c343ef5ca"
+    "sha256": "4bdc04cf3ab781e8899e26b66e13e902a83679815cdee49dfdd2ea09046b0cbd"
   },
   "polynomials": {
     "a": {

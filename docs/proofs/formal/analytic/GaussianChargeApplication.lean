@@ -1,4 +1,8 @@
-import GaussianMoments
+module
+
+public import GaussianMoments
+
+@[expose] public section
 
 open MeasureTheory ProbabilityTheory Matrix
 open scoped RealInnerProductSpace ComplexConjugate
@@ -35,6 +39,7 @@ theorem nominal_moment_weight_real {r : ℕ}
   rw [nominal_moment_weight, Complex.exp_re]
   simp
 
+omit [DecidableEq ι] in
 theorem physical_amplitude_factorization
     (x y : EuclideanSpace ℝ ι) (ω β : ℝ) :
     (∑ i, Complex.exp (((ω * (x i + Real.sqrt β * y i) : ℝ) : ℂ) * Complex.I)) =

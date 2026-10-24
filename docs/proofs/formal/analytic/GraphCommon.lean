@@ -1,6 +1,11 @@
-import Mathlib.Probability.Distributions.Gaussian.Multivariate
-import Mathlib.Tactic.NormNum
-import Mathlib.Tactic.FinCases
+module
+
+public import Mathlib.Probability.Distributions.Gaussian.Multivariate
+public import Mathlib.Probability.Distributions.Gaussian.Fernique
+public import Mathlib.Tactic.NormNum
+public import Mathlib.Tactic.FinCases
+
+@[expose] public section
 
 open MeasureTheory ProbabilityTheory Matrix
 open scoped RealInnerProductSpace

@@ -1,6 +1,10 @@
-import Mathlib.Basic.Real.Basic
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.Ring
+module
+
+public import Mathlib.Basic.Real.Basic
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
 
 /- These are deterministic algebraic lemmas only.
    They do not formalize the stochastic model or the final risk theorem. -/

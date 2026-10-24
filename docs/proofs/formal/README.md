@@ -37,7 +37,32 @@ remain outside the formalization. Detailed declarations and reproduction
 mappings are retained for inspection rather than counted as a measure of
 proof coverage.
 
-## Reproduce the finite arithmetic mapping
+## Run the complete checkpoint task
+
+From the repository root, with the development environment installed:
+
+```sh
+python tools/project.py lean-setup
+python tools/project.py lean
+```
+
+Setup supports x64 Windows and Linux. It verifies the official Lean 4.35.0
+archive's pinned SHA-256 before installing under `.build`; it changes no global
+toolchain or PATH. Subsequent runs check the installed files against that archive.
+The replay task uses the built source archive and an installed wheel in a fresh
+directory. It verifies the source inventory, regenerates both the finite
+arithmetic and nine-point polynomial mappings, prepares the locked mathlib
+dependencies, and executes all eleven Lean files with `--trust=0`.
+It requires the expected 113 named axiom reports and rejects unexpected axioms
+or missing reports. Logs and a verification receipt remain under `.build`.
+
+CI runs this same task and requires it for the aggregate `ci` gate. Initial
+toolchain and mathlib/cache preparation requires network access. Imported
+Lean/mathlib object files remain trusted toolchain/cache inputs; this task does
+not independently verify the whole dependency library. The certificate runtime
+still uses only Python's standard library and does not require Lean.
+
+## Reproduce the finite arithmetic mapping manually
 
 Use an installed wheel and an empty working directory. Substitute the
 checkout path in the generator command:
@@ -57,8 +82,8 @@ These are fresh release bindings, not historical execution receipts.
 With Lean 4.35.0 installed separately:
 
 ```sh
-lean new-checkpoint/CertificateCheckpoint.lean
-lean /path/to/checkout/docs/proofs/formal/FactorialIdentities.lean
+lean --trust=0 new-checkpoint/CertificateCheckpoint.lean
+lean --trust=0 /path/to/checkout/docs/proofs/formal/FactorialIdentities.lean
 ```
 
 The separate [analytic project](analytic/README.md#replay) supplies commands

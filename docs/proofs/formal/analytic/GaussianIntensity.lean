@@ -1,5 +1,9 @@
-import Mathlib.Probability.Distributions.Gaussian.Multivariate
-import Mathlib.Tactic.Ring
+module
+
+public import Mathlib.Probability.Distributions.Gaussian.Multivariate
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
 
 /- A generic Gaussian phase identity. Positive semidefiniteness is explicit;
    singular covariance is allowed. No graph-specific covariance or intensity

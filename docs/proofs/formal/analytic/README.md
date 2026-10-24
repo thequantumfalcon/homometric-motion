@@ -137,6 +137,12 @@ application obligations.
 
 ## Replay
 
+The repository's `python tools/project.py lean-setup` and
+`python tools/project.py lean` commands install the pinned toolchain and replay
+the packaged checkpoints with automatic source, mapping and axiom checks.
+CI requires this task. See the [complete checkpoint instructions](../README.md#run-the-complete-checkpoint-task).
+The commands below provide the manual analytic replay.
+
 Use **Lean 4.35.0** and its matching Lake. The included `lean-toolchain`,
 `lakefile.toml` and `lake-manifest.json` pin the toolchain, mathlib commit
 and all eight transitive dependency commits. From this directory:
@@ -158,8 +164,11 @@ lake env lean --trust=0 GraphCovariance.lean
 The first command obtains the pinned source dependencies and the relevant
 official mathlib cache. It requires network access on an uncached machine.
 `lake build` prepares the local modules and their build directory.
-The nine following source replays use `--trust=0`, which requests type
-checking of imported modules as well. Each explicit `-o` replaces a
+The nine following source replays use `--trust=0`. Imported Lean/mathlib
+object files remain trusted toolchain/cache inputs; this does not independently
+recheck the whole dependency library. See the upstream
+[proof-validation guidance](https://lean-lang.org/doc/reference/latest/ValidatingProofs/).
+Each explicit `-o` replaces a
 prerequisite object in Lake's library search path with its freshly
 checked version before a downstream module imports it. Run the commands
 in this order. The first seven sources print respectively nine, four,

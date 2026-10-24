@@ -80,6 +80,23 @@ jobs:
           python -m pip install --require-hashes --only-binary=:all:
           -r studies/finite-motion/requirements.txt
       - run: python tools/project.py finite-motion
+  lean:
+    name: lean
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: step-security/harden-runner@dc2769abcc0fcfbadfc1df54081c1608579ef6b2 # v2.22.2
+        with:
+          egress-policy: audit
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.11"
+      - run: python tools/project.py setup
+      - run: python tools/project.py lean-setup
+      - run: python tools/project.py lean
   hooks:
     name: hooks
     runs-on: ubuntu-latest
@@ -126,7 +143,7 @@ jobs:
           retention-days: 7
   ci:
     name: ci
-    needs: [test, hooks, prototype, finite_motion, fuzz]
+    needs: [test, hooks, prototype, finite_motion, fuzz, lean]
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -138,7 +155,8 @@ jobs:
           PROTOTYPE_RESULT: ${{ needs.prototype.result }}
           FINITE_MOTION_RESULT: ${{ needs.finite_motion.result }}
           FUZZ_RESULT: ${{ needs.fuzz.result }}
+          LEAN_RESULT: ${{ needs.lean.result }}
         run: >-
           test "$TEST_RESULT" = success && test "$HOOK_RESULT" = success &&
           test "$PROTOTYPE_RESULT" = success && test "$FINITE_MOTION_RESULT" = success &&
-          test "$FUZZ_RESULT" = success
+          test "$FUZZ_RESULT" = success && test "$LEAN_RESULT" = success

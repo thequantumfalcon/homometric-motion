@@ -1,7 +1,11 @@
-import Mathlib.Probability.Moments.Variance
-import Mathlib.MeasureTheory.Function.L2Space
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.Ring
+module
+
+public import Mathlib.Probability.Moments.Variance
+public import Mathlib.MeasureTheory.Function.L2Space
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.Ring
+
+@[expose] public section
 
 /-!
 An analytic robustness step for arbitrary real square-integrable random variables.
@@ -139,10 +143,5 @@ theorem variance_enclosure_of_l3_bound (hX : MemLp X 3 μ) (hY : MemLp Y 3 μ)
 #print axioms sqrt_integral_sq_le_l3
 #print axioms abs_sqrt_variance_sub_le_l3
 #print axioms variance_enclosure_of_l3_bound
-
-#check @abs_sqrt_variance_sub_le_l2
-#check @variance_enclosure_of_l2_bound
-#check @abs_sqrt_variance_sub_le_l3
-#check @variance_enclosure_of_l3_bound
 
 end AnalyticRobustness

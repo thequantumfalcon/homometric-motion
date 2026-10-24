@@ -29,11 +29,15 @@ POINTERS = {
 }
 CONSTANT_POINTER = "/joint_moments/attempts/0/integer_bezout/positive_constant"
 
-HEADER = """import Mathlib.Basic.Real.Basic
-import Mathlib.Tactic.Ring
-import Mathlib.Tactic.NormNum
-import Mathlib.Tactic.Linarith
-import Mathlib.Tactic.Positivity
+HEADER = """module
+
+public import Mathlib.Basic.Real.Basic
+public import Mathlib.Tactic.Ring
+public import Mathlib.Tactic.NormNum
+public import Mathlib.Tactic.Linarith
+public import Mathlib.Tactic.Positivity
+
+@[expose] public section
 
 /- Only explicit real polynomial identities and their logical consequence.
    The mapping from Gaussian intensity moments is a separate argument. -/

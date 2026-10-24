@@ -116,7 +116,8 @@ nothing. See the [contribution instructions](.github/CONTRIBUTING.md) and
 - **[Lean checkpoints](docs/proofs/formal/README.md):** variance continuity,
   Gaussian moment formulas and specified nine-point polynomial/covariance
   results. These are partial proofs with explicit dependencies, not a
-  formalization of the full classifier.
+  formalization of the full classifier. The separate `lean-setup` and `lean`
+  project tasks reproduce these checkpoints; CI requires the Lean replay.
 
 The [research roadmap](docs/research-roadmap.md) records open work. Physical
 model validation, broader parameter domains and independent mathematical review

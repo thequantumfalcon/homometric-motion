@@ -1,4 +1,8 @@
-import GaussianChargeApplication
+module
+
+public import GaussianChargeApplication
+
+@[expose] public section
 
 open MeasureTheory ProbabilityTheory Matrix
 open scoped RealInnerProductSpace ComplexConjugate
@@ -21,6 +25,7 @@ noncomputable def charge_multiplicity (r : ℕ) (u : ι → ℤ) : ℕ := by
   classical
   exact (Finset.univ.filter (fun p : Fin r → (ι × ι) => integer_charge p = u)).card
 
+omit [Fintype ι] in
 theorem charge_vector_of_tuple {r : ℕ} (p : Fin r → (ι × ι)) :
     charge_vector (integer_charge p) = moment_charge p := by
   ext i

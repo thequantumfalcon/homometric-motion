@@ -6,6 +6,7 @@ import json
 import os
 import platform
 import runpy
+import shutil
 import subprocess
 import sys
 import tarfile
@@ -30,6 +31,8 @@ COMMANDS = {
     "reviewer-kit": "build and check the reviewer kit's saved witnesses from the sdist",
     "prototype": "build and replay the optional instrument from the source archive",
     "finite-motion": "build and replay the separate numerical study from the source archive",
+    "lean-setup": "install the checksum-pinned optional Lean toolchain inside .build",
+    "lean": "replay packaged Lean checkpoints and validate their axiom reports",
     "release": "run lint, installed tests and artifact verification; publish nothing",
     "hooks": "run the pinned pre-commit checks on all tracked files",
     "demo-browser": "audit the offline demo with optional Playwright and Chromium",
@@ -842,6 +845,35 @@ def fuzz(wheel: Path) -> None:
     )
 
 
+def lean(wheel: Path) -> None:
+    """Replay the shipped formal checkpoints with the separate pinned toolchain."""
+    installer = runpy.run_path(str(ROOT / "tools" / "setup_lean.py"))
+    binary = installer["installed_bin"](ROOT)
+    distributions = list((ROOT / "dist").glob("homometric_motion-*.tar.gz"))
+    if len(distributions) != 1:
+        raise RuntimeError("dist must contain exactly one source distribution")
+    BUILD.mkdir(exist_ok=True)
+    directory = Path(tempfile.mkdtemp(prefix="lean-", dir=BUILD))
+    source_archive = directory / distributions[0].name
+    installed_wheel = directory / wheel.name
+    shutil.copyfile(distributions[0], source_archive)
+    shutil.copyfile(wheel, installed_wheel)
+    verifier = runpy.run_path(str(ROOT / "tools" / "verify_lean.py"))
+    suffix = ".exe" if os.name == "nt" else ""
+    receipt = verifier["verify_archive"](
+        source_archive,
+        installed_wheel,
+        ROOT,
+        directory / "replay",
+        lean=str(binary / ("lean" + suffix)),
+        lake=str(binary / ("lake" + suffix)),
+    )
+    (directory / "verification.json").write_text(
+        json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n"
+    )
+    print(json.dumps(receipt, indent=2, sort_keys=True))
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("command", choices=COMMANDS, nargs="?", default="help")
@@ -872,6 +904,9 @@ def main() -> None:
         run(sys.executable, "-m", "pre_commit", "run", "--all-files")
     elif command == "demo-browser":
         run(sys.executable, ROOT / "tools/check_demo_browser.py")
+    elif command == "lean-setup":
+        installer = runpy.run_path(str(ROOT / "tools" / "setup_lean.py"))
+        installer["setup"](ROOT)
     else:
         if command == "release":
             lint()
@@ -886,6 +921,8 @@ def main() -> None:
             finite_motion()
         if command == "fuzz":
             fuzz(wheel)
+        if command == "lean":
+            lean(wheel)
         if command == "phase-permutation":
             phase_permutation()
         if command in {"reviewer-kit", "release"}:

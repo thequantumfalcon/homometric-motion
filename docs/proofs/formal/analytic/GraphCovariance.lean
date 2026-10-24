@@ -1,4 +1,9 @@
-import GraphCommon
+module
+
+public import GraphCommon
+
+@[expose] public section
+
 open MeasureTheory ProbabilityTheory Matrix
 open scoped RealInnerProductSpace
 set_option maxHeartbeats 4000000
