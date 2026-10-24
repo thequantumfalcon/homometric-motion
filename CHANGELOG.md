@@ -9,6 +9,10 @@ the 0.x certificate schema and Python API remain experimental.
 
 ### Changed
 
+- Update the development environment builder to hash-locked virtualenv
+  21.14.13, fixing the Bash prompt command-injection regression tracked as
+  [GHSA-cx6f-vjhg-g3cc](https://github.com/advisories/GHSA-cx6f-vjhg-g3cc).
+
 - Credit Thomas Albrecht in public author, maintainer and copyright fields.
   Name the classical thermal diffuse scattering connection and add primary
   references, while distinguishing the specific conditional certificate from

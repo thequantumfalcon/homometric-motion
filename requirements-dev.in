@@ -5,3 +5,5 @@ wheel==0.48.0
 ruff==0.17.1
 coverage==7.16.2
 pre-commit==4.7.0
+# Pin pre-commit's environment builder past GHSA-cx6f-vjhg-g3cc.
+virtualenv==21.14.13
