@@ -21,6 +21,8 @@ carried through finite exposure, stated parameter uncertainty and a Poisson
 observation model to a finite-sample risk bound. It does not establish a new
 scattering mechanism or an advantage over conventional TDS analysis. See the
 [classical references and comparison](docs/proofs/scope-and-related-work.md#thermal-diffuse-scattering).
+The [statistical-optics and moment-method precedents](docs/proofs/scope-and-related-work.md#statistical-optics-and-the-count-statistic)
+explain the established ingredients behind the statistic.
 
 ## The certified result
 
@@ -45,6 +47,15 @@ All nuisance parameters stay fixed during an acquisition. Window dependence
 is bounded through the OU model; unconditional independence is not assumed.
 The count is sufficient, not necessary or optimal, and supplies no physical
 time, flux or dose without additional calibration.
+
+**Physical units.** Let ℓ₀ be the short spacing in metres and t₀ the common
+OU base time in seconds. Nominal RMS displacement is ℓ₀√β; angular
+wavenumber is q = ω/ℓ₀ in rad/m, with nominal q = π/(3ℓ₀). Physical exposure
+is at most 0.001t₀ and window-start spacing is at least 1000t₀. For scale
+only, ℓ₀ = 1 nm gives nominal RMS
+**2.64–3.74 fm** (1 fm = 10⁻¹⁵ m). This is a unit conversion, not a material
+calibration. In the [overdamped interpretation](docs/proofs/robustness-and-counts.md#covariance-uncertainty-and-compatible-dynamics),
+t₀ = ζ/κ for drag ζ and reference spring stiffness κ; neither is specified.
 
 Other [profiles and their counts](docs/proofs/profiled-counts.md) have different
 contracts. In particular, `position_uncertainty` allows coordinate errors up to

@@ -185,6 +185,8 @@ $\kappa_j^{(F)}(K)=h^j\kappa_j(\bar J)$.
 Thus the standardized ratio equals latent skewness and cancels fixed
 positive gain and fixed Poisson background. This does not apply to
 arbitrary random or drifting backgrounds.
+For the photodetection and cumulant precedents, see the
+[statistical-optics comparison](scope-and-related-work.md#statistical-optics-and-the-count-statistic).
 
 Let $d_0=1000$ be the minimum dimensionless window-start lag and
 $u_{\max}=10^{-20}$. The OU spectral contraction rate is at least

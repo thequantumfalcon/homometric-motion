@@ -1,6 +1,6 @@
 {
   "certificate_sha256": "430743cbe03e28293cc6f2624abe5e96b4e44167ea068d9ee9e0c36a634a829c",
-  "lean_source_sha256": "ed1c480b1ebcfc3a44b0cb070b26a7848003231c5338b482b61b1159821a6a9b",
+  "lean_source_sha256": "91ed2f28efb414a88d38b98025c4dc3ffd6205f3ed5da862ae03de658e2cdaed",
   "lean_version": "4.35.0",
   "proof_method": "Init, closed natural-number inequalities, decide +kernel",
   "revision_kind": "release_adaptation",

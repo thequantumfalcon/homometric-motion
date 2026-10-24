@@ -15,9 +15,9 @@ This kit contains two distinct reproductions:
   with Python-FLINT/Arb. It uses exact rational matrices and native ball
   arithmetic, with a complete negative-binomial convolution and a bounded tail.
 
-Neither script imports the discovery package or reads saved scientific results
-as calculation inputs. Both implementations were prepared by the same author
-as this kit; different software does not constitute independent human review.
+Neither script imports the `homometric_motion` package or reads saved scientific
+results as calculation inputs. Both implementations were prepared by the same
+author as this kit; different software does not constitute independent human review.
 SageMath itself uses FLINT for some operations, so these backends should not be
 described as wholly independent software stacks.
 

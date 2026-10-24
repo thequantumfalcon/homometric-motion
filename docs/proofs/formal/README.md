@@ -25,7 +25,7 @@ and coefficient bound](analytic/SCOPE.md#cumulant-sensitivity-statements) and
 use `Std` and `grind`. These identities do not themselves prove the
 mixed-Poisson interpretation, estimator-error bound or classifier risk.
 
-The separate `position_uncertainty/DiscoveryCheckpoint.lean` checks mapped
+The separate `position_uncertainty/CertificateCheckpoint.lean` checks mapped
 integer gaps, ceiling directions, risk and contact-margin inequalities using
 `Init` and `decide +kernel`. Its closed statements are expected to report no
 axioms. Their inputs are bound to the original `verify` position certificate,
@@ -57,7 +57,7 @@ These are fresh release bindings, not historical execution receipts.
 With Lean 4.35.0 installed separately:
 
 ```sh
-lean new-checkpoint/DiscoveryCheckpoint.lean
+lean new-checkpoint/CertificateCheckpoint.lean
 lean /path/to/checkout/docs/proofs/formal/FactorialIdentities.lean
 ```
 

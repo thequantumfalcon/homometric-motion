@@ -395,7 +395,7 @@ Those remaining links must be reviewed and proved separately.
 
 ## What remains unformalized
 
-The following parts of the complete discovery argument are not
+The following parts of the complete certificate argument are not
 formalized by this project:
 
 - Identification of the modeled graph observable with the generic finite

@@ -57,7 +57,7 @@ test or repository score does not establish a broader claim. See the
   dynamics and their application to the full classifier remain separate.
 - Separate implementations and alternative arithmetic checks are useful error
   controls. They are not independent human peer review.
-- No novelty, priority, patentability or discovery-of-a-new-physical-law claim is made.
+- No claim of novelty, priority, patentability or a new physical law is made.
   [Related work and failure regimes](proofs/scope-and-related-work.md) are essential
   context.
 - Security tools report findings within their rules, databases and scan scope.

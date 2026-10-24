@@ -1,7 +1,7 @@
 # Scope, boundaries and related work
 
 The release presents an explicit conditional mathematical construction and
-an executable certificate. It is not an empirical discovery about an
+an executable certificate. It is not an empirical finding about an
 identified material or apparatus. No independent human peer review,
 optimality or literature-priority claim is made. The complete theorem is
 not formalized. The [Lean checkpoints](formal/README.md) cover specified
@@ -145,7 +145,8 @@ Relevant primary references are:
   von Röntgenstrahlen," *Zeitschrift für Physik* **17**, 398–408 (1923)](https://doi.org/10.1007/BF01328696).
 - M. Born, ["Diffuse Reflexion of X-Rays," *Nature* **147**, 674 (1941)](https://doi.org/10.1038/147674a0).
 
-For this finite scalar model the connection is explicit. Put
+For this finite scalar model the connection is explicit. In dimensionless
+model coordinates, put
 $F(q)=\sum_j e^{iq(x_j+u_j)}$, where $q\in\mathbb R$ and the centered Gaussian
 displacements have covariance $\Sigma$. Applying the Gaussian characteristic
 function to each difference $u_j-u_k$ gives
@@ -166,7 +167,91 @@ stipulated model choices requiring physical calibration. The normalized
 strength $\beta$ is not a calibrated temperature. The construction is not a
 three-dimensional lattice-dynamical model of an identified material.
 
-### Related statistical methods
+### Statistical optics and the count statistic
+
+The passage from random intensity to photon counts is classical. Mandel's
+photodetection model conditions a Poisson law on integrated intensity and
+then averages over that intensity.
+[L. Mandel, "Fluctuations of Photon Beams and their Correlations,"
+*Proceedings of the Physical Society* **72**(6), 1037–1048 (1958),
+Eq. (3)](https://doi.org/10.1088/0370-1328/72/6/312).
+For the stipulated channel here, $K\mid\bar J\sim\operatorname{Poisson}(h\bar J+b)$,
+so its factorial-cumulant generating function is
+```math
+ \log\mathbb E(1+s)^K=bs+\log\mathbb E e^{hs\bar J}.
+```
+Consequently $\kappa_r^{(F)}(K)=h^r\kappa_r(\bar J)$ for $r\ge2$, and
+```math
+ \frac{\kappa_3^{(F)}(K)}{[\kappa_2^{(F)}(K)]^{3/2}}
+ =\frac{\kappa_3(\bar J)}{[\operatorname{Var}\bar J]^{3/2}}
+```
+when $h>0$ and the variance is positive. This is ordinary intensity skewness
+expressed through count factorial cumulants; cancellation of fixed gain and
+constant Poisson background follows from that identity. It does not hold for
+arbitrary detector noise or drifting backgrounds. Mandel's model motivates
+this established ingredient, not the physical validity of our channel or the
+particular finite-sample certificate.
+
+Goodman's analysis of speckle supplies the statistical-optics context for
+Gaussian amplitudes and their intensity distributions.
+[J. W. Goodman, "Some fundamental properties of speckle," *Journal of the
+Optical Society of America* **66**(11), 1145–1150 (1976)](https://doi.org/10.1364/JOSA.66.001145).
+At the clean null, the small-motion limit of the normalized intensity
+$I_\beta/\beta$ is $\omega^2|Z|^2$, where
+$Z=\sum_j e^{i\omega x_j}Y_j$ is complex Gaussian. The joint law of its real
+and imaginary parts need not have the circular symmetry of fully developed speckle:
+$p=\mathbb E Z^2$ generally does not vanish. Our moment calculation retains
+that dependence and bounds the finite-motion remainder; it does not simply
+assume an exponential intensity law.
+
+Intensity distributions also have a classical crystallographic precedent in
+[A. J. C. Wilson, "The probability distribution of X-ray intensities,"
+*Acta Crystallographica* **2**, 318–321 (1949)](https://doi.org/10.1107/S0365110X49000813).
+Wilson's symmetry-dependent intensity statistics concern a different ensemble
+from the temporal OU motion of this fixed pair. They establish prior use of
+intensity distributions in crystallography, not this pair's separation or a
+new scattering mechanism.
+
+### Fluctuation correlations and invariant moments
+
+Kam's fluctuation-scattering method extracts structural information from
+angular correlations of scattering fluctuations in randomly oriented molecular
+ensembles. It is an established example of recovering information that an
+average scattering profile suppresses.
+[Z. Kam, "Determination of Macromolecular Structure in Solution by Spatial
+Correlation of Scattering Fluctuations," *Macromolecules* **10**(5),
+927–934 (1977)](https://doi.org/10.1021/ma60059a009).
+Here the latent randomness is internal scalar displacement on a fixed spring
+graph; the observable is a count statistic at one frequency. The construction
+does not implement Kam's angular-correlation reconstruction.
+
+Multi-reference alignment (MRA) is another relevant moment-method precedent:
+noisy, randomly shifted copies of a signal are used to recover that signal
+up to a shift. Its power spectrum and bispectrum are invariant features;
+third-order information can retain phase relationships lost by the power
+spectrum. Identifiability and statistical cost depend on the signal, shift
+distribution and noise assumptions:
+
+- T. Bendory, N. Boumal, C. Ma, Z. Zhao and A. Singer,
+  ["Bispectrum Inversion with Application to Multireference Alignment,"
+  *IEEE Transactions on Signal Processing* **66**(4), 1037–1050 (2018)](https://doi.org/10.1109/TSP.2017.2775591)
+  develops invariant-feature recovery and bispectrum inversion.
+- A. Perry, J. Weed, A. S. Bandeira, P. Rigollet and A. Singer,
+  ["The Sample Complexity of Multireference Alignment," *SIAM Journal on
+  Mathematics of Data Science* **1**(3), 497–517 (2019)](https://doi.org/10.1137/18M1214317)
+  analyzes statistical cost for uniform cyclic shifts with additive Gaussian noise.
+- E. Abbe, T. Bendory, W. Leeb, J. M. Pereira, N. Sharon and A. Singer,
+  ["Multireference Alignment Is Easier with an Aperiodic Translation
+  Distribution," *IEEE Transactions on Information Theory* **65**(6),
+  3565–3584 (2019)](https://doi.org/10.1109/TIT.2018.2889674)
+  shows how changing the shift distribution can make the first two moments
+  sufficient under its stated signal assumptions.
+
+The scalar intensity skewness used here is not an MRA bispectrum. Neither
+those recovery guarantees nor their optimality results transfer to the present
+dependent OU-window, Poisson-count classification problem.
+
+### Coherent homometry and fluorescence counting
 
 Diffuse scattering and coherent speckle statistics also have an established
 role in studying correlations beyond average Bragg structure. Ravy distinguishes
@@ -174,27 +259,35 @@ Bragg, diffuse-scattering and coherent-diffraction homometry, and demonstrates
 how higher-order speckle statistics can distinguish specific diffuse-homometric
 examples. Coherence alone does not resolve an exactly homometric finite basis.
 This is close conceptual precedent for statistical discrimination.
-[Ravy, “Homometry in the light of coherent beams”](https://arxiv.org/pdf/1303.3792).
+[S. Ravy, "Homometry in the light of coherent beams," *Acta Crystallographica A*
+**69**, 543–548 (2013)](https://doi.org/10.1107/S0108767313022733).
 
 Photon-count factorial cumulants, their relation to integrated random
 intensity, and the effect of finite observation bins have an extensive
 prior literature. Wu and Müller develop such cumulant methods for
 fluorescence, including statistical effects of binning and temporal
 correlations. Their application differs from a clean-homometric point pair.
-[Wu and Müller, primary fluorescence cumulant study](https://pmc.ncbi.nlm.nih.gov/articles/PMC1366773/).
+[B. Wu and J. D. Müller, "Time-Integrated Fluorescence Cumulant Analysis in
+Fluorescence Fluctuation Spectroscopy," *Biophysical Journal* **89**(4),
+2721–2735 (2005)](https://doi.org/10.1529/biophysj.105.063685).
 
 Mixed-Poisson factorial moments and cumulants are standard probability
 identities. This release uses them to cancel the stated fixed gain and
 Poisson background; it does not claim to invent that identity.
-[Kuba and Panholzer, mixed-Poisson moment identities](https://arxiv.org/pdf/1403.2712v5).
+[M. Kuba and A. Panholzer, "On moment sequences and mixed Poisson
+distributions," arXiv:1403.2712v5 (2014)](https://arxiv.org/abs/1403.2712v5).
 
 Scales and Swain also use photon statistics with temporal information and
 discuss the effect of constant Poisson background on factorial cumulants.
 That is a close precedent for the statistical ingredients, in a different
 measurement setting.
-[Scales and Swain, primary study](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0226063).
-The linked article has a
-[published correction](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0320511).
+[N. Scales and P. S. Swain, "Resolving fluorescent species by their brightness
+and diffusion using correlated photon-counting histograms," *PLOS ONE*
+**14**(12), e0226063 (2019)](https://doi.org/10.1371/journal.pone.0226063).
+See also the [2025 correction to "Resolving fluorescent species by their
+brightness and diffusion using correlated photon-counting histograms,"
+*PLOS ONE* **20**(3), e0320511](https://doi.org/10.1371/journal.pone.0320511),
+which includes the omitted implementation supplement.
 
 The additional deliverable here is a conditional quantitative certificate for
 an explicit one-dimensional finite pair with a permanent-spring Gaussian model.

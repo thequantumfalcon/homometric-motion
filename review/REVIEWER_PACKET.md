@@ -37,8 +37,9 @@ analytic implication is sound. The programs contain no physical measurements.
 
 The reconstructions are informed by existing results. The mean-100 channel,
 the strength cap and the candidate sample counts were known before this check.
-This is a reproduction, not blinded discovery or parameter selection. Counts
-are checked as fixed witnesses; no global optimization claim is made.
+This is an informed reproduction; it does not perform blinded inference or
+parameter selection. Counts are checked as fixed witnesses; no global optimization
+claim is made.
 
 ## Known limitations and negative evidence
 

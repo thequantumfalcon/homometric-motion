@@ -6,7 +6,7 @@ import Mathlib.Tactic.Ring
 /-!
 An analytic robustness step for arbitrary real square-integrable random variables.
 This file does not assume the desired inequality, Gaussianity, independence, or a
-particular detector model. It does not formalize the complete discovery theorem.
+particular detector model. It does not formalize the complete certificate theorem.
 -/
 
 noncomputable section

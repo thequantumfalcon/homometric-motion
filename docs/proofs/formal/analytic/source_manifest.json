@@ -76,16 +76,16 @@
       "sha256": "6c9ab73ff2719a05b4fa01b4895c65ba9981e8d722d3fe59e53a3206be7694bd"
     },
     {
-      "bytes": 23248,
+      "bytes": 23250,
       "path": "SCOPE.md",
-      "sha256": "85e1b7d153a4876f397be0c52281a5f726969d25431f901b4a93bfc0ddbe6a89"
+      "sha256": "7e5fc64fa54e3f3520082e042dd75d2b77033bc9f1b50a59f92973c9dcd2c23b"
     },
     {
-      "bytes": 6647,
+      "bytes": 6649,
       "path": "StandardDeviationContinuity.lean",
-      "sha256": "51fd5df2ab01983c76ed5d47f63c0745c78f13484a205845116541c8de2f0b1b"
+      "sha256": "07f7365e48bdeb2689f4777bb9c907efa4271abaae3e6462584790da76ae23d5"
     }
   ],
-  "revision_kind": "analytic_applied_gaussian_covariance_public_v6_strict_threshold_r2",
+  "revision_kind": "analytic_applied_gaussian_covariance_public_v6_strict_threshold_r3",
   "schema_version": 1
 }

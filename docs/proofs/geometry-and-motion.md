@@ -228,5 +228,5 @@ The nominal skewness intervals are disjoint. Recomputing them verifies
 this finite model calculation and its stated inequalities. It does not
 show that an unknown apparatus obeys the Gaussian graph model. The code
 and proof are a new release revision of previously examined parameters;
-there is no blind-discovery or historical-freeze claim. Broader limitations
-and prior work are in [scope and related work](scope-and-related-work.md).
+there is no blinded parameter-selection or historical-freeze claim. Broader
+limitations and prior work are in [scope and related work](scope-and-related-work.md).

@@ -115,13 +115,13 @@ def main():
         "import Init\n\n"
         "set_option maxRecDepth 100000\n"
         "set_option maxHeartbeats 5000000\n\n"
-        "namespace DiscoveryCheckpoint\n\n"
+        "namespace CertificateCheckpoint\n\n"
         + "\n".join(
             f"theorem {r['theorem']} : {r['expression']} := by\n  decide +kernel\n" for r in rows
         )
         + "\n"
         + "\n".join("#print axioms " + row["theorem"] for row in rows)
-        + "\n\nend DiscoveryCheckpoint\n"
+        + "\n\nend CertificateCheckpoint\n"
     )
     mapping = {
         "schema_version": 1,
@@ -141,7 +141,7 @@ def main():
     }
     args.output_dir.mkdir(parents=True)
     for name, text in (
-        ("DiscoveryCheckpoint.lean", source),
+        ("CertificateCheckpoint.lean", source),
         ("statement_mapping.json", json.dumps(mapping, indent=2, sort_keys=True) + "\n"),
     ):
         with (args.output_dir / name).open("x", encoding="utf-8", newline="\n") as stream:

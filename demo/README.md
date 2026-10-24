@@ -1,4 +1,4 @@
-# Offline discovery explorer
+# Offline certificate explorer
 
 Open `index.html` in a current browser. Keep `style.css`, `app.js`,
 `data.js` and `data.json` beside it. The explorer works directly from disk,
