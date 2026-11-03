@@ -1,9 +1,9 @@
 # Development only. The installed scientific package has no dependencies.
 build==1.6.1
-setuptools==84.2.0
+setuptools==84.2.1
 wheel==0.48.0
-ruff==0.17.1
-coverage==7.16.2
+ruff==0.17.3
+coverage==7.17.0
 pre-commit==4.7.0
 # Pin pre-commit's environment builder past GHSA-cx6f-vjhg-g3cc.
 virtualenv==21.14.13
